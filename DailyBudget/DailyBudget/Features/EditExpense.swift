@@ -135,7 +135,8 @@ private extension EditExpense {
   }
   
   var isDateInvalid: Bool {
-    false // TODO
+    item.date <= dateRange.lowerBound
+    || item.date >= dateRange.upperBound
   }
 }
 
