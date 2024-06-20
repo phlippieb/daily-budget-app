@@ -13,3 +13,17 @@ struct Budget: Identifiable, Hashable {
   var endDate: Date
   var expenses: [Expense]
 }
+
+extension Budget {
+  var totalDays: Int {
+    endDate.timeIntervalSince(startDate).toDays()
+  }
+  
+  var dailyAmount: Double {
+    amount / Double(totalDays)
+  }
+  
+  var totalExpenses: Double {
+    expenses.reduce(0) { $0 + $1.amount }
+  }
+}
