@@ -38,6 +38,8 @@ struct EditBudget: View {
     endDate: .now.addingTimeInterval(30*24*60*60),
     expenses: [])
   
+  @State private var isShowingDeleteAlert = false
+  
   var body: some View {
     NavigationView {
       Form {
@@ -130,6 +132,14 @@ struct EditBudget: View {
         })
         .disabled(isSaveDisabled)
       }
+      
+      .alert(isPresented: $isShowingDeleteAlert) {
+        Alert(
+          title: Text("Delete this budget?"),
+          primaryButton: .destructive(
+            Text("Delete"), action: onDeleteConfirmed),
+          secondaryButton: .cancel())
+      }
     }
   }
 }
@@ -141,6 +151,10 @@ private extension EditBudget {
   }
   
   func onDeleteTapped() {
+    isShowingDeleteAlert = true
+  }
+  
+  func onDeleteConfirmed() {
     onDelete()
   }
   
@@ -177,5 +191,10 @@ private extension EditBudget {
 }
 
 #Preview {
-  EditBudget(.new)
+  EditBudget(.edit(.init(
+    name: "Asdf",
+    amount: 1000,
+    startDate: .now.addingTimeInterval(-10*24*60*60),
+    endDate: .now.addingTimeInterval(10*24*60*60),
+    expenses: [])))
 }
