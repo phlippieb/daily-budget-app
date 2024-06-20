@@ -15,12 +15,20 @@ struct EditBudget: View {
     
     if case .edit(let budget) = mode {
       self.isEditMode = true
-      self.budget.name = budget.name
-      self.budget.amount = budget.amount
-      self.budget.startDate = budget.startDate
-      self.budget.endDate = budget.endDate
+      _budget = State(initialValue: Budget(
+        name: budget.name,
+        amount: budget.amount,
+        startDate: budget.startDate,
+        endDate: budget.endDate,
+        expenses: budget.expenses))
     } else {
       self.isEditMode = false
+      _budget = State(initialValue: Budget(
+        name: "",
+        amount: 0,
+        startDate: .now,
+        endDate: .now.addingTimeInterval(30*24*60*60),
+        expenses: []))
     }
   }
   
@@ -31,12 +39,7 @@ struct EditBudget: View {
   private let onDelete: () -> Void
   private let isEditMode: Bool
   
-  @State private var budget = Budget(
-    name: "",
-    amount: 0,
-    startDate: .now,
-    endDate: .now.addingTimeInterval(30*24*60*60),
-    expenses: [])
+  @State private var budget: Budget
   
   @State private var isShowingDeleteAlert = false
   
@@ -159,7 +162,11 @@ private extension EditBudget {
   }
   
   func onAutoFillName() {
-    budget.name = currentDate.formatted(.dateTime.month(.wide).year(.twoDigits)) + " Daily Budget"
+    budget.name = getDefaultName()
+  }
+  
+  func getDefaultName() -> String {
+    currentDate.formatted(.dateTime.month(.wide).year(.twoDigits)) + " Daily Budget"
   }
   
   func onClearName() {
