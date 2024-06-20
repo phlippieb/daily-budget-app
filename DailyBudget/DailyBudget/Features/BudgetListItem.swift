@@ -44,8 +44,6 @@ struct BudgetListItem: View {
           Text("Budget spent")
         }
       }
-      
-      // ...
     }
   }
 }
