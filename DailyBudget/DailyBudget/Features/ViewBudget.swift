@@ -5,6 +5,7 @@ struct ViewBudget: View {
   var onDelete: () -> Void = {}
   
   @State private var isEditBudgetShown = false
+  @State private var isAddExpenseShown = false
   
   var body: some View {
     ScrollView {
@@ -121,6 +122,13 @@ struct ViewBudget: View {
         isEditBudgetShown = false
       })
     }
+    
+    .sheet(isPresented: $isAddExpenseShown) {
+      EditExpense(.new, onSave: { expense in
+        item.budget.expenses.insert(expense, at: 0)
+        isAddExpenseShown = false
+      })
+    }
   }
 }
 
@@ -130,7 +138,9 @@ private extension ViewBudget {
     isEditBudgetShown = true
   }
   
-  func onAddExpenseTapped() {}
+  func onAddExpenseTapped() {
+    isAddExpenseShown = true
+  }
 }
 
 #Preview {

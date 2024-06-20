@@ -131,12 +131,12 @@
 		0A7B10BF2C24376A00474F10 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				0A7B10C52C24390600474F10 /* Home.swift */,
 				0A20A3D62C243A780028E5C2 /* BudgetListItem.swift */,
 				0A20A3DD2C2446AC0028E5C2 /* EditBudget.swift */,
-				0A20A3E32C246A740028E5C2 /* ViewBudget.swift */,
-				0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */,
 				0AB5FF0A2C247C2400499D30 /* EditExpense.swift */,
+				0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */,
+				0A7B10C52C24390600474F10 /* Home.swift */,
+				0A20A3E32C246A740028E5C2 /* ViewBudget.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
