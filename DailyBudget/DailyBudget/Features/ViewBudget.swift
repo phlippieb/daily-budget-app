@@ -6,6 +6,7 @@ struct ViewBudget: View {
   
   @State private var isEditBudgetShown = false
   @State private var isAddExpenseShown = false
+  @State private var editingExpense: Expense?
   
   var body: some View {
     ScrollView {
@@ -99,12 +100,17 @@ struct ViewBudget: View {
           
         } else {
           ForEach($item.budget.expenses) { expense in
-            VStack {
-              ExpenseListItem(item: expense.wrappedValue)
-              Divider()
+            Button(
+              action: { onEditExpense(expense.wrappedValue) }
+            ) {
+                VStack {
+                  ExpenseListItem(item: expense.wrappedValue)
+                  Divider()
+                }
+                .contentShape(Rectangle())
             }
+            .buttonStyle(PlainButtonStyle())
           }
-          
         }
       }
     }
@@ -129,6 +135,12 @@ struct ViewBudget: View {
         isAddExpenseShown = false
       })
     }
+    
+    .sheet(item: $editingExpense) { expense in
+      EditExpense(.edit(expense), onSave: { newValue in
+        onSaveExpense(expense, newValue: newValue)
+      })
+    }
   }
 }
 
@@ -141,23 +153,38 @@ private extension ViewBudget {
   func onAddExpenseTapped() {
     isAddExpenseShown = true
   }
+  
+  func onEditExpense(_ expense: Expense) {
+    editingExpense = expense
+  }
+  
+  func onSaveExpense(_ expense: Expense, newValue: Expense) {
+    editingExpense = nil
+    
+    guard let index = item.budget.expenses.firstIndex(of: expense)
+    else { return }
+    
+    item.budget.expenses[index] = newValue
+  }
 }
 
 #Preview {
-  ViewBudget(item: .init(
-    budget: .init(
-      name: "My budget",
-      amount: 5000,
-      startDate: .now.addingTimeInterval(-10*24*60*60),
-      endDate: .now.addingTimeInterval(10*24*60*60),
-      expenses: [
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now)
-      ]),
-    date: .now))
+  NavigationView {
+    ViewBudget(item: .init(
+      budget: .init(
+        name: "My budget",
+        amount: 5000,
+        startDate: .now.addingTimeInterval(-10*24*60*60),
+        endDate: .now.addingTimeInterval(10*24*60*60),
+        expenses: [
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now)
+        ]),
+      date: .now))
+  }
 }
