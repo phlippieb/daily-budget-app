@@ -12,6 +12,8 @@
 		0A7B109A2C24356F00474F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B10992C24356F00474F10 /* Assets.xcassets */; };
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10A72C24356F00474F10 /* DailyBudgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10A62C24356F00474F10 /* DailyBudgetTests.swift */; };
+		0A7B10C22C24378100474F10 /* Budget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C12C24378100474F10 /* Budget.swift */; };
+		0A7B10C42C2437E000474F10 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C32C2437E000474F10 /* Expense.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,8 @@
 		0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A7B10A22C24356F00474F10 /* DailyBudgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyBudgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10A62C24356F00474F10 /* DailyBudgetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBudgetTests.swift; sourceTree = "<group>"; };
+		0A7B10C12C24378100474F10 /* Budget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Budget.swift; sourceTree = "<group>"; };
+		0A7B10C32C2437E000474F10 /* Expense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expense.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,8 @@
 		0A7B10942C24356D00474F10 /* DailyBudget */ = {
 			isa = PBXGroup;
 			children = (
+				0A7B10C02C24377000474F10 /* Models */,
+				0A7B10BF2C24376A00474F10 /* Features */,
 				0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */,
 				0A7B10972C24356D00474F10 /* ContentView.swift */,
 				0A7B10992C24356F00474F10 /* Assets.xcassets */,
@@ -95,6 +101,22 @@
 				0A7B10A62C24356F00474F10 /* DailyBudgetTests.swift */,
 			);
 			path = DailyBudgetTests;
+			sourceTree = "<group>";
+		};
+		0A7B10BF2C24376A00474F10 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		0A7B10C02C24377000474F10 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0A7B10C12C24378100474F10 /* Budget.swift */,
+				0A7B10C32C2437E000474F10 /* Expense.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,8 +219,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A7B10C42C2437E000474F10 /* Expense.swift in Sources */,
 				0A7B10982C24356D00474F10 /* ContentView.swift in Sources */,
 				0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */,
+				0A7B10C22C24378100474F10 /* Budget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
