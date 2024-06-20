@@ -7,10 +7,12 @@ struct EditExpense: View {
   
   init(
     _ mode: Mode,
-    onSave: @escaping (Expense) -> Void = { _ in }
+    onSave: @escaping (Expense) -> Void = { _ in },
+    onDelete: @escaping () -> Void = {}
   ) {
     // TODO: Enforce date within budget date range
     self.onSave = onSave
+    self.onDelete = onDelete
     
     if case .edit(let expense) = mode {
       isEditMode = true
@@ -25,8 +27,10 @@ struct EditExpense: View {
   
   private let isEditMode: Bool
   private let onSave: (Expense) -> Void
+  private let onDelete: () -> Void
   
   @State private var item: Expense
+  @State private var isConfirmDeleteShown = false
   
   var body: some View {
     NavigationView {
@@ -78,9 +82,18 @@ struct EditExpense: View {
         isEditMode ? "Edit expense" : "Create expense"
       )
       .navigationBarTitleDisplayMode(.inline)
+      
       .toolbar {
         Button(action: onSaveTapped) { Text("Save") }
           .disabled(isInvalid)
+      }
+      
+      .alert(isPresented: $isConfirmDeleteShown) {
+        Alert(
+          title: Text("Delete this expense?"),
+          primaryButton: .destructive(
+            Text("Delete"), action: onConfirmDelete),
+          secondaryButton: .cancel())
       }
     }
   }
@@ -93,7 +106,11 @@ private extension EditExpense {
   }
   
   func onDeleteTapped() {
-    
+    isConfirmDeleteShown = true
+  }
+  
+  func onConfirmDelete() {
+    onDelete()
   }
 }
 
