@@ -17,8 +17,10 @@ struct Home: View {
           List {
             ForEach(budgets) { budget in
               NavigationLink {
-                ViewBudget(item: .init(
-                  budget: budget, date: date))
+                ViewBudget(
+                  item: .init(budget: budget, date: date),
+                  onDelete: { onDelete(budget) }
+                )
               } label: {
                 BudgetListItem(
                   item: BudgetAtDate(budget: budget, date: date))
@@ -50,6 +52,11 @@ struct Home: View {
   
   private func onAddBudget() {
     isAddBudgetVisible = true
+  }
+  
+  private func onDelete(_ budget: Budget) {
+    guard let index = self.budgets.firstIndex(of: budget) else { return }
+    self.budgets.remove(at: index)
   }
 }
 

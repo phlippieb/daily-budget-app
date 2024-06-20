@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ViewBudget: View {
   @State var item: BudgetAtDate
+  var onDelete: () -> Void = {}
   
   @State private var isEditBudgetShown = false
   
@@ -116,7 +117,8 @@ struct ViewBudget: View {
         item.budget = budget
         isEditBudgetShown = false
       }, onDelete: {
-        // TODO
+        onDelete()
+        isEditBudgetShown = false
       })
     }
   }
