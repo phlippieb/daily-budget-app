@@ -5,11 +5,13 @@ struct ViewBudget: View {
   var onDelete: () -> Void = {}
   
   @State private var isEditBudgetShown = false
+  @State private var isAddExpenseShown = false
+  @State private var editingExpense: Expense?
   
   var body: some View {
     ScrollView {
       // Today's budget summary
-      GroupBox {
+      Group {
         Text("Today").font(.title)
         
         HStack {
@@ -35,7 +37,7 @@ struct ViewBudget: View {
       
       // Budget info
       Spacer().frame(height: 40)
-      Section {
+      GroupBox {
         HStack {
           Text("Budget").font(.title)
           Spacer()
@@ -98,12 +100,17 @@ struct ViewBudget: View {
           
         } else {
           ForEach($item.budget.expenses) { expense in
-            VStack {
-              ExpenseListItem(item: expense.wrappedValue)
-              Divider()
+            Button(
+              action: { onEditExpense(expense.wrappedValue) }
+            ) {
+                VStack {
+                  ExpenseListItem(item: expense.wrappedValue)
+                  Divider()
+                }
+                .contentShape(Rectangle())
             }
+            .buttonStyle(PlainButtonStyle())
           }
-          
         }
       }
     }
@@ -121,6 +128,27 @@ struct ViewBudget: View {
         isEditBudgetShown = false
       })
     }
+    
+    .sheet(isPresented: $isAddExpenseShown) {
+      EditExpense(
+        .new,
+        dateRange: item.budget.dateRange,
+        onSave: { expense in
+          item.budget.expenses.insert(expense, at: 0)
+          isAddExpenseShown = false
+        })
+    }
+    
+    .sheet(item: $editingExpense) { expense in
+      EditExpense(
+        .edit(expense),
+        dateRange: item.budget.dateRange,
+        onSave: { newValue in
+          onSaveExpense(expense, newValue: newValue)
+        }, onDelete: {
+          onDeleteExpense(expense)
+        })
+    }
   }
 }
 
@@ -130,24 +158,49 @@ private extension ViewBudget {
     isEditBudgetShown = true
   }
   
-  func onAddExpenseTapped() {}
+  func onAddExpenseTapped() {
+    isAddExpenseShown = true
+  }
+  
+  func onEditExpense(_ expense: Expense) {
+    editingExpense = expense
+  }
+  
+  func onSaveExpense(_ expense: Expense, newValue: Expense) {
+    editingExpense = nil
+    
+    guard let index = item.budget.expenses.firstIndex(of: expense)
+    else { return }
+    
+    item.budget.expenses[index] = newValue
+  }
+  
+  func onDeleteExpense(_ expense: Expense) {
+    editingExpense = nil
+    guard let index = item.budget.expenses.firstIndex(of: expense)
+    else { return }
+    
+    item.budget.expenses.remove(at: index)
+  }
 }
 
 #Preview {
-  ViewBudget(item: .init(
-    budget: .init(
-      name: "My budget",
-      amount: 5000,
-      startDate: .now.addingTimeInterval(-10*24*60*60),
-      endDate: .now.addingTimeInterval(10*24*60*60),
-      expenses: [
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now),
-        .init(name: "Food", amount: 20, date: .now)
-      ]),
-    date: .now))
+  NavigationView {
+    ViewBudget(item: .init(
+      budget: .init(
+        name: "My budget",
+        amount: 5000,
+        startDate: .now.addingTimeInterval(-10*24*60*60),
+        endDate: .now.addingTimeInterval(10*24*60*60),
+        expenses: [
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now),
+          .init(name: "Food", amount: 20, date: .now)
+        ]),
+      date: .now))
+  }
 }
