@@ -5,10 +5,10 @@ struct Home: View {
   var date: Date = .now
   
   @State private var isAddBudgetVisible = false
-
+  
   var body: some View {
     NavigationView {
-      NavigationStack {
+      Group {
         if budgets.isEmpty {
           Text("No budgets")
             .foregroundStyle(.gray)
