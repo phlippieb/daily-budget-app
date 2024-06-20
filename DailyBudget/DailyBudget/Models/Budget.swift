@@ -26,4 +26,9 @@ extension Budget {
   var totalExpenses: Double {
     expenses.reduce(0) { $0 + $1.amount }
   }
+  
+  /// A valid date range for expenses
+  var dateRange: ClosedRange<Date> {
+    return startDate ... endDate
+  }
 }

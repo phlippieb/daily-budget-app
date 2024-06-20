@@ -7,10 +7,11 @@ struct EditExpense: View {
   
   init(
     _ mode: Mode,
+    dateRange: ClosedRange<Date>,
     onSave: @escaping (Expense) -> Void = { _ in },
     onDelete: @escaping () -> Void = {}
   ) {
-    // TODO: Enforce date within budget date range
+    self.dateRange = dateRange
     self.onSave = onSave
     self.onDelete = onDelete
     
@@ -26,6 +27,7 @@ struct EditExpense: View {
   }
   
   private let isEditMode: Bool
+  private let dateRange: ClosedRange<Date>
   private let onSave: (Expense) -> Void
   private let onDelete: () -> Void
   
@@ -58,7 +60,11 @@ struct EditExpense: View {
         }
         
         Section {
-          DatePicker("Date", selection: $item.date, displayedComponents: [.date])
+          DatePicker(
+            "Date",
+            selection: $item.date,
+            in: dateRange,
+            displayedComponents: [.date])
         } header: {
           Text("Date")
         } footer: {
@@ -135,5 +141,12 @@ private extension EditExpense {
 
 #Preview {
 //  EditExpense(.new)
-  EditExpense(.edit(.init(name: "My expense", amount: 100, date: .now)))
+  EditExpense(
+    .edit(.init(name: "My expense", amount: 100, date: .now)),
+    dateRange: {
+      Date.now.addingTimeInterval(-2 * 24 * 60 * 60)
+      ...
+      Date.now.addingTimeInterval(2 * 24 * 60 * 60)
+    }()
+  )
 }

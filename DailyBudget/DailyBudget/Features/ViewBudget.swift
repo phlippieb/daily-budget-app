@@ -130,18 +130,24 @@ struct ViewBudget: View {
     }
     
     .sheet(isPresented: $isAddExpenseShown) {
-      EditExpense(.new, onSave: { expense in
-        item.budget.expenses.insert(expense, at: 0)
-        isAddExpenseShown = false
-      })
+      EditExpense(
+        .new,
+        dateRange: item.budget.dateRange,
+        onSave: { expense in
+          item.budget.expenses.insert(expense, at: 0)
+          isAddExpenseShown = false
+        })
     }
     
     .sheet(item: $editingExpense) { expense in
-      EditExpense(.edit(expense), onSave: { newValue in
-        onSaveExpense(expense, newValue: newValue)
-      }, onDelete: {
-        onDeleteExpense(expense)
-      })
+      EditExpense(
+        .edit(expense),
+        dateRange: item.budget.dateRange,
+        onSave: { newValue in
+          onSaveExpense(expense, newValue: newValue)
+        }, onDelete: {
+          onDeleteExpense(expense)
+        })
     }
   }
 }
