@@ -24,12 +24,15 @@ struct EditBudget: View {
     }
   }
   
+  /// Used to check budget date validity
+  var currentDate: Date = .now
+  
   private let onSave: (Budget) -> Void
   private let onDelete: () -> Void
   private let isEditMode: Bool
   
   @State private var budget = Budget(
-    name: "", 
+    name: "",
     amount: 0,
     startDate: .now,
     endDate: .now.addingTimeInterval(30*24*60*60),
@@ -49,9 +52,19 @@ struct EditBudget: View {
           }
         }
         
-        Section("Budget period") {
+        Section {
           DatePicker("First day", selection: $budget.startDate, displayedComponents: [.date])
           DatePicker("Last day", selection: $budget.endDate, displayedComponents: [.date])
+        } header: {
+          Text("Budget period")
+        } footer: {
+          if isDateInvalid {
+            Text("End date must be after start date")
+              .foregroundStyle(.red)
+          } else if isBudgetInactive {
+            Text("Budget period is not currently active")
+              .foregroundStyle(.orange)
+          }
         }
         
         Section {
@@ -61,19 +74,26 @@ struct EditBudget: View {
             format: .number
           )
           
-          LabeledContent {
-            Text("\(budget.dailyAmount, specifier: "%.2f")")
-          } label: {
-            HStack {
-              Image(systemName: "info.circle")
-              Text("Daily budget")
+          if !isAmountInvalid {
+            LabeledContent {
+              Text("\(budget.dailyAmount, specifier: "%.2f")")
+            } label: {
+              HStack {
+                Image(systemName: "info.circle")
+                Text("Daily budget")
+              }
             }
+            .foregroundStyle(.gray)
           }
-          .foregroundStyle(.gray)
         } header: {
           Text("Amount")
         } footer: {
-          Text("Total amount available for entire budget period")
+          if isAmountInvalid {
+            Text("Amount is required")
+              .foregroundStyle(.red)
+          } else {
+            Text("Total amount available for entire budget period")
+          }
         }
         
         if isEditMode {
@@ -99,21 +119,39 @@ struct EditBudget: View {
       }
     }
   }
-  
-  private func onSaveTapped() {
+}
+
+// MARK: Actions
+private extension EditBudget {
+  func onSaveTapped() {
     onSave(budget)
   }
   
-  private func onDeleteTapped() {
+  func onDeleteTapped() {
     onDelete()
   }
-  
-  private var isSaveDisabled: Bool {
-    isNameInvalid
+}
+
+// MARK: Validation
+private extension EditBudget {
+  var isSaveDisabled: Bool {
+    isNameInvalid || isDateInvalid || isAmountInvalid
   }
   
-  private var isNameInvalid: Bool {
+  var isNameInvalid: Bool {
     budget.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+  
+  var isDateInvalid: Bool {
+    budget.endDate <= budget.startDate
+  }
+  
+  var isBudgetInactive: Bool {
+    budget.startDate > currentDate || budget.endDate < currentDate
+  }
+  
+  var isAmountInvalid: Bool {
+    budget.amount <= 0
   }
 }
 
