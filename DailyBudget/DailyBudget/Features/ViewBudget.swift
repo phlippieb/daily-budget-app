@@ -139,6 +139,8 @@ struct ViewBudget: View {
     .sheet(item: $editingExpense) { expense in
       EditExpense(.edit(expense), onSave: { newValue in
         onSaveExpense(expense, newValue: newValue)
+      }, onDelete: {
+        onDeleteExpense(expense)
       })
     }
   }
@@ -165,6 +167,14 @@ private extension ViewBudget {
     else { return }
     
     item.budget.expenses[index] = newValue
+  }
+  
+  func onDeleteExpense(_ expense: Expense) {
+    editingExpense = nil
+    guard let index = item.budget.expenses.firstIndex(of: expense)
+    else { return }
+    
+    item.budget.expenses.remove(at: index)
   }
 }
 
