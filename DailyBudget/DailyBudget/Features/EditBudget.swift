@@ -38,8 +38,15 @@ struct EditBudget: View {
   var body: some View {
     NavigationView {
       Form {
-        Section("Name") {
+        Section {
           TextField("E.g. Jan daily budget", text: $budget.name)
+        } header: {
+          Text("Name")
+        } footer: {
+          if isNameInvalid {
+            Text("Budget name is required")
+              .foregroundStyle(.red)
+          }
         }
         
         Section("Budget period") {
@@ -88,6 +95,7 @@ struct EditBudget: View {
         Button(action: onSaveTapped, label: {
           Text("Save")
         })
+        .disabled(isSaveDisabled)
       }
     }
   }
@@ -98,6 +106,14 @@ struct EditBudget: View {
   
   private func onDeleteTapped() {
     onDelete()
+  }
+  
+  private var isSaveDisabled: Bool {
+    isNameInvalid
+  }
+  
+  private var isNameInvalid: Bool {
+    budget.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
 }
 
