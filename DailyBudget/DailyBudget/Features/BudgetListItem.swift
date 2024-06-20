@@ -35,7 +35,6 @@ struct BudgetListItem: View {
         // Show the final amount spent
         LabeledContent {
           Text("\(item.budget.totalExpenses, specifier: "%.2f") / \(item.budget.amount, specifier: "%.2f")")
-          //              .font(.title)
             .foregroundStyle(
               item.currentAllowance > 0 ? .black
               : .red
