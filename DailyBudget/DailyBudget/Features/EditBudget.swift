@@ -40,7 +40,6 @@ struct EditBudget: View {
   private let isEditMode: Bool
   
   @State private var budget: Budget
-  
   @State private var isShowingDeleteAlert = false
   
   var body: some View {
@@ -48,7 +47,7 @@ struct EditBudget: View {
       Form {
         Section {
           HStack {
-            TextField("E.g. Jan daily budget", text: $budget.name)
+            TextField(getDefaultName(), text: $budget.name)
             
             if budget.name.isEmpty {
               Button(action: onAutoFillName) {
@@ -198,10 +197,13 @@ private extension EditBudget {
 }
 
 #Preview {
-  EditBudget(.edit(.init(
-    name: "Asdf",
-    amount: 1000,
-    startDate: .now.addingTimeInterval(-10*24*60*60),
-    endDate: .now.addingTimeInterval(10*24*60*60),
-    expenses: [])))
+  EditBudget(
+    .new
+//    .edit(.init(
+//    name: "Asdf",
+//    amount: 1000,
+//    startDate: .now.addingTimeInterval(-10*24*60*60),
+//    endDate: .now.addingTimeInterval(10*24*60*60),
+//    expenses: []))
+  )
 }
