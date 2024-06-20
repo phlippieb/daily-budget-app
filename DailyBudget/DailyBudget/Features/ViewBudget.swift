@@ -10,7 +10,7 @@ struct ViewBudget: View {
   var body: some View {
     ScrollView {
       // Today's budget summary
-      GroupBox {
+      Group {
         Text("Today").font(.title)
         
         HStack {
@@ -36,7 +36,7 @@ struct ViewBudget: View {
       
       // Budget info
       Spacer().frame(height: 40)
-      Section {
+      GroupBox {
         HStack {
           Text("Budget").font(.title)
           Spacer()
