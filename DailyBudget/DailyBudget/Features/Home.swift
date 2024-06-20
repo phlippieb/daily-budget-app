@@ -5,10 +5,10 @@ struct Home: View {
   var date: Date = .now
   
   @State private var isAddBudgetVisible = false
-
+  
   var body: some View {
     NavigationView {
-      NavigationStack {
+      Group {
         if budgets.isEmpty {
           Text("No budgets")
             .foregroundStyle(.gray)
@@ -16,8 +16,15 @@ struct Home: View {
         } else {
           List {
             ForEach(budgets) { budget in
-              BudgetListItem(
-                item: BudgetAtDate(budget: budget, date: date))
+              NavigationLink {
+                ViewBudget(
+                  item: .init(budget: budget, date: date),
+                  onDelete: { onDelete(budget) }
+                )
+              } label: {
+                BudgetListItem(
+                  item: BudgetAtDate(budget: budget, date: date))
+              }
             }
           }
         }
@@ -45,6 +52,11 @@ struct Home: View {
   
   private func onAddBudget() {
     isAddBudgetVisible = true
+  }
+  
+  private func onDelete(_ budget: Budget) {
+    guard let index = self.budgets.firstIndex(of: budget) else { return }
+    self.budgets.remove(at: index)
   }
 }
 
