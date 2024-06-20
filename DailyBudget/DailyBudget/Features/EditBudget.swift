@@ -86,6 +86,7 @@ struct EditBudget: View {
         
         Section {
           TextField("Amount", value: $budget.amount, format: .number)
+            .keyboardType(.numberPad)
           
           if !isAmountInvalid {
             LabeledContent {

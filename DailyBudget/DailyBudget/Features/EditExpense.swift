@@ -50,6 +50,7 @@ struct EditExpense: View {
         
         Section {
           TextField("Amount", value: $item.amount, format: .number)
+            .keyboardType(.numberPad)
         } header: {
           Text("Amount")
         } footer: {

@@ -4,7 +4,7 @@ import SwiftUI
 struct DailyBudgetApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+          Home()
         }
     }
 }
