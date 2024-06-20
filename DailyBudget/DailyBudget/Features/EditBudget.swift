@@ -85,11 +85,7 @@ struct EditBudget: View {
         }
         
         Section {
-          TextField(
-            "Amount",
-            value: $budget.amount,
-            format: .number
-          )
+          TextField("Amount", value: $budget.amount, format: .number)
           
           if !isAmountInvalid {
             LabeledContent {
