@@ -42,7 +42,20 @@ struct EditBudget: View {
     NavigationView {
       Form {
         Section {
-          TextField("E.g. Jan daily budget", text: $budget.name)
+          HStack {
+            TextField("E.g. Jan daily budget", text: $budget.name)
+            
+            if budget.name.isEmpty {
+              Button(action: onAutoFillName) {
+                Image(systemName: "wand.and.stars")
+              }
+              
+            } else {
+              Button(action: onClearName) {
+                Image(systemName: "xmark.circle")
+              }
+            }
+          }
         } header: {
           Text("Name")
         } footer: {
@@ -129,6 +142,14 @@ private extension EditBudget {
   
   func onDeleteTapped() {
     onDelete()
+  }
+  
+  func onAutoFillName() {
+    budget.name = currentDate.formatted(.dateTime.month(.wide).year(.twoDigits)) + " Daily Budget"
+  }
+  
+  func onClearName() {
+    budget.name = ""
   }
 }
 
