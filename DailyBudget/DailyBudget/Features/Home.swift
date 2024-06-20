@@ -16,8 +16,13 @@ struct Home: View {
         } else {
           List {
             ForEach(budgets) { budget in
-              BudgetListItem(
-                item: BudgetAtDate(budget: budget, date: date))
+              NavigationLink {
+                ViewBudget(item: .init(
+                  budget: budget, date: date))
+              } label: {
+                BudgetListItem(
+                  item: BudgetAtDate(budget: budget, date: date))
+              }
             }
           }
         }
