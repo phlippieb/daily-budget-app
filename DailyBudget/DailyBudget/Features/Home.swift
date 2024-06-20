@@ -2,9 +2,10 @@ import SwiftUI
 
 struct Home: View {
   @State var budgets: [Budget] = []
-  @State private var isCreateVisible = false
   var date: Date = .now
   
+  @State private var isAddBudgetVisible = false
+
   var body: some View {
     NavigationView {
       NavigationStack {
@@ -32,11 +33,18 @@ struct Home: View {
           })
         }
       }
+      
+      .sheet(isPresented: $isAddBudgetVisible) {
+        EditBudget(.new, onSave: { newBudget in
+          self.budgets.insert(newBudget, at: 0)
+          self.isAddBudgetVisible = false
+        })
+      }
     }
   }
   
   private func onAddBudget() {
-    // TODO
+    isAddBudgetVisible = true
   }
 }
 
