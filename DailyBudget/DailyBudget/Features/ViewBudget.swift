@@ -1,16 +1,16 @@
 import SwiftUI
+import SwiftData
 
 struct ViewBudget: View {
   @State var item: BudgetAtDate
-  var onDelete: () -> Void = {}
   
-  @State private var isEditBudgetShown = false
-  @State private var isAddExpenseShown = false
-  @State private var editingExpense: Expense?
+  @State private var editingBudget: BudgetModel??
+  @State private var editingExpense: ExpenseModel??
   
   var body: some View {
     ScrollView {
-      // Today's budget summary
+      
+      // MARK: Today's budget summary
       Group {
         Text("Today").font(.title)
         
@@ -35,7 +35,7 @@ struct ViewBudget: View {
         }
       }
       
-      // Budget info
+      // MARK: Budget info
       Spacer().frame(height: 40)
       GroupBox {
         HStack {
@@ -78,7 +78,7 @@ struct ViewBudget: View {
         onEditBudgetTapped()
       }
       
-      // Expenses
+      // MARK: Expenses
       Spacer().frame(height: 40)
       Section {
         HStack {
@@ -119,35 +119,15 @@ struct ViewBudget: View {
     .navigationTitle(item.budget.name)
     .navigationBarTitleDisplayMode(.inline)
     
-    .sheet(isPresented: $isEditBudgetShown) {
-      EditBudget(.edit(item.budget), onSave: { budget in
-        item.budget = budget
-        isEditBudgetShown = false
-      }, onDelete: {
-        onDelete()
-        isEditBudgetShown = false
-      })
-    }
-    
-    .sheet(isPresented: $isAddExpenseShown) {
-      EditExpense(
-        .new,
-        dateRange: item.budget.dateRange,
-        onSave: { expense in
-          item.budget.expenses.insert(expense, at: 0)
-          isAddExpenseShown = false
-        })
-    }
+    .sheet(item: $editingBudget, content: { _ in
+      EditBudget(budget: $editingBudget)
+    })
     
     .sheet(item: $editingExpense) { expense in
       EditExpense(
-        .edit(expense),
-        dateRange: item.budget.dateRange,
-        onSave: { newValue in
-          onSaveExpense(expense, newValue: newValue)
-        }, onDelete: {
-          onDeleteExpense(expense)
-        })
+        expense: $editingExpense,
+        associatedBudget: item.budget,
+        dateRange: item.budget.dateRange)
     }
   }
 }
@@ -155,18 +135,18 @@ struct ViewBudget: View {
 // MARK: Actions
 private extension ViewBudget {
   func onEditBudgetTapped() {
-    isEditBudgetShown = true
+    editingBudget = item.budget
   }
   
   func onAddExpenseTapped() {
-    isAddExpenseShown = true
+    editingExpense = .some(nil)
   }
   
-  func onEditExpense(_ expense: Expense) {
+  func onEditExpense(_ expense: ExpenseModel) {
     editingExpense = expense
   }
   
-  func onSaveExpense(_ expense: Expense, newValue: Expense) {
+  func onSaveExpense(_ expense: ExpenseModel, newValue: ExpenseModel) {
     editingExpense = nil
     
     guard let index = item.budget.expenses.firstIndex(of: expense)
@@ -174,33 +154,19 @@ private extension ViewBudget {
     
     item.budget.expenses[index] = newValue
   }
-  
-  func onDeleteExpense(_ expense: Expense) {
-    editingExpense = nil
-    guard let index = item.budget.expenses.firstIndex(of: expense)
-    else { return }
-    
-    item.budget.expenses.remove(at: index)
-  }
 }
 
 #Preview {
-  NavigationView {
-    ViewBudget(item: .init(
+NavigationView {
+    ViewBudget(item: BudgetAtDate(
       budget: .init(
-        name: "My budget",
-        amount: 5000,
-        startDate: .now.addingTimeInterval(-10*24*60*60),
-        endDate: .now.addingTimeInterval(10*24*60*60),
+        name: "My budget", amount: 10000,
+        startDate: .now.addingTimeInterval(.oneDay * -1),
+        endDate: .now.addingTimeInterval(.oneDay * 30),
         expenses: [
-          .init(name: "Food", amount: 20, date: .now),
-          .init(name: "Food", amount: 20, date: .now),
-          .init(name: "Food", amount: 20, date: .now),
-          .init(name: "Food", amount: 20, date: .now),
-          .init(name: "Food", amount: 20, date: .now),
-          .init(name: "Food", amount: 20, date: .now),
-          .init(name: "Food", amount: 20, date: .now)
+          .init(name: "Food", amount: 100, date: .now)
         ]),
       date: .now))
+    .modelContainer(for: BudgetModel.self, inMemory: true)
   }
 }

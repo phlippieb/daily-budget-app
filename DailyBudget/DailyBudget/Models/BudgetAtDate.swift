@@ -5,7 +5,7 @@ import Foundation
 /// Reprents a view of a budget at a specific date.
 /// Provides computed info, such as remaining days, current allowance, etc.
 struct BudgetAtDate {
-  var budget: Budget
+  var budget: BudgetModel
   let date: Date
 }
 

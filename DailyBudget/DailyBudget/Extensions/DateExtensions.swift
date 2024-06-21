@@ -8,6 +8,10 @@ extension Date {
 
 extension TimeInterval {
   func toDays() -> Int {
-    Int(self / 24 / 60 / 60)
+    Int(self / .oneDay)
+  }
+  
+  static var oneDay: TimeInterval {
+    24 * 60 * 60
   }
 }

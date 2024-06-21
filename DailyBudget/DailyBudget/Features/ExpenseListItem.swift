@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ExpenseListItem: View {
-  @State var item: Expense
+  var item: ExpenseModel
   
   var body: some View {
     HStack(alignment: .top) {
@@ -13,9 +13,4 @@ struct ExpenseListItem: View {
       Text("\(item.amount, specifier: "%.2f")")
     }
   }
-}
-
-#Preview {
-  ExpenseListItem(item: Expense(
-    name: "Food", amount: 199, date: .now))
 }

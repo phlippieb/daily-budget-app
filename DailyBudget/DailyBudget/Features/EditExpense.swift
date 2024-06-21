@@ -1,106 +1,95 @@
 import SwiftUI
+import SwiftData
 
 struct EditExpense: View {
-  enum Mode {
-    case new, edit(Expense)
-  }
+  @Binding var expense: ExpenseModel??
+  var associatedBudget: BudgetModel? = nil
+  let dateRange: ClosedRange<Date>
   
-  init(
-    _ mode: Mode,
-    dateRange: ClosedRange<Date>,
-    onSave: @escaping (Expense) -> Void = { _ in },
-    onDelete: @escaping () -> Void = {}
-  ) {
-    self.dateRange = dateRange
-    self.onSave = onSave
-    self.onDelete = onDelete
-    
-    if case .edit(let expense) = mode {
-      isEditMode = true
-      _item = State(initialValue: .init(
-        name: expense.name, amount: expense.amount, date: expense.date))
-    } else {
-      isEditMode = false
-      _item = State(initialValue: .init(
-        name: "", amount: 0, date: .now))
-    }
-  }
-  
-  private let isEditMode: Bool
-  private let dateRange: ClosedRange<Date>
-  private let onSave: (Expense) -> Void
-  private let onDelete: () -> Void
-  
-  @State private var item: Expense
+  @State private var name: String = ""
+  @State private var amount: Double = 0
+  @State private var date: Date = .now
   @State private var isConfirmDeleteShown = false
+  
+  @Environment(\.modelContext) private var modelContext: ModelContext
   
   var body: some View {
     NavigationView {
-      Form {
-        Section {
-          TextField("Expense name", text: $item.name)
-        } header: {
-          Text("Name")
-        } footer: {
-          if isNameInvalid {
-            Text("Budget name is required")
-              .foregroundStyle(.red)
-          }
-        }
-        
-        Section {
-          TextField("Amount", value: $item.amount, format: .number)
-            .keyboardType(.numberPad)
-        } header: {
-          Text("Amount")
-        } footer: {
-          if isAmountInvalid {
-            Text("Amount is required")
-              .foregroundStyle(.red)
-          }
-        }
-        
-        Section {
-          DatePicker(
-            "Date",
-            selection: $item.date,
-            in: dateRange,
-            displayedComponents: [.date])
-        } header: {
-          Text("Date")
-        } footer: {
-          if isDateInvalid {
-            Text("Date must fall within budget period")
-              .foregroundStyle(.red)
-          }
-        }
-        
-        if isEditMode {
-          Button(role: .destructive, action: onDeleteTapped) {
-            HStack {
-              Image(systemName: "trash")
-              Text("Delete expense")
+      if let expense = expense {
+        Form {
+          Section {
+            TextField("Expense name", text: $name)
+          } header: {
+            Text("Name")
+          } footer: {
+            if isNameInvalid {
+              Text("Budget name is required")
+                .foregroundStyle(.red)
             }
           }
-          .frame(maxWidth: .infinity)
+          
+          Section {
+            TextField("Amount", value: $amount, format: .number)
+              .keyboardType(.numberPad)
+          } header: {
+            Text("Amount")
+          } footer: {
+            if isAmountInvalid {
+              Text("Amount is required")
+                .foregroundStyle(.red)
+            }
+          }
+          
+          Section {
+            DatePicker(
+              "Date",
+              selection: $date,
+              in: dateRange,
+              displayedComponents: [.date])
+          } header: {
+            Text("Date")
+          } footer: {
+            if isDateInvalid {
+              Text("Date must fall within budget period")
+                .foregroundStyle(.red)
+            }
+          }
+          
+          if expense != nil {
+            Button(role: .destructive, action: onDeleteTapped) {
+              HStack {
+                Image(systemName: "trash")
+                Text("Delete expense")
+              }
+            }
+            .frame(maxWidth: .infinity)
+          }
         }
-      }
-      .navigationTitle(
-        isEditMode ? "Edit expense" : "Create expense"
-      )
-      .navigationBarTitleDisplayMode(.inline)
-      
-      .toolbar {
-        Button(action: onSaveTapped) { Text("Save") }
-          .disabled(isInvalid)
-      }
-      
-      .alert(isPresented: $isConfirmDeleteShown) {
-        Alert(
-          title: Text("Delete this expense?"),
-          primaryButton: .destructive(
-            Text("Delete"), action: onConfirmDelete),
-          secondaryButton: .cancel())
+        .onAppear {
+          if let expense {
+            name = expense.name
+            amount = expense.amount
+            date = expense.date
+          }
+        }
+        
+        .navigationTitle(
+          (expense == nil) ? "Create expense" : "Edit expense"
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        
+        .toolbar {
+          Button(action: onSaveTapped) { Text("Save") }
+            .disabled(isInvalid)
+        }
+        
+        .alert(isPresented: $isConfirmDeleteShown) {
+          Alert(
+            title: Text("Delete this expense?"),
+            primaryButton: .destructive(
+              Text("Delete"), action: onConfirmDelete),
+            secondaryButton: .cancel())
+        }
       }
     }
   }
@@ -109,7 +98,19 @@ struct EditExpense: View {
 // MARK: Actions
 private extension EditExpense {
   func onSaveTapped() {
-    onSave(item)
+    switch expense {
+    case .some(.some(let expense)):
+      expense.name = name
+      expense.amount = amount
+      expense.date = date
+    case .some(.none):
+      let newExpense = ExpenseModel(name: name, amount: amount, date: date)
+      associatedBudget?.expenses.append(newExpense)
+    default:
+      break
+    }
+    
+    expense = nil
   }
   
   func onDeleteTapped() {
@@ -117,7 +118,12 @@ private extension EditExpense {
   }
   
   func onConfirmDelete() {
-    onDelete()
+    if case .some(.some(let expense)) = expense {
+      associatedBudget?.expenses.remove(expense)
+      modelContext.delete(expense)
+    }
+    
+    expense = nil
   }
 }
 
@@ -128,27 +134,23 @@ private extension EditExpense {
   }
   
   var isNameInvalid: Bool {
-    item.name.trimmingCharacters(in: .whitespaces).isEmpty
+    name.trimmingCharacters(in: .whitespaces).isEmpty
   }
   
   var isAmountInvalid: Bool {
-    item.amount <= 0
+    amount <= 0
   }
   
   var isDateInvalid: Bool {
-    item.date <= dateRange.lowerBound
-    || item.date >= dateRange.upperBound
+    date <= dateRange.lowerBound
+    || date >= dateRange.upperBound
   }
 }
 
 #Preview {
-//  EditExpense(.new)
   EditExpense(
-    .edit(.init(name: "My expense", amount: 100, date: .now)),
-    dateRange: {
-      Date.now.addingTimeInterval(-2 * 24 * 60 * 60)
-      ...
-      Date.now.addingTimeInterval(2 * 24 * 60 * 60)
-    }()
+    expense: .constant(.some(nil)),
+    dateRange: Date.now.addingTimeInterval(-2 * .oneDay) ... Date.now.addingTimeInterval(2 * .oneDay)
   )
+  .modelContainer(for: [ExpenseModel.self])
 }
