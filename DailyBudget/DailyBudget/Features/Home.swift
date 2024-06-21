@@ -18,10 +18,9 @@ struct Home: View {
           List {
             ForEach(budgets) { budget in
               NavigationLink {
-                ViewBudget(item: .init(budget: budget, date: date))
+                ViewBudget(info: .init(budget: budget, date: date))
               } label: {
-                BudgetListItem(
-                  item: BudgetAtDate(budget: budget, date: date))
+                BudgetListItem(item: .init(budget: budget, date: date))
               }
             }
           }

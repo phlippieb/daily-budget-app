@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ViewBudget: View {
-  @State var item: BudgetAtDate
+  @State var info: BudgetProgressInfo
   
   @State private var editingBudget: BudgetModel??
   @State private var editingExpense: ExpenseModel??
@@ -15,21 +15,21 @@ struct ViewBudget: View {
         Text("Today").font(.title)
         
         HStack {
-          Text(item.date.formatted(.dateTime.day().month().year()))
+          Text(info.date.formatted(.dateTime.day().month().year()))
           Image(systemName: "calendar")
-          Text("Day \(item.dayOfBudget) / \(item.budget.totalDays)")
+          Text("Day \(info.dayOfBudget) / \(info.budget.totalDays)")
         }
         
         Spacer().frame(height: 20)
         
-        if item.currentAllowance < 0 {
+        if info.currentAllowance < 0 {
           Text("Over budget")
-          Text("\(item.currentAllowance, specifier: "%.2f")")
+          Text("\(info.currentAllowance, specifier: "%.2f")")
             .font(.largeTitle)
             .foregroundStyle(.red)
         } else {
           Text("Available")
-          Text("\(item.currentAllowance, specifier: "%.2f")")
+          Text("\(info.currentAllowance, specifier: "%.2f")")
             .font(.largeTitle)
             .foregroundStyle(.green)
         }
@@ -48,28 +48,28 @@ struct ViewBudget: View {
         
         LabeledContent {
           Text(
-            item.budget.startDate.toStandardFormatting()
+            info.budget.startDate.toStandardFormatting()
             + " - "
-            + item.budget.endDate.toStandardFormatting()
+            + info.budget.endDate.toStandardFormatting()
           )
         } label: {
           Text("Period")
         }
         
         LabeledContent {
-          Text("\(item.budget.amount, specifier: "%.2f")")
+          Text("\(info.budget.amount, specifier: "%.2f")")
         } label: {
           Text("Total budget")
         }
         
         LabeledContent {
-          Text("\(item.budget.totalExpenses, specifier: "%.2f")")
+          Text("\(info.budget.totalExpenses, specifier: "%.2f")")
         } label: {
           Text("Total spent")
         }
         
         LabeledContent {
-          Text("\(item.budget.dailyAmount, specifier: "%.2f")")
+          Text("\(info.budget.dailyAmount, specifier: "%.2f")")
         } label: {
           Text("Daily budget")
         }
@@ -90,7 +90,7 @@ struct ViewBudget: View {
         }
         Spacer().frame(height: 10)
         
-        if item.budget.expenses.isEmpty {
+        if info.budget.expenses.isEmpty {
           HStack {
             Text("No expenses")
               .foregroundStyle(.gray)
@@ -99,7 +99,7 @@ struct ViewBudget: View {
           .padding(.vertical, 2)
           
         } else {
-          ForEach($item.budget.expenses) { expense in
+          ForEach($info.budget.expenses) { expense in
             Button(
               action: { onEditExpense(expense.wrappedValue) }
             ) {
@@ -116,7 +116,7 @@ struct ViewBudget: View {
     }
     .padding()
     
-    .navigationTitle(item.budget.name)
+    .navigationTitle(info.budget.name)
     .navigationBarTitleDisplayMode(.inline)
     
     .sheet(item: $editingBudget, content: { _ in
@@ -126,8 +126,8 @@ struct ViewBudget: View {
     .sheet(item: $editingExpense) { expense in
       EditExpense(
         expense: $editingExpense,
-        associatedBudget: item.budget,
-        dateRange: item.budget.dateRange)
+        associatedBudget: info.budget,
+        dateRange: info.budget.dateRange)
     }
   }
 }
@@ -135,7 +135,7 @@ struct ViewBudget: View {
 // MARK: Actions
 private extension ViewBudget {
   func onEditBudgetTapped() {
-    editingBudget = item.budget
+    editingBudget = info.budget
   }
   
   func onAddExpenseTapped() {
@@ -144,29 +144,5 @@ private extension ViewBudget {
   
   func onEditExpense(_ expense: ExpenseModel) {
     editingExpense = expense
-  }
-  
-  func onSaveExpense(_ expense: ExpenseModel, newValue: ExpenseModel) {
-    editingExpense = nil
-    
-    guard let index = item.budget.expenses.firstIndex(of: expense)
-    else { return }
-    
-    item.budget.expenses[index] = newValue
-  }
-}
-
-#Preview {
-NavigationView {
-    ViewBudget(item: BudgetAtDate(
-      budget: .init(
-        name: "My budget", amount: 10000,
-        startDate: .now.addingTimeInterval(.oneDay * -1),
-        endDate: .now.addingTimeInterval(.oneDay * 30),
-        expenses: [
-          .init(name: "Food", amount: 100, date: .now)
-        ]),
-      date: .now))
-    .modelContainer(for: BudgetModel.self, inMemory: true)
   }
 }

@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct BudgetListItem: View {
-  let item: BudgetAtDate
+  let item: BudgetProgressInfo
   
   var body: some View {
-    // Item content
     VStack(alignment: .leading) {
       Text(item.budget.name)
         .font(.title2)
