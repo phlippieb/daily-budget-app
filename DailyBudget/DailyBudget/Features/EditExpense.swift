@@ -8,7 +8,6 @@ struct EditExpense: View {
   
   @State private var name: String = ""
   @State private var amount: Double = 0
-  // Note: This is a Date, not a CalendarDate, for use with DatePicker
   @State private var date: Date = .now
   @State private var isConfirmDeleteShown = false
   
@@ -51,7 +50,13 @@ struct EditExpense: View {
             Text("Date")
           } footer: {
             if isDateInvalid {
-              Text("Date must fall within budget period")
+              Text(
+                "Date must fall within budget period ("
+                + dateRange.lowerBound.calendarDate.toStandardFormatting()
+                + " - "
+                + dateRange.upperBound.calendarDate.toStandardFormatting()
+                + ")"
+              )
                 .foregroundStyle(.red)
             }
           }
@@ -146,16 +151,16 @@ private extension EditExpense {
   }
   
   var isDateInvalid: Bool {
-    date.calendarDate <= dateRange.lowerBound.calendarDate
-    || date.calendarDate >= dateRange.upperBound.calendarDate
+    date.calendarDate < dateRange.lowerBound.calendarDate
+    || date.calendarDate > dateRange.upperBound.calendarDate
   }
 }
 
 #Preview {
   EditExpense(
     expense: .constant(.some(nil)),
-    dateRange: CalendarDate.today.adding(days: -1).date
-    ... CalendarDate.today.adding(days: 1).date
+    dateRange: CalendarDate.today.date
+    ... CalendarDate.today.adding(days: 30).date
   )
   .modelContainer(for: ExpenseModel.self, inMemory: true)
 }
