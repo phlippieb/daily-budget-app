@@ -15,7 +15,7 @@ struct EditBudget: View {
   @Environment(\.modelContext) private var modelContext: ModelContext
   
   private var dailyAmount: Double {
-    let totalDays = endDate.timeIntervalSince(startDate).toDays()
+    let totalDays = (endDate.calendarDate - startDate.calendarDate) + 1
     return amount / Double(totalDays)
   }
   
