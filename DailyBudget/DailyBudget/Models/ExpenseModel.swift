@@ -9,7 +9,6 @@ import SwiftData
   
   var name: String
   var amount: Double
-  
   var date: Date
   
   init(name: String, amount: Double, date: Date) {
