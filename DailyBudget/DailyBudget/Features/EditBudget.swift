@@ -190,11 +190,13 @@ private extension EditBudget {
   }
   
   var isDateInvalid: Bool {
-    endDate <= startDate
+    // NOTE: First and last day may be the same
+    endDate.calendarDate < startDate.calendarDate
   }
   
   var isBudgetInactive: Bool {
-    startDate > currentDate || endDate < currentDate
+    startDate.calendarDate > currentDate.calendarDate
+    || endDate.calendarDate < currentDate.calendarDate
   }
   
   var isAmountInvalid: Bool {
