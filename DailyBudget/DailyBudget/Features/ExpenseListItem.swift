@@ -14,3 +14,10 @@ struct ExpenseListItem: View {
     }
   }
 }
+
+#Preview {
+  ExpenseListItem(item: .init(
+    name: "Food", amount: 100, date: .today)
+  )
+  .modelContainer(for: ExpenseModel.self, inMemory: true)
+}

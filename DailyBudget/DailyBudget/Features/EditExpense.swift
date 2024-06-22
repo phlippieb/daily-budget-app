@@ -6,91 +6,97 @@ struct EditExpense: View {
   var associatedBudget: BudgetModel? = nil
   let dateRange: ClosedRange<CalendarDate>
   
+  private var dateRangeForDatePicker: ClosedRange<Date> {
+    dateRange.lowerBound.date ...
+    dateRange.upperBound.date
+  }
+  
   @State private var name: String = ""
   @State private var amount: Double = 0
-  @State private var date: CalendarDate = .today
+  // Note: This is a Date, not a CalendarDate, for use with DatePicker
+  @State private var date: Date = .now
   @State private var isConfirmDeleteShown = false
   
   @Environment(\.modelContext) private var modelContext: ModelContext
   
   var body: some View {
     NavigationView {
-//      if let expense = expense {
-//        Form {
-//          Section {
-//            TextField("Expense name", text: $name)
-//          } header: {
-//            Text("Name")
-//          } footer: {
-//            if isNameInvalid {
-//              Text("Budget name is required")
-//                .foregroundStyle(.red)
-//            }
-//          }
-//          
-//          Section {
-//            TextField("Amount", value: $amount, format: .number)
-//              .keyboardType(.numberPad)
-//          } header: {
-//            Text("Amount")
-//          } footer: {
-//            if isAmountInvalid {
-//              Text("Amount is required")
-//                .foregroundStyle(.red)
-//            }
-//          }
-//          
-//          Section {
-//            DatePicker(
-//              "Date",
-//              selection: $date,
-//              in: dateRange,
-//              displayedComponents: [.date])
-//          } header: {
-//            Text("Date")
-//          } footer: {
-//            if isDateInvalid {
-//              Text("Date must fall within budget period")
-//                .foregroundStyle(.red)
-//            }
-//          }
-//          
-//          if expense != nil {
-//            Button(role: .destructive, action: onDeleteTapped) {
-//              HStack {
-//                Image(systemName: "trash")
-//                Text("Delete expense")
-//              }
-//            }
-//            .frame(maxWidth: .infinity)
-//          }
-//        }
-//        .onAppear {
-//          if let expense {
-//            name = expense.name
-//            amount = expense.amount
-//            date = expense.date
-//          }
-//        }
-//        
-//        .navigationTitle(
-//          (expense == nil) ? "Create expense" : "Edit expense"
-//        )
-//        .navigationBarTitleDisplayMode(.inline)
-//        
-//        .toolbar {
-//          Button(action: onSaveTapped) { Text("Save") }
-//            .disabled(isInvalid)
-//        }
-//        
-//        .alert(isPresented: $isConfirmDeleteShown) {
-//          Alert(
-//            title: Text("Delete this expense?"),
-//            primaryButton: .destructive(
-//              Text("Delete"), action: onConfirmDelete),
-//            secondaryButton: .cancel())
-//        }
-//      }
+      if let expense = expense {
+        Form {
+          Section {
+            TextField("Expense name", text: $name)
+          } header: {
+            Text("Name")
+          } footer: {
+            if isNameInvalid {
+              Text("Budget name is required")
+                .foregroundStyle(.red)
+            }
+          }
+          
+          Section {
+            TextField("Amount", value: $amount, format: .number)
+              .keyboardType(.numberPad)
+          } header: {
+            Text("Amount")
+          } footer: {
+            if isAmountInvalid {
+              Text("Amount is required")
+                .foregroundStyle(.red)
+            }
+          }
+          
+          Section {
+            DatePicker(
+              "Date",
+              selection: $date,
+              in: dateRangeForDatePicker,
+              displayedComponents: [.date])
+          } header: {
+            Text("Date")
+          } footer: {
+            if isDateInvalid {
+              Text("Date must fall within budget period")
+                .foregroundStyle(.red)
+            }
+          }
+          
+          if expense != nil {
+            Button(role: .destructive, action: onDeleteTapped) {
+              HStack {
+                Image(systemName: "trash")
+                Text("Delete expense")
+              }
+            }
+            .frame(maxWidth: .infinity)
+          }
+        }
+        .onAppear {
+          if let expense {
+            name = expense.name
+            amount = expense.amount
+            date = expense.date.date
+          }
+        }
+        
+        .navigationTitle(
+          (expense == nil) ? "Create expense" : "Edit expense"
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        
+        .toolbar {
+          Button(action: onSaveTapped) { Text("Save") }
+            .disabled(isInvalid)
+        }
+        
+        .alert(isPresented: $isConfirmDeleteShown) {
+          Alert(
+            title: Text("Delete this expense?"),
+            primaryButton: .destructive(
+              Text("Delete"), action: onConfirmDelete),
+            secondaryButton: .cancel())
+        }
+      }
     }
   }
 }
@@ -102,9 +108,12 @@ private extension EditExpense {
     case .some(.some(let expense)):
       expense.name = name
       expense.amount = amount
-      expense.date = date
+      expense.date = CalendarDate(date: date)
     case .some(.none):
-      let newExpense = ExpenseModel(name: name, amount: amount, date: date)
+      let newExpense = ExpenseModel(
+        name: name,
+        amount: amount,
+        date: CalendarDate(date: date))
       associatedBudget?.expenses.append(newExpense)
     default:
       break
@@ -142,15 +151,15 @@ private extension EditExpense {
   }
   
   var isDateInvalid: Bool {
-    date <= dateRange.lowerBound
-    || date >= dateRange.upperBound
+    date <= dateRangeForDatePicker.lowerBound
+    || date >= dateRangeForDatePicker.upperBound
   }
 }
 
 #Preview {
   EditExpense(
     expense: .constant(.some(nil)),
-    dateRange: CalendarDate.today.adding(days: -1) ... CalendarDate.today.adding(days: 2)
+    dateRange: CalendarDate.today.adding(days: -1) ... CalendarDate.today.adding(days: 1)
   )
-  .modelContainer(for: [ExpenseModel.self])
+  .modelContainer(for: ExpenseModel.self, inMemory: true)
 }
