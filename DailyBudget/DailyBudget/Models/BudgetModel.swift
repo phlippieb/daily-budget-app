@@ -57,8 +57,8 @@ extension BudgetModel {
   }
   
   /// A valid date range for expenses
-  var dateRange: ClosedRange<Date> {
-    return startDate ... endDate
+  var dateRange: ClosedRange<CalendarDate> {
+    return firstDay ... lastDay
   }
   
   var daysRange: ClosedRange<CalendarDate> {

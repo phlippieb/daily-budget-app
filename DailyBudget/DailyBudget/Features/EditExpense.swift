@@ -4,7 +4,7 @@ import SwiftData
 struct EditExpense: View {
   @Binding var expense: ExpenseModel??
   var associatedBudget: BudgetModel? = nil
-  let dateRange: ClosedRange<Date>
+  let dateRange: ClosedRange<CalendarDate>
   
   @State private var name: String = ""
   @State private var amount: Double = 0
@@ -44,7 +44,7 @@ struct EditExpense: View {
             DatePicker(
               "Date",
               selection: $date,
-              in: dateRange,
+              in: dateRange.lowerBound.date ... dateRange.upperBound.date,
               displayedComponents: [.date])
           } header: {
             Text("Date")
@@ -52,9 +52,9 @@ struct EditExpense: View {
             if isDateInvalid {
               Text(
                 "Date must fall within budget period ("
-                + dateRange.lowerBound.calendarDate.toStandardFormatting()
+                + dateRange.lowerBound.toStandardFormatting()
                 + " - "
-                + dateRange.upperBound.calendarDate.toStandardFormatting()
+                + dateRange.upperBound.toStandardFormatting()
                 + ")"
               )
                 .foregroundStyle(.red)
@@ -151,16 +151,16 @@ private extension EditExpense {
   }
   
   var isDateInvalid: Bool {
-    date.calendarDate < dateRange.lowerBound.calendarDate
-    || date.calendarDate > dateRange.upperBound.calendarDate
+    date.calendarDate < dateRange.lowerBound
+    || date.calendarDate > dateRange.upperBound
   }
 }
 
 #Preview {
   EditExpense(
     expense: .constant(.some(nil)),
-    dateRange: CalendarDate.today.date
-    ... CalendarDate.today.adding(days: 30).date
+    dateRange: CalendarDate.today
+    ... CalendarDate.today.adding(days: 30)
   )
   .modelContainer(for: ExpenseModel.self, inMemory: true)
 }
