@@ -15,7 +15,6 @@
 		0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */; };
 		0A7B109A2C24356F00474F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B10992C24356F00474F10 /* Assets.xcassets */; };
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
-		0A7B10A72C24356F00474F10 /* DailyBudgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10A62C24356F00474F10 /* DailyBudgetTests.swift */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
 		0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5FF0A2C247C2400499D30 /* EditExpense.swift */; };
 		0AFEFB612C258570004847AE /* EditBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB602C258570004847AE /* EditBudget.swift */; };
@@ -24,6 +23,8 @@
 		0AFEFB682C259C46004847AE /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB672C259C46004847AE /* OptionalExtensions.swift */; };
 		0AFEFB6A2C25A5EE004847AE /* DefaultInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB692C25A5EE004847AE /* DefaultInitializable.swift */; };
 		0AFEFB6C2C25D128004847AE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6B2C25D128004847AE /* ArrayExtensions.swift */; };
+		0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
+		0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +48,6 @@
 		0A7B10992C24356F00474F10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A7B10A22C24356F00474F10 /* DailyBudgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyBudgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A7B10A62C24356F00474F10 /* DailyBudgetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBudgetTests.swift; sourceTree = "<group>"; };
 		0A7B10C52C24390600474F10 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		0AB5FF0A2C247C2400499D30 /* EditExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpense.swift; sourceTree = "<group>"; };
 		0AFEFB602C258570004847AE /* EditBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBudget.swift; sourceTree = "<group>"; };
@@ -56,6 +56,8 @@
 		0AFEFB672C259C46004847AE /* OptionalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExtensions.swift; sourceTree = "<group>"; };
 		0AFEFB692C25A5EE004847AE /* DefaultInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInitializable.swift; sourceTree = "<group>"; };
 		0AFEFB6B2C25D128004847AE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
+		0AFEFB6D2C26A424004847AE /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
+		0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +130,7 @@
 		0A7B10A52C24356F00474F10 /* DailyBudgetTests */ = {
 			isa = PBXGroup;
 			children = (
-				0A7B10A62C24356F00474F10 /* DailyBudgetTests.swift */,
+				0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */,
 			);
 			path = DailyBudgetTests;
 			sourceTree = "<group>";
@@ -153,6 +155,7 @@
 				0AFEFB622C258CBC004847AE /* BudgetModel.swift */,
 				0AFEFB642C258D3E004847AE /* ExpenseModel.swift */,
 				0AFEFB692C25A5EE004847AE /* DefaultInitializable.swift */,
+				0AFEFB6D2C26A424004847AE /* CalendarDate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 					};
 					0A7B10A12C24356F00474F10 = {
 						CreatedOnToolsVersion = 15.2;
+						LastSwiftMigration = 1520;
 						TestTargetID = 0A7B10912C24356D00474F10;
 					};
 				};
@@ -264,6 +268,7 @@
 				0A20A3D72C243A780028E5C2 /* BudgetListItem.swift in Sources */,
 				0A20A3DC2C243CAA0028E5C2 /* DateExtensions.swift in Sources */,
 				0AFEFB652C258D3E004847AE /* ExpenseModel.swift in Sources */,
+				0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */,
 				0AFEFB682C259C46004847AE /* OptionalExtensions.swift in Sources */,
 				0AFEFB612C258570004847AE /* EditBudget.swift in Sources */,
 				0AFEFB6C2C25D128004847AE /* ArrayExtensions.swift in Sources */,
@@ -278,7 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A7B10A72C24356F00474F10 /* DailyBudgetTests.swift in Sources */,
+				0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +480,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W5W94B876N;
@@ -484,6 +490,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = za.co.retrorabbit.DailyBudgetTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DailyBudget.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DailyBudget";
@@ -495,6 +502,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W5W94B876N;
