@@ -3,8 +3,7 @@ import SwiftData
 
 struct EditBudget: View {
   @Binding var budget: BudgetModel??
-  // TODO: Rather use environmentObject to provide current date
-  var currentDate: Date = .now
+  var currentDate: CalendarDate { .today }
   
   @State private var name: String = ""
   @State private var amount: Double = 0
@@ -171,7 +170,8 @@ private extension EditBudget {
   }
   
   func getDefaultName() -> String {
-    currentDate.formatted(.dateTime.month(.wide).year(.twoDigits)) + " Daily Budget"
+    currentDate.date.formatted(.dateTime.month(.wide).year(.twoDigits))
+    + " Daily Budget"
   }
   
   func onClearName() {
@@ -195,8 +195,8 @@ private extension EditBudget {
   }
   
   var isBudgetInactive: Bool {
-    startDate.calendarDate > currentDate.calendarDate
-    || endDate.calendarDate < currentDate.calendarDate
+    startDate.calendarDate > currentDate
+    || endDate.calendarDate < currentDate
   }
   
   var isAmountInvalid: Bool {
@@ -205,9 +205,6 @@ private extension EditBudget {
 }
 
 #Preview {
-  EditBudget(
-    budget: .constant(.some(nil)),
-    currentDate: .now
-  )
+  EditBudget(budget: .constant(.some(nil)))
   .modelContainer(for: BudgetModel.self)
 }
