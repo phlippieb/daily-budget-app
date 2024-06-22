@@ -1,11 +1,6 @@
 import Foundation
 
-extension Date {
-  func toStandardFormatting() -> String {
-    self.formatted(.dateTime.day().month().year())
-  }
-}
-
+// TODO: Remove?
 extension TimeInterval {
   func toDays() -> Int {
     Int(self / .oneDay)

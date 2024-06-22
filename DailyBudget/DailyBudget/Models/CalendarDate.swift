@@ -33,6 +33,14 @@ extension CalendarDate {
   }
 }
 
+// MARK: Nice formating -
+
+extension CalendarDate {
+  func toStandardFormatting() -> String {
+    self.date.formatted(.dateTime.day().month().year())
+  }
+}
+
 // MARK: Comparisons -
 
 extension CalendarDate: Equatable {

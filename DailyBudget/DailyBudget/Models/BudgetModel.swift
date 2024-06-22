@@ -11,19 +11,13 @@ import SwiftData
   var amount: Double
   
   var startDate: CalendarDate {
-    get {
-      CalendarDate(date: _startDate)
-    } set {
-      _startDate = newValue.date
-    }
+    get { CalendarDate(date: _startDate) }
+    set { _startDate = newValue.date }
   }
   
   var endDate: CalendarDate {
-    get {
-      CalendarDate(date: _endDate)
-    } set {
-      _endDate = newValue.date
-    }
+    get { CalendarDate(date: _endDate) }
+    set { _endDate = newValue.date }
   }
   
   var expenses: [ExpenseModel]

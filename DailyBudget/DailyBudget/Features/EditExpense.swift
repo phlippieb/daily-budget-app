@@ -4,11 +4,11 @@ import SwiftData
 struct EditExpense: View {
   @Binding var expense: ExpenseModel??
   var associatedBudget: BudgetModel? = nil
-  let dateRange: ClosedRange<Date>
+  let dateRange: ClosedRange<CalendarDate>
   
   @State private var name: String = ""
   @State private var amount: Double = 0
-  @State private var date: Date = .now
+  @State private var date: CalendarDate = .today
   @State private var isConfirmDeleteShown = false
   
   @Environment(\.modelContext) private var modelContext: ModelContext
@@ -150,7 +150,7 @@ private extension EditExpense {
 #Preview {
   EditExpense(
     expense: .constant(.some(nil)),
-    dateRange: Date.now.addingTimeInterval(-2 * .oneDay) ... Date.now.addingTimeInterval(2 * .oneDay)
+    dateRange: CalendarDate.today.adding(days: -1) ... CalendarDate.today.adding(days: 2)
   )
   .modelContainer(for: [ExpenseModel.self])
 }

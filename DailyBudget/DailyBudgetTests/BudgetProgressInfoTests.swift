@@ -123,7 +123,7 @@ private extension BudgetProgressInfoTests {
     container.mainContext.insert(budget)
     
     let expense = ExpenseModel(
-      name: "", amount: budgetTotalExpenses, date: startDate.date)
+      name: "", amount: budgetTotalExpenses, date: startDate)
     container.mainContext.insert(expense)
     budget.expenses = [expense]
     
