@@ -21,7 +21,10 @@ extension CalendarDate {
   }
   
   func adding(days: Int) -> CalendarDate {
-    CalendarDate(date: date.addingTimeInterval(24*60*60), calendar: calendar)
+    CalendarDate(
+      date: Calendar.current.date(
+        byAdding: DateComponents(day: days), to: date)!,
+      calendar: calendar)
   }
 }
 

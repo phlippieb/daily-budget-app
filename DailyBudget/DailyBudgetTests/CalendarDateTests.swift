@@ -17,8 +17,6 @@ class CalendarDateTests: XCTestCase {
     XCTAssertEqual(calendarDate1, calendarDate2)
     
     // Given a third date on another date
-//    let date3 = date2.addingTimeInterval(24*60*60)
-//    let calendarDate3 = CalendarDate(date: date3)
     let calendarDate3 = calendarDate1.adding(days: 1)
     
     // Then it is not equal to the other dates
@@ -59,5 +57,20 @@ class CalendarDateTests: XCTestCase {
     XCTAssertEqual(calendarDate3 - calendarDate1, 2)
     XCTAssertEqual(calendarDate1 - calendarDate1Later, 0)
     XCTAssertEqual(calendarDate1Later - calendarDate1, 0)
+  }
+  
+  func testAddingDays() {
+    // Given a date created by adding one day to another
+    let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+    let calendarDate2 = calendarDate1.adding(days: 1)
+    
+    // Then the day should be equal to the day after the other
+    XCTAssertEqual(calendarDate2, CalendarDate(year: 2000, month: 1, day: 2))
+    
+    // Given a date create by subtracting 2 days from another
+    let calendarDate3 = calendarDate1.adding(days: -2)
+    
+    // Then the resulting date should be 2 days before the other
+    XCTAssertEqual(calendarDate3, CalendarDate(year: 1999, month: 12, day: 30))
   }
 }
