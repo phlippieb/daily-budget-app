@@ -1,55 +1,32 @@
 import SwiftUI
+import SwiftData
 
 struct EditBudget: View {
-  enum Mode {
-    case new, edit(Budget)
-  }
-  
-  init(
-    _ mode: Mode,
-    onSave: @escaping (Budget) -> Void = { _ in },
-    onDelete: @escaping () -> Void = {}
-  ) {
-    self.onSave = onSave
-    self.onDelete = onDelete
-    
-    if case .edit(let budget) = mode {
-      self.isEditMode = true
-      _budget = State(initialValue: Budget(
-        name: budget.name,
-        amount: budget.amount,
-        startDate: budget.startDate,
-        endDate: budget.endDate,
-        expenses: budget.expenses))
-    } else {
-      self.isEditMode = false
-      _budget = State(initialValue: Budget(
-        name: "",
-        amount: 0,
-        startDate: .now,
-        endDate: .now.addingTimeInterval(30*24*60*60),
-        expenses: []))
-    }
-  }
-  
-  /// Used to check budget date validity
+  @Binding var budget: BudgetModel??
+  // TODO: Rather use environmentObject to provide current date
   var currentDate: Date = .now
   
-  private let onSave: (Budget) -> Void
-  private let onDelete: () -> Void
-  private let isEditMode: Bool
-  
-  @State private var budget: Budget
+  @State private var name: String = ""
+  @State private var amount: Double = 0
+  @State private var startDate: Date = .now
+  @State private var endDate: Date = .now.addingTimeInterval(30 * 24 * 60 * 60)
   @State private var isShowingDeleteAlert = false
+  
+  @Environment(\.modelContext) private var modelContext: ModelContext
+  
+  private var dailyAmount: Double {
+    let totalDays = endDate.timeIntervalSince(startDate).toDays()
+    return amount / Double(totalDays)
+  }
   
   var body: some View {
     NavigationView {
       Form {
         Section {
           HStack {
-            TextField(getDefaultName(), text: $budget.name)
+            TextField(getDefaultName(), text: $name)
             
-            if budget.name.isEmpty {
+            if name.isEmpty {
               Button(action: onAutoFillName) {
                 Image(systemName: "wand.and.stars")
               }
@@ -70,8 +47,8 @@ struct EditBudget: View {
         }
         
         Section {
-          DatePicker("First day", selection: $budget.startDate, displayedComponents: [.date])
-          DatePicker("Last day", selection: $budget.endDate, displayedComponents: [.date])
+          DatePicker("First day", selection: $startDate, displayedComponents: [.date])
+          DatePicker("Last day", selection: $endDate, displayedComponents: [.date])
         } header: {
           Text("Budget period")
         } footer: {
@@ -85,12 +62,12 @@ struct EditBudget: View {
         }
         
         Section {
-          TextField("Amount", value: $budget.amount, format: .number)
+          TextField("Amount", value: $amount, format: .number)
             .keyboardType(.numberPad)
           
           if !isAmountInvalid {
             LabeledContent {
-              Text("\(budget.dailyAmount, specifier: "%.2f")")
+              Text("\(dailyAmount, specifier: "%.2f")")
             } label: {
               HStack {
                 Image(systemName: "info.circle")
@@ -110,7 +87,7 @@ struct EditBudget: View {
           }
         }
         
-        if isEditMode {
+        if budget != nil {
           Button(role: .destructive, action: onDeleteTapped) {
             HStack {
               Image(systemName: "trash")
@@ -120,8 +97,18 @@ struct EditBudget: View {
           .frame(maxWidth: .infinity)
         }
       }
+      
+      .onAppear {
+        if case .some(.some(let budget)) = budget {
+          name = budget.name
+          amount = budget.amount
+          startDate = budget.startDate
+          endDate = budget.endDate
+        }
+      }
+      
       .navigationTitle(
-        isEditMode ? "Edit budget" : "Create budget"
+        (budget != nil) ? "Edit budget" : "Create budget"
       )
       .navigationBarTitleDisplayMode(.inline)
       
@@ -146,7 +133,21 @@ struct EditBudget: View {
 // MARK: Actions
 private extension EditBudget {
   func onSaveTapped() {
-    onSave(budget)
+    switch budget {
+    case .some(.some(let budget)):
+      budget.name = name
+      budget.amount = amount
+      budget.startDate = startDate
+      budget.endDate = endDate
+    case .some(.none):
+      let newBudget = BudgetModel(
+        name: name, amount: amount, startDate: startDate, endDate: endDate, expenses: [])
+      modelContext.insert(newBudget)
+    default:
+      break
+    }
+    
+    budget = nil
   }
   
   func onDeleteTapped() {
@@ -154,11 +155,15 @@ private extension EditBudget {
   }
   
   func onDeleteConfirmed() {
-    onDelete()
+    if case .some(.some(let budget)) = budget {
+      modelContext.delete(budget)
+    }
+    
+    budget = nil
   }
   
   func onAutoFillName() {
-    budget.name = getDefaultName()
+    name = getDefaultName()
   }
   
   func getDefaultName() -> String {
@@ -166,7 +171,7 @@ private extension EditBudget {
   }
   
   func onClearName() {
-    budget.name = ""
+    name = ""
   }
 }
 
@@ -177,30 +182,18 @@ private extension EditBudget {
   }
   
   var isNameInvalid: Bool {
-    budget.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
   
   var isDateInvalid: Bool {
-    budget.endDate <= budget.startDate
+    endDate <= startDate
   }
   
   var isBudgetInactive: Bool {
-    budget.startDate > currentDate || budget.endDate < currentDate
+    startDate > currentDate || endDate < currentDate
   }
   
   var isAmountInvalid: Bool {
-    budget.amount <= 0
+    amount <= 0
   }
-}
-
-#Preview {
-  EditBudget(
-    .new
-//    .edit(.init(
-//    name: "Asdf",
-//    amount: 1000,
-//    startDate: .now.addingTimeInterval(-10*24*60*60),
-//    endDate: .now.addingTimeInterval(10*24*60*60),
-//    expenses: []))
-  )
 }

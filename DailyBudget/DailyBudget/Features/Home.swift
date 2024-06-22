@@ -1,10 +1,12 @@
 import SwiftUI
+import SwiftData
 
 struct Home: View {
-  @State var budgets: [Budget] = []
+  // TODO: Get from environment
   var date: Date = .now
   
-  @State private var isAddBudgetVisible = false
+  @Query(sort: \BudgetModel.endDate) private var budgets: [BudgetModel]
+  @State private var editingBudget: BudgetModel??
   
   var body: some View {
     NavigationView {
@@ -12,18 +14,13 @@ struct Home: View {
         if budgets.isEmpty {
           Text("No budgets")
             .foregroundStyle(.gray)
-          
         } else {
           List {
             ForEach(budgets) { budget in
               NavigationLink {
-                ViewBudget(
-                  item: .init(budget: budget, date: date),
-                  onDelete: { onDelete(budget) }
-                )
+                ViewBudget(info: .init(budget: budget, date: date))
               } label: {
-                BudgetListItem(
-                  item: BudgetAtDate(budget: budget, date: date))
+                BudgetListItem(item: .init(budget: budget, date: date))
               }
             }
           }
@@ -41,47 +38,21 @@ struct Home: View {
         }
       }
       
-      .sheet(isPresented: $isAddBudgetVisible) {
-        EditBudget(.new, onSave: { newBudget in
-          self.budgets.insert(newBudget, at: 0)
-          self.isAddBudgetVisible = false
-        })
+      .sheet(item: $editingBudget) { _ in
+        EditBudget(budget: $editingBudget)
       }
     }
   }
   
   private func onAddBudget() {
-    isAddBudgetVisible = true
-  }
-  
-  private func onDelete(_ budget: Budget) {
-    guard let index = self.budgets.firstIndex(of: budget) else { return }
-    self.budgets.remove(at: index)
+    editingBudget = .some(nil)
   }
 }
 
 #Preview {
-  Home(
-    budgets: [
-      Budget(
-        name: "June monthly budget",
-        amount: 10000,
-        startDate: Date.now.addingTimeInterval(-10*24*60*60),
-        endDate: Date.now.addingTimeInterval(20*24*60*60),
-        expenses: [
-          Expense(name: "Food", amount: 1000, date: .now)
-        ]
-      ),
-      
-      Budget(
-        name: "May monthly budget",
-        amount: 10000,
-        startDate: Date.now.addingTimeInterval(-40*24*60*60),
-        endDate: Date.now.addingTimeInterval(-10*24*60*60),
-        expenses: [
-          Expense(name: "Food", amount: 1000, date: .now)
-        ]
-      )
-    ]
-  )
+  let config = ModelConfiguration(isStoredInMemoryOnly: true)
+  let container = try! ModelContainer(for: ExpenseModel.self, configurations: config)
+  
+  return Home()
+    .modelContainer(container)
 }

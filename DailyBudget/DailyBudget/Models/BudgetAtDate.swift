@@ -1,15 +1,15 @@
 import Foundation
 
-/// # BudgetAtDate model
+/// # BudgetProgressInfo model
 ///
-/// Reprents a view of a budget at a specific date.
+/// Info about a budget at a specific date.
 /// Provides computed info, such as remaining days, current allowance, etc.
-struct BudgetAtDate {
-  var budget: Budget
+struct BudgetProgressInfo {
+  var budget: BudgetModel
   let date: Date
 }
 
-extension BudgetAtDate {
+extension BudgetProgressInfo {
   /// Whether `date` falls within `budget`'s start and end dates
   var isActive: Bool {
     budget.startDate <= date && date <= budget.endDate
