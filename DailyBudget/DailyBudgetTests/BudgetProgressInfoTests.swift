@@ -13,13 +13,13 @@ final class BudgetProgressInfoTests: XCTestCase {
     
     // Given an active budget
     let activeBudget = BudgetModel()
-    activeBudget.startDate = CalendarDate(year: 2000, month: 1, day: 1)
-    activeBudget.endDate = CalendarDate(year: 2000, month: 1, day: 10)
+    activeBudget.startDate = CalendarDate(year: 2000, month: 1, day: 1).date
+    activeBudget.endDate = CalendarDate(year: 2000, month: 1, day: 10).date
     
     // Given an inactive budget
     let inactiveBudget = BudgetModel()
-    inactiveBudget.startDate = CalendarDate(year: 2000, month: 1, day: 1)
-    inactiveBudget.endDate = CalendarDate(year: 2000, month: 1, day: 3)
+    inactiveBudget.startDate = CalendarDate(year: 2000, month: 1, day: 1).date
+    inactiveBudget.endDate = CalendarDate(year: 2000, month: 1, day: 3).date
     
     // When I view the budgets in the context of a progress info object
     let activeBudgetInfo = BudgetProgressInfo(budget: activeBudget, date: day)
@@ -36,7 +36,7 @@ final class BudgetProgressInfoTests: XCTestCase {
     
     // Given a budget that starts on 1 Jan 2000
     let budget = BudgetModel()
-    budget.startDate = CalendarDate(year: 2000, month: 1, day: 1)
+    budget.startDate = CalendarDate(year: 2000, month: 1, day: 1).date
     
     // When I have the budget's info
     let budgetInfo = BudgetProgressInfo(budget: budget, date: day)
@@ -117,13 +117,13 @@ private extension BudgetProgressInfoTests {
     let budget = BudgetModel(
       name: "",
       amount: budgetAmount,
-      startDate: startDate,
-      endDate: budgetEndDate,
+      startDate: startDate.date,
+      endDate: budgetEndDate.date,
       expenses: [])
     container.mainContext.insert(budget)
     
     let expense = ExpenseModel(
-      name: "", amount: budgetTotalExpenses, date: startDate)
+      name: "", amount: budgetTotalExpenses, day: startDate)
     container.mainContext.insert(expense)
     budget.expenses = [expense]
     

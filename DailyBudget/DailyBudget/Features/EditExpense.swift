@@ -4,12 +4,7 @@ import SwiftData
 struct EditExpense: View {
   @Binding var expense: ExpenseModel??
   var associatedBudget: BudgetModel? = nil
-  let dateRange: ClosedRange<CalendarDate>
-  
-  private var dateRangeForDatePicker: ClosedRange<Date> {
-    dateRange.lowerBound.date ...
-    dateRange.upperBound.date
-  }
+  let dateRange: ClosedRange<Date>
   
   @State private var name: String = ""
   @State private var amount: Double = 0
@@ -50,7 +45,7 @@ struct EditExpense: View {
             DatePicker(
               "Date",
               selection: $date,
-              in: dateRangeForDatePicker,
+              in: dateRange,
               displayedComponents: [.date])
           } header: {
             Text("Date")
@@ -75,7 +70,7 @@ struct EditExpense: View {
           if let expense {
             name = expense.name
             amount = expense.amount
-            date = expense.date.date
+            date = expense.date
           }
         }
         
@@ -108,12 +103,12 @@ private extension EditExpense {
     case .some(.some(let expense)):
       expense.name = name
       expense.amount = amount
-      expense.date = CalendarDate(date: date)
+      expense.date = date
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
         amount: amount,
-        date: CalendarDate(date: date))
+        date: date)
       associatedBudget?.expenses.append(newExpense)
     default:
       break
@@ -151,15 +146,16 @@ private extension EditExpense {
   }
   
   var isDateInvalid: Bool {
-    date <= dateRangeForDatePicker.lowerBound
-    || date >= dateRangeForDatePicker.upperBound
+    date.calendarDate <= dateRange.lowerBound.calendarDate
+    || date.calendarDate >= dateRange.upperBound.calendarDate
   }
 }
 
 #Preview {
   EditExpense(
     expense: .constant(.some(nil)),
-    dateRange: CalendarDate.today.adding(days: -1) ... CalendarDate.today.adding(days: 1)
+    dateRange: CalendarDate.today.adding(days: -1).date
+    ... CalendarDate.today.adding(days: 1).date
   )
   .modelContainer(for: ExpenseModel.self, inMemory: true)
 }

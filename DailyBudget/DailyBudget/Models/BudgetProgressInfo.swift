@@ -12,13 +12,13 @@ struct BudgetProgressInfo {
 extension BudgetProgressInfo {
   /// Whether `date` falls within `budget`'s start and end dates
   var isActive: Bool {
-    budget.startDate <= date && date <= budget.endDate
+    budget.startDate.calendarDate <= date && date <= budget.endDate.calendarDate
   }
   
   /// The number of days that `date` falls after `budget`'s start date
   /// - NOTE: Starts at 1
   var dayOfBudget: Int {
-    (date - budget.startDate) + 1
+    (date - budget.startDate.calendarDate) + 1
   }
   
   /// The budget available on `date`

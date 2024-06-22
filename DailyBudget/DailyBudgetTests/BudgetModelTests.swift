@@ -7,20 +7,20 @@ final class BudgetModelTests: XCTestCase {
     for: BudgetModel.self, ExpenseModel.self,
     configurations: ModelConfiguration(isStoredInMemoryOnly: true))
   
-  @MainActor func testGetAndSetDates() {
+  @MainActor func testGetAndSetCalendarDates() {
     // Given a budget and some dates
     let budget = BudgetModel()
     container.mainContext.insert(budget)
-    let startDate = CalendarDate(year: 2000, month: 1, day: 1)
-    let endDate = CalendarDate(year: 2000, month: 1, day: 2)
+    let firstDay = CalendarDate(year: 2000, month: 1, day: 1)
+    let lastDay = CalendarDate(year: 2000, month: 1, day: 2)
     
-    // When I set the start and end dates
-    budget.startDate = startDate
-    budget.endDate = endDate
+    // When I set the start and end dates as CalendarDates
+    budget.firstDay = firstDay
+    budget.lastDay = lastDay
     
     // Then I can read those same dates
-    XCTAssertEqual(budget.startDate, startDate)
-    XCTAssertEqual(budget.endDate, endDate)
+    XCTAssertEqual(budget.firstDay, firstDay)
+    XCTAssertEqual(budget.lastDay, lastDay)
   }
   
   func testTotalDaysIsInclusiveOfEndDate() {
@@ -28,8 +28,8 @@ final class BudgetModelTests: XCTestCase {
     let model = BudgetModel(
       name: "",
       amount: 0,
-      startDate: .init(year: 2000, month: 1, day: 1),
-      endDate: .init(year: 2000, month: 1, day: 2),
+      firstDay: .init(year: 2000, month: 1, day: 1),
+      lastDay: .init(year: 2000, month: 1, day: 2),
       expenses: []
     )
     
@@ -42,8 +42,8 @@ final class BudgetModelTests: XCTestCase {
     let model = BudgetModel(
       name: "",
       amount: 10,
-      startDate: .init(year: 2000, month: 1, day: 1),
-      endDate: .init(year: 2000, month: 1, day: 10),
+      firstDay: .init(year: 2000, month: 1, day: 1),
+      lastDay: .init(year: 2000, month: 1, day: 10),
       expenses: []
     )
     
@@ -54,8 +54,8 @@ final class BudgetModelTests: XCTestCase {
   
   @MainActor func testTotalExpense() {
     // Given a budget model with some expenses
-    let expense1 = ExpenseModel(name: "", amount: 1, date: .today)
-    let expense2 = ExpenseModel(name: "", amount: 2, date: .today)
+    let expense1 = ExpenseModel(name: "", amount: 1, day: .today)
+    let expense2 = ExpenseModel(name: "", amount: 2, day: .today)
     container.mainContext.insert(expense1)
     container.mainContext.insert(expense2)
     

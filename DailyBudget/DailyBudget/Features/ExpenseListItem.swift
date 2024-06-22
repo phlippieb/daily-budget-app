@@ -7,7 +7,7 @@ struct ExpenseListItem: View {
     HStack(alignment: .top) {
       VStack(alignment: .leading) {
         Text(item.name)
-        Text(item.date.toStandardFormatting()).font(.footnote)
+        Text(item.day.toStandardFormatting()).font(.footnote)
       }
       Spacer()
       Text("\(item.amount, specifier: "%.2f")")
@@ -17,7 +17,7 @@ struct ExpenseListItem: View {
 
 #Preview {
   ExpenseListItem(item: .init(
-    name: "Food", amount: 100, date: .today)
+    name: "Food", amount: 100, day: .today)
   )
   .modelContainer(for: ExpenseModel.self, inMemory: true)
 }

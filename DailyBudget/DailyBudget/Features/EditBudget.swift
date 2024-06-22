@@ -102,8 +102,8 @@ struct EditBudget: View {
         if case .some(.some(let budget)) = budget {
           name = budget.name
           amount = budget.amount
-          startDate = budget.startDate.date
-          endDate = budget.endDate.date
+          startDate = budget.startDate
+          endDate = budget.endDate
         }
       }
       
@@ -137,14 +137,14 @@ private extension EditBudget {
     case .some(.some(let budget)):
       budget.name = name
       budget.amount = amount
-      budget.startDate = CalendarDate(date: startDate)
-      budget.endDate = CalendarDate(date: endDate)
+      budget.startDate = startDate
+      budget.endDate = endDate
     case .some(.none):
       let newBudget = BudgetModel(
         name: name, 
         amount: amount,
-        startDate: CalendarDate(date: startDate),
-        endDate: CalendarDate(date: endDate),
+        startDate: startDate,
+        endDate: endDate,
         expenses: [])
       modelContext.insert(newBudget)
     default:

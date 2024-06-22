@@ -10,22 +10,30 @@ import SwiftData
   var name: String
   var amount: Double
   
-  var date: CalendarDate {
-    get { CalendarDate(date: __date) }
-    set { __date = newValue.date }
-  }
+  var date: Date
   
-  private var __date: Date
-  
-  init(name: String, amount: Double, date: CalendarDate) {
+  init(name: String, amount: Double, date: Date) {
     self.name = name
     self.amount = amount
-    self.__date = date.date
+    self.date = date
+  }
+}
+
+// MARK: Calendar days -
+
+extension ExpenseModel {
+  convenience init(name: String, amount: Double, day: CalendarDate) {
+    self.init(name: name, amount: amount, date: day.date)
+  }
+  
+  var day: CalendarDate {
+    get { date.calendarDate }
+    set { date = newValue.date }
   }
 }
 
 extension ExpenseModel: DefaultInitializable {
   convenience init() {
-    self.init(name: "", amount: 0, date: .today)
+    self.init(name: "", amount: 0, day: .today)
   }
 }

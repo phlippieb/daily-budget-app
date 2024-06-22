@@ -11,7 +11,7 @@ struct BudgetListItem: View {
       if item.isActive {
         Text("Day \(item.dayOfBudget) / \(item.budget.totalDays)")
       } else {
-        Text("Ended \(item.budget.endDate.toStandardFormatting())")
+        Text("Ended \(item.budget.endDate.calendarDate.toStandardFormatting())")
       }
       
       if item.isActive {

@@ -48,9 +48,9 @@ struct ViewBudget: View {
         
         LabeledContent {
           Text(
-            info.budget.startDate.toStandardFormatting()
+            info.budget.startDate.calendarDate.toStandardFormatting()
             + " - "
-            + info.budget.endDate.toStandardFormatting()
+            + info.budget.endDate.calendarDate.toStandardFormatting()
           )
         } label: {
           Text("Period")

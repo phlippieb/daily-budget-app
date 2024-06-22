@@ -4,7 +4,7 @@ import SwiftData
 struct Home: View {
   var date: CalendarDate { .today }
   
-  @Query(sort: \BudgetModel.endDate) private var budgets: [BudgetModel]
+  @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   @State private var editingBudget: BudgetModel??
   
   var body: some View {

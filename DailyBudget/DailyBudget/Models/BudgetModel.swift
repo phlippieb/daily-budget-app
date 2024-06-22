@@ -9,28 +9,34 @@ import SwiftData
 @Model final class BudgetModel {
   var name: String
   var amount: Double
-  
-  var startDate: CalendarDate {
-    get { CalendarDate(date: _startDate) }
-    set { _startDate = newValue.date }
-  }
-  
-  var endDate: CalendarDate {
-    get { CalendarDate(date: _endDate) }
-    set { _endDate = newValue.date }
-  }
-  
+  var startDate: Date
+  var endDate: Date
   var expenses: [ExpenseModel]
   
-  private var _startDate: Date
-  private var _endDate: Date
-  
-  init(name: String, amount: Double, startDate: CalendarDate, endDate: CalendarDate, expenses: [ExpenseModel]) {
+  init(name: String, amount: Double, startDate: Date, endDate: Date, expenses: [ExpenseModel]) {
     self.name = name
     self.amount = amount
-    self._startDate = startDate.date
-    self._endDate = endDate.date
+    self.startDate = startDate
+    self.endDate = endDate
     self.expenses = expenses
+  }
+}
+
+// MARK: Calendar days -
+
+extension BudgetModel {
+  convenience init(name: String, amount: Double, firstDay: CalendarDate, lastDay: CalendarDate, expenses: [ExpenseModel]) {
+    self.init(name: name, amount: amount, startDate: firstDay.date, endDate: lastDay.date, expenses: expenses)
+  }
+  
+  var firstDay: CalendarDate {
+    get { startDate.calendarDate }
+    set { startDate = newValue.date }
+  }
+  
+  var lastDay: CalendarDate {
+    get { endDate.calendarDate }
+    set { endDate = newValue.date }
   }
 }
 
@@ -39,7 +45,7 @@ import SwiftData
 extension BudgetModel {
   /// Total days is **inclusive** of the last day
   var totalDays: Int {
-    (endDate - startDate) + 1
+    (lastDay - firstDay) + 1
   }
   
   var dailyAmount: Double {
@@ -51,8 +57,12 @@ extension BudgetModel {
   }
   
   /// A valid date range for expenses
-  var dateRange: ClosedRange<CalendarDate> {
+  var dateRange: ClosedRange<Date> {
     return startDate ... endDate
+  }
+  
+  var daysRange: ClosedRange<CalendarDate> {
+    return firstDay ... lastDay
   }
 }
 
@@ -61,8 +71,8 @@ extension BudgetModel: DefaultInitializable {
     self.init(
       name: "", 
       amount: 0,
-      startDate: .today,
-      endDate: .today.adding(days: 30),
+      startDate: .now,
+      endDate: CalendarDate.today.adding(days: 30).date,
       expenses: [])
   }
 }
