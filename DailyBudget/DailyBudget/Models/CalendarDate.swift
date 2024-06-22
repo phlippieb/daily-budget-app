@@ -3,7 +3,7 @@ import Foundation
 /// Provides ergonomics for treating Swift Dates at day-specific granularity
 struct CalendarDate {
   let date: Date
-  var calendar: Calendar = .current
+  private var calendar: Calendar { .current }
 }
 
 // MARK: Creating instances -
@@ -13,18 +13,16 @@ extension CalendarDate {
     .init(date: .now)
   }
   
-  init(year: Int, month: Int, day: Int, calendar: Calendar = .current) {
+  init(year: Int, month: Int, day: Int) {
     self.init(
-      date: calendar.date(
-        from: DateComponents(year: year, month: month, day: day))!,
-      calendar: calendar)
+      date: Calendar.current.date(
+        from: DateComponents(year: year, month: month, day: day))!)
   }
   
   func adding(days: Int) -> CalendarDate {
     CalendarDate(
-      date: Calendar.current.date(
-        byAdding: DateComponents(day: days), to: date)!,
-      calendar: calendar)
+      date: calendar.date(
+        byAdding: DateComponents(day: days), to: date)!)
   }
 }
 
