@@ -11,7 +11,7 @@ struct BudgetListItem: View {
       if item.isActive {
         Text("Day \(item.dayOfBudget) / \(item.budget.totalDays)")
       } else {
-        Text("Ended \(item.budget.endDate.toStandardFormatting())")
+        Text("Ended \(item.budget.endDate.calendarDate.toStandardFormatting())")
       }
       
       if item.isActive {
@@ -47,31 +47,8 @@ struct BudgetListItem: View {
 }
 
 #Preview {
-  NavigationView {
-    List {
-      // Active budget
-      BudgetListItem(
-        item: .init(
-          budget: .init(
-            name: "Monthly budget",
-            amount: 10000,
-            startDate: .now.addingTimeInterval(-10*24*60*60),
-            endDate: .now.addingTimeInterval(10*24*60*60),
-            expenses: []),
-          date: .now)
-      )
-      
-      // Active budget
-      BudgetListItem(
-        item: .init(
-          budget: .init(
-            name: "Monthly budget",
-            amount: 10000,
-            startDate: .now.addingTimeInterval(-60*24*60*60),
-            endDate: .now.addingTimeInterval(-30*24*60*60),
-            expenses: []),
-          date: .now)
-      )
-    }
-  }
+  BudgetListItem(item: BudgetProgressInfo(
+    budget: BudgetModel(),
+    date: .today))
+    .modelContainer(for: ExpenseModel.self, inMemory: true)
 }

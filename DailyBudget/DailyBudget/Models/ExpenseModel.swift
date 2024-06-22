@@ -18,8 +18,21 @@ import SwiftData
   }
 }
 
+// MARK: Calendar days -
+
+extension ExpenseModel {
+  convenience init(name: String, amount: Double, day: CalendarDate) {
+    self.init(name: name, amount: amount, date: day.date)
+  }
+  
+  var day: CalendarDate {
+    get { date.calendarDate }
+    set { date = newValue.date }
+  }
+}
+
 extension ExpenseModel: DefaultInitializable {
   convenience init() {
-    self.init(name: "", amount: 0, date: .now)
+    self.init(name: "", amount: 0, day: .today)
   }
 }

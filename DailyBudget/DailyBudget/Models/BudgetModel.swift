@@ -22,11 +22,30 @@ import SwiftData
   }
 }
 
+// MARK: Calendar days -
+
+extension BudgetModel {
+  convenience init(name: String, amount: Double, firstDay: CalendarDate, lastDay: CalendarDate, expenses: [ExpenseModel]) {
+    self.init(name: name, amount: amount, startDate: firstDay.date, endDate: lastDay.date, expenses: expenses)
+  }
+  
+  var firstDay: CalendarDate {
+    get { startDate.calendarDate }
+    set { startDate = newValue.date }
+  }
+  
+  var lastDay: CalendarDate {
+    get { endDate.calendarDate }
+    set { endDate = newValue.date }
+  }
+}
+
 // MARK: Computed properties -
 
 extension BudgetModel {
+  /// Total days is **inclusive** of the last day
   var totalDays: Int {
-    endDate.timeIntervalSince(startDate).toDays()
+    (lastDay - firstDay) + 1
   }
   
   var dailyAmount: Double {
@@ -36,17 +55,15 @@ extension BudgetModel {
   var totalExpenses: Double {
     expenses.reduce(0) { $0 + $1.amount }
   }
-  
-  /// A valid date range for expenses
-  var dateRange: ClosedRange<Date> {
-    return startDate ... endDate
-  }
 }
 
 extension BudgetModel: DefaultInitializable {
   convenience init() {
     self.init(
-      name: "", amount: 0, startDate: .now,
-      endDate: .now.addingTimeInterval(.oneDay), expenses: [])
+      name: "", 
+      amount: 0,
+      startDate: .now,
+      endDate: CalendarDate.today.adding(days: 30).date,
+      expenses: [])
   }
 }

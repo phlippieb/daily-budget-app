@@ -2,10 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct Home: View {
-  // TODO: Get from environment
-  var date: Date = .now
+  var date: CalendarDate { .today }
   
-  @Query(sort: \BudgetModel.endDate) private var budgets: [BudgetModel]
+  @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   @State private var editingBudget: BudgetModel??
   
   var body: some View {
@@ -26,7 +25,6 @@ struct Home: View {
           }
         }
       }
-      
       .navigationTitle("Budgets")
       .navigationBarTitleDisplayMode(.inline)
       
@@ -51,7 +49,7 @@ struct Home: View {
 
 #Preview {
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
-  let container = try! ModelContainer(for: ExpenseModel.self, configurations: config)
+  let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
   
   return Home()
     .modelContainer(container)

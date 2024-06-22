@@ -3,19 +3,18 @@ import SwiftData
 
 struct EditBudget: View {
   @Binding var budget: BudgetModel??
-  // TODO: Rather use environmentObject to provide current date
-  var currentDate: Date = .now
+  var currentDate: CalendarDate { .today }
   
   @State private var name: String = ""
   @State private var amount: Double = 0
-  @State private var startDate: Date = .now
-  @State private var endDate: Date = .now.addingTimeInterval(30 * 24 * 60 * 60)
+  @State private var startDate: Date = CalendarDate.today.date
+  @State private var endDate: Date = CalendarDate.today.adding(days: 30).date
   @State private var isShowingDeleteAlert = false
   
   @Environment(\.modelContext) private var modelContext: ModelContext
   
   private var dailyAmount: Double {
-    let totalDays = endDate.timeIntervalSince(startDate).toDays()
+    let totalDays = (endDate.calendarDate - startDate.calendarDate) + 1
     return amount / Double(totalDays)
   }
   
@@ -87,7 +86,7 @@ struct EditBudget: View {
           }
         }
         
-        if budget != nil {
+        if case .some(.some(_)) = budget {
           Button(role: .destructive, action: onDeleteTapped) {
             HStack {
               Image(systemName: "trash")
@@ -141,7 +140,11 @@ private extension EditBudget {
       budget.endDate = endDate
     case .some(.none):
       let newBudget = BudgetModel(
-        name: name, amount: amount, startDate: startDate, endDate: endDate, expenses: [])
+        name: name, 
+        amount: amount,
+        startDate: startDate,
+        endDate: endDate,
+        expenses: [])
       modelContext.insert(newBudget)
     default:
       break
@@ -167,7 +170,8 @@ private extension EditBudget {
   }
   
   func getDefaultName() -> String {
-    currentDate.formatted(.dateTime.month(.wide).year(.twoDigits)) + " Daily Budget"
+    currentDate.date.formatted(.dateTime.month(.wide).year(.twoDigits))
+    + " Daily Budget"
   }
   
   func onClearName() {
@@ -186,14 +190,21 @@ private extension EditBudget {
   }
   
   var isDateInvalid: Bool {
-    endDate <= startDate
+    // NOTE: First and last day may be the same
+    endDate.calendarDate < startDate.calendarDate
   }
   
   var isBudgetInactive: Bool {
-    startDate > currentDate || endDate < currentDate
+    startDate.calendarDate > currentDate
+    || endDate.calendarDate < currentDate
   }
   
   var isAmountInvalid: Bool {
     amount <= 0
   }
+}
+
+#Preview {
+  EditBudget(budget: .constant(.some(nil)))
+  .modelContainer(for: BudgetModel.self)
 }

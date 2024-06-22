@@ -6,24 +6,25 @@ import Foundation
 /// Provides computed info, such as remaining days, current allowance, etc.
 struct BudgetProgressInfo {
   var budget: BudgetModel
-  let date: Date
+  let date: CalendarDate
 }
 
 extension BudgetProgressInfo {
   /// Whether `date` falls within `budget`'s start and end dates
   var isActive: Bool {
-    budget.startDate <= date && date <= budget.endDate
+    budget.startDate.calendarDate <= date && date <= budget.endDate.calendarDate
   }
   
   /// The number of days that `date` falls after `budget`'s start date
+  /// - NOTE: Starts at 1
   var dayOfBudget: Int {
-    date.timeIntervalSince(budget.startDate).toDays()
+    (date - budget.startDate.calendarDate) + 1
   }
   
   /// The budget available on `date`
   /// This is computed by comparing the daily allowance (which is budget total / budget duration)
   /// up to `date`, and subtracting all expenses.
   var currentAllowance: Double {
-    (budget.dailyAmount * Double(dayOfBudget + 1)) - budget.totalExpenses
+    (budget.dailyAmount * Double(dayOfBudget)) - budget.totalExpenses
   }
 }

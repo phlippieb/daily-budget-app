@@ -15,7 +15,7 @@ struct ViewBudget: View {
         Text("Today").font(.title)
         
         HStack {
-          Text(info.date.formatted(.dateTime.day().month().year()))
+          Text(info.date.toStandardFormatting())
           Image(systemName: "calendar")
           Text("Day \(info.dayOfBudget) / \(info.budget.totalDays)")
         }
@@ -48,9 +48,9 @@ struct ViewBudget: View {
         
         LabeledContent {
           Text(
-            info.budget.startDate.toStandardFormatting()
+            info.budget.startDate.calendarDate.toStandardFormatting()
             + " - "
-            + info.budget.endDate.toStandardFormatting()
+            + info.budget.endDate.calendarDate.toStandardFormatting()
           )
         } label: {
           Text("Period")
@@ -127,7 +127,7 @@ struct ViewBudget: View {
       EditExpense(
         expense: $editingExpense,
         associatedBudget: info.budget,
-        dateRange: info.budget.dateRange)
+        dateRange: info.budget.firstDay ... info.budget.lastDay)
     }
   }
 }

@@ -1,0 +1,76 @@
+import XCTest
+@testable import DailyBudget
+
+class CalendarDateTests: XCTestCase {
+  func testCalendarDateEquality() {
+    // Given two dates at different instances but on the same calendar date
+    let calendar = Calendar.current
+    let components = DateComponents(year: 2000, month: 1, day: 1)
+    let date1 = calendar.date(from: components)!
+    let date2 = date1.addingTimeInterval(60)
+    
+    // When wrapped in calendar dates
+    let calendarDate1 = CalendarDate(date: date1)
+    let calendarDate2 = CalendarDate(date: date2)
+    
+    // Then the two dates are equal
+    XCTAssertEqual(calendarDate1, calendarDate2)
+    
+    // Given a third date on another date
+    let calendarDate3 = calendarDate1.adding(days: 1)
+    
+    // Then it is not equal to the other dates
+    XCTAssertNotEqual(calendarDate1, calendarDate3)
+    XCTAssertNotEqual(calendarDate2, calendarDate3)
+  }
+  
+  func testCalendarDateComparison() {
+    // Given two dates a day apart
+    let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+    let calendarDate2 = CalendarDate(year: 2000, month: 1, day: 2)
+    // And given a date on the same day but at a different instant as date 1
+    let calendarDate3 = CalendarDate(
+      date: calendarDate1.date.addingTimeInterval(60))
+    
+    // Then the dates a day apart compare correctly
+    XCTAssertLessThan(calendarDate1, calendarDate2)
+    XCTAssertLessThanOrEqual(calendarDate1, calendarDate2)
+    XCTAssertGreaterThan(calendarDate2, calendarDate1)
+    XCTAssertGreaterThanOrEqual(calendarDate2, calendarDate1)
+    // And the dates on the same day compare correctly
+    XCTAssertFalse(calendarDate1 < calendarDate3)
+    XCTAssertFalse(calendarDate1 > calendarDate3)
+  }
+  
+  func testDaysSince() {
+    // Given two dates a day apart
+    let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+    let calendarDate2 = CalendarDate(year: 2000, month: 1, day: 2)
+    let calendarDate3 = CalendarDate(year: 2000, month: 1, day: 3)
+    // And given a date on the same day but at a different instant as date 1
+    let calendarDate1Later = CalendarDate(
+      date: calendarDate1.date.addingTimeInterval(60))
+    
+    // Then subtraction yields the correct results
+    XCTAssertEqual(calendarDate2 - calendarDate1, 1)
+    XCTAssertEqual(calendarDate1 - calendarDate2, -1)
+    XCTAssertEqual(calendarDate3 - calendarDate1, 2)
+    XCTAssertEqual(calendarDate1 - calendarDate1Later, 0)
+    XCTAssertEqual(calendarDate1Later - calendarDate1, 0)
+  }
+  
+  func testAddingDays() {
+    // Given a date created by adding one day to another
+    let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+    let calendarDate2 = calendarDate1.adding(days: 1)
+    
+    // Then the day should be equal to the day after the other
+    XCTAssertEqual(calendarDate2, CalendarDate(year: 2000, month: 1, day: 2))
+    
+    // Given a date create by subtracting 2 days from another
+    let calendarDate3 = calendarDate1.adding(days: -2)
+    
+    // Then the resulting date should be 2 days before the other
+    XCTAssertEqual(calendarDate3, CalendarDate(year: 1999, month: 12, day: 30))
+  }
+}
