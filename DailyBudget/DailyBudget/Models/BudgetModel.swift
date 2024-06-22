@@ -9,15 +9,33 @@ import SwiftData
 @Model final class BudgetModel {
   var name: String
   var amount: Double
-  var startDate: Date
-  var endDate: Date
+  
+  var startDate: CalendarDate {
+    get {
+      CalendarDate(date: _startDate)
+    } set {
+      _startDate = newValue.date
+    }
+  }
+  
+  var endDate: CalendarDate {
+    get {
+      CalendarDate(date: _endDate)
+    } set {
+      _endDate = newValue.date
+    }
+  }
+  
   var expenses: [ExpenseModel]
   
-  init(name: String, amount: Double, startDate: Date, endDate: Date, expenses: [ExpenseModel]) {
+  private var _startDate: Date
+  private var _endDate: Date
+  
+  init(name: String, amount: Double, startDate: CalendarDate, endDate: CalendarDate, expenses: [ExpenseModel]) {
     self.name = name
     self.amount = amount
-    self.startDate = startDate
-    self.endDate = endDate
+    self._startDate = startDate.date
+    self._endDate = endDate.date
     self.expenses = expenses
   }
 }
@@ -25,8 +43,9 @@ import SwiftData
 // MARK: Computed properties -
 
 extension BudgetModel {
+  /// Total days is **inclusive** of the last day
   var totalDays: Int {
-    endDate.timeIntervalSince(startDate).toDays()
+    (endDate - startDate) + 1
   }
   
   var dailyAmount: Double {
@@ -39,14 +58,17 @@ extension BudgetModel {
   
   /// A valid date range for expenses
   var dateRange: ClosedRange<Date> {
-    return startDate ... endDate
+    return startDate.date ... endDate.date
   }
 }
 
 extension BudgetModel: DefaultInitializable {
   convenience init() {
     self.init(
-      name: "", amount: 0, startDate: .now,
-      endDate: .now.addingTimeInterval(.oneDay), expenses: [])
+      name: "", 
+      amount: 0,
+      startDate: .today,
+      endDate: .today.adding(days: 30),
+      expenses: [])
   }
 }

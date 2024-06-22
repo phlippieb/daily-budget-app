@@ -43,4 +43,21 @@ class CalendarDateTests: XCTestCase {
     XCTAssertFalse(calendarDate1 < calendarDate3)
     XCTAssertFalse(calendarDate1 > calendarDate3)
   }
+  
+  func testDaysSince() {
+    // Given two dates a day apart
+    let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+    let calendarDate2 = CalendarDate(year: 2000, month: 1, day: 2)
+    let calendarDate3 = CalendarDate(year: 2000, month: 1, day: 3)
+    // And given a date on the same day but at a different instant as date 1
+    let calendarDate1Later = CalendarDate(
+      date: calendarDate1.date.addingTimeInterval(60))
+    
+    // Then subtraction yields the correct results
+    XCTAssertEqual(calendarDate2 - calendarDate1, 1)
+    XCTAssertEqual(calendarDate1 - calendarDate2, -1)
+    XCTAssertEqual(calendarDate3 - calendarDate1, 2)
+    XCTAssertEqual(calendarDate1 - calendarDate1Later, 0)
+    XCTAssertEqual(calendarDate1Later - calendarDate1, 0)
+  }
 }

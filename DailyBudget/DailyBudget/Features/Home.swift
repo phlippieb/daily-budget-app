@@ -10,37 +10,37 @@ struct Home: View {
   
   var body: some View {
     NavigationView {
-      Group {
-        if budgets.isEmpty {
-          Text("No budgets")
-            .foregroundStyle(.gray)
-        } else {
-          List {
-            ForEach(budgets) { budget in
-              NavigationLink {
-                ViewBudget(info: .init(budget: budget, date: date))
-              } label: {
-                BudgetListItem(item: .init(budget: budget, date: date))
-              }
-            }
-          }
-        }
-      }
-      
-      .navigationTitle("Budgets")
-      .navigationBarTitleDisplayMode(.inline)
-      
-      .toolbar {
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
-          Button(action: onAddBudget, label: {
-            Image(systemName: "plus")
-          })
-        }
-      }
-      
-      .sheet(item: $editingBudget) { _ in
-        EditBudget(budget: $editingBudget)
-      }
+//      Group {
+//        if budgets.isEmpty {
+//          Text("No budgets")
+//            .foregroundStyle(.gray)
+//        } else {
+//          List {
+//            ForEach(budgets) { budget in
+//              NavigationLink {
+//                ViewBudget(info: .init(budget: budget, date: date))
+//              } label: {
+//                BudgetListItem(item: .init(budget: budget, date: date))
+//              }
+//            }
+//          }
+//        }
+//      }
+//      
+//      .navigationTitle("Budgets")
+//      .navigationBarTitleDisplayMode(.inline)
+//      
+//      .toolbar {
+//        ToolbarItemGroup(placement: .navigationBarTrailing) {
+//          Button(action: onAddBudget, label: {
+//            Image(systemName: "plus")
+//          })
+//        }
+//      }
+//      
+//      .sheet(item: $editingBudget) { _ in
+//        EditBudget(budget: $editingBudget)
+//      }
     }
   }
   

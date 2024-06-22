@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A20A3D72C243A780028E5C2 /* BudgetListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3D62C243A780028E5C2 /* BudgetListItem.swift */; };
-		0A20A3D92C243AB20028E5C2 /* BudgetAtDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3D82C243AB20028E5C2 /* BudgetAtDate.swift */; };
+		0A20A3D92C243AB20028E5C2 /* BudgetProgressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3D82C243AB20028E5C2 /* BudgetProgressInfo.swift */; };
 		0A20A3DC2C243CAA0028E5C2 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3DB2C243CAA0028E5C2 /* DateExtensions.swift */; };
 		0A20A3E42C246A740028E5C2 /* ViewBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3E32C246A740028E5C2 /* ViewBudget.swift */; };
 		0A20A3E62C2471290028E5C2 /* ExpenseListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */; };
@@ -17,6 +17,8 @@
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
 		0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5FF0A2C247C2400499D30 /* EditExpense.swift */; };
+		0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */; };
+		0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */; };
 		0AFEFB612C258570004847AE /* EditBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB602C258570004847AE /* EditBudget.swift */; };
 		0AFEFB632C258CBC004847AE /* BudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB622C258CBC004847AE /* BudgetModel.swift */; };
 		0AFEFB652C258D3E004847AE /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB642C258D3E004847AE /* ExpenseModel.swift */; };
@@ -39,7 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0A20A3D62C243A780028E5C2 /* BudgetListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetListItem.swift; sourceTree = "<group>"; };
-		0A20A3D82C243AB20028E5C2 /* BudgetAtDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetAtDate.swift; sourceTree = "<group>"; };
+		0A20A3D82C243AB20028E5C2 /* BudgetProgressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetProgressInfo.swift; sourceTree = "<group>"; };
 		0A20A3DB2C243CAA0028E5C2 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		0A20A3E32C246A740028E5C2 /* ViewBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBudget.swift; sourceTree = "<group>"; };
 		0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListItem.swift; sourceTree = "<group>"; };
@@ -50,6 +52,8 @@
 		0A7B10A22C24356F00474F10 /* DailyBudgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyBudgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10C52C24390600474F10 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		0AB5FF0A2C247C2400499D30 /* EditExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpense.swift; sourceTree = "<group>"; };
+		0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModelTests.swift; sourceTree = "<group>"; };
+		0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetProgressInfoTests.swift; sourceTree = "<group>"; };
 		0AFEFB602C258570004847AE /* EditBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBudget.swift; sourceTree = "<group>"; };
 		0AFEFB622C258CBC004847AE /* BudgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModel.swift; sourceTree = "<group>"; };
 		0AFEFB642C258D3E004847AE /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */,
+				0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */,
+				0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */,
 			);
 			path = DailyBudgetTests;
 			sourceTree = "<group>";
@@ -151,7 +157,7 @@
 		0A7B10C02C24377000474F10 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0A20A3D82C243AB20028E5C2 /* BudgetAtDate.swift */,
+				0A20A3D82C243AB20028E5C2 /* BudgetProgressInfo.swift */,
 				0AFEFB622C258CBC004847AE /* BudgetModel.swift */,
 				0AFEFB642C258D3E004847AE /* ExpenseModel.swift */,
 				0AFEFB692C25A5EE004847AE /* DefaultInitializable.swift */,
@@ -261,7 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A20A3D92C243AB20028E5C2 /* BudgetAtDate.swift in Sources */,
+				0A20A3D92C243AB20028E5C2 /* BudgetProgressInfo.swift in Sources */,
 				0A20A3E42C246A740028E5C2 /* ViewBudget.swift in Sources */,
 				0A7B10C62C24390600474F10 /* Home.swift in Sources */,
 				0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */,
@@ -283,6 +289,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */,
+				0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */,
 				0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

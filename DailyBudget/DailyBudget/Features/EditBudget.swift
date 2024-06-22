@@ -21,111 +21,111 @@ struct EditBudget: View {
   
   var body: some View {
     NavigationView {
-      Form {
-        Section {
-          HStack {
-            TextField(getDefaultName(), text: $name)
-            
-            if name.isEmpty {
-              Button(action: onAutoFillName) {
-                Image(systemName: "wand.and.stars")
-              }
-              
-            } else {
-              Button(action: onClearName) {
-                Image(systemName: "xmark.circle")
-              }
-            }
-          }
-        } header: {
-          Text("Name")
-        } footer: {
-          if isNameInvalid {
-            Text("Budget name is required")
-              .foregroundStyle(.red)
-          }
-        }
-        
-        Section {
-          DatePicker("First day", selection: $startDate, displayedComponents: [.date])
-          DatePicker("Last day", selection: $endDate, displayedComponents: [.date])
-        } header: {
-          Text("Budget period")
-        } footer: {
-          if isDateInvalid {
-            Text("End date must be after start date")
-              .foregroundStyle(.red)
-          } else if isBudgetInactive {
-            Text("Budget period is not currently active")
-              .foregroundStyle(.orange)
-          }
-        }
-        
-        Section {
-          TextField("Amount", value: $amount, format: .number)
-            .keyboardType(.numberPad)
-          
-          if !isAmountInvalid {
-            LabeledContent {
-              Text("\(dailyAmount, specifier: "%.2f")")
-            } label: {
-              HStack {
-                Image(systemName: "info.circle")
-                Text("Daily budget")
-              }
-            }
-            .foregroundStyle(.gray)
-          }
-        } header: {
-          Text("Amount")
-        } footer: {
-          if isAmountInvalid {
-            Text("Amount is required")
-              .foregroundStyle(.red)
-          } else {
-            Text("Total amount available for entire budget period")
-          }
-        }
-        
-        if budget != nil {
-          Button(role: .destructive, action: onDeleteTapped) {
-            HStack {
-              Image(systemName: "trash")
-              Text("Delete budget")
-            }
-          }
-          .frame(maxWidth: .infinity)
-        }
-      }
-      
-      .onAppear {
-        if case .some(.some(let budget)) = budget {
-          name = budget.name
-          amount = budget.amount
-          startDate = budget.startDate
-          endDate = budget.endDate
-        }
-      }
-      
-      .navigationTitle(
-        (budget != nil) ? "Edit budget" : "Create budget"
-      )
-      .navigationBarTitleDisplayMode(.inline)
-      
-      .toolbar {
-        Button(action: onSaveTapped, label: {
-          Text("Save")
-        })
-        .disabled(isSaveDisabled)
-      }
-      
-      .alert(isPresented: $isShowingDeleteAlert) {
-        Alert(
-          title: Text("Delete this budget?"),
-          primaryButton: .destructive(
-            Text("Delete"), action: onDeleteConfirmed),
-          secondaryButton: .cancel())
-      }
+//      Form {
+//        Section {
+//          HStack {
+//            TextField(getDefaultName(), text: $name)
+//            
+//            if name.isEmpty {
+//              Button(action: onAutoFillName) {
+//                Image(systemName: "wand.and.stars")
+//              }
+//              
+//            } else {
+//              Button(action: onClearName) {
+//                Image(systemName: "xmark.circle")
+//              }
+//            }
+//          }
+//        } header: {
+//          Text("Name")
+//        } footer: {
+//          if isNameInvalid {
+//            Text("Budget name is required")
+//              .foregroundStyle(.red)
+//          }
+//        }
+//        
+//        Section {
+//          DatePicker("First day", selection: $startDate, displayedComponents: [.date])
+//          DatePicker("Last day", selection: $endDate, displayedComponents: [.date])
+//        } header: {
+//          Text("Budget period")
+//        } footer: {
+//          if isDateInvalid {
+//            Text("End date must be after start date")
+//              .foregroundStyle(.red)
+//          } else if isBudgetInactive {
+//            Text("Budget period is not currently active")
+//              .foregroundStyle(.orange)
+//          }
+//        }
+//        
+//        Section {
+//          TextField("Amount", value: $amount, format: .number)
+//            .keyboardType(.numberPad)
+//          
+//          if !isAmountInvalid {
+//            LabeledContent {
+//              Text("\(dailyAmount, specifier: "%.2f")")
+//            } label: {
+//              HStack {
+//                Image(systemName: "info.circle")
+//                Text("Daily budget")
+//              }
+//            }
+//            .foregroundStyle(.gray)
+//          }
+//        } header: {
+//          Text("Amount")
+//        } footer: {
+//          if isAmountInvalid {
+//            Text("Amount is required")
+//              .foregroundStyle(.red)
+//          } else {
+//            Text("Total amount available for entire budget period")
+//          }
+//        }
+//        
+//        if budget != nil {
+//          Button(role: .destructive, action: onDeleteTapped) {
+//            HStack {
+//              Image(systemName: "trash")
+//              Text("Delete budget")
+//            }
+//          }
+//          .frame(maxWidth: .infinity)
+//        }
+//      }
+//      
+//      .onAppear {
+//        if case .some(.some(let budget)) = budget {
+//          name = budget.name
+//          amount = budget.amount
+//          startDate = budget.startDate
+//          endDate = budget.endDate
+//        }
+//      }
+//      
+//      .navigationTitle(
+//        (budget != nil) ? "Edit budget" : "Create budget"
+//      )
+//      .navigationBarTitleDisplayMode(.inline)
+//      
+//      .toolbar {
+//        Button(action: onSaveTapped, label: {
+//          Text("Save")
+//        })
+//        .disabled(isSaveDisabled)
+//      }
+//      
+//      .alert(isPresented: $isShowingDeleteAlert) {
+//        Alert(
+//          title: Text("Delete this budget?"),
+//          primaryButton: .destructive(
+//            Text("Delete"), action: onDeleteConfirmed),
+//          secondaryButton: .cancel())
+//      }
     }
   }
 }
@@ -133,21 +133,21 @@ struct EditBudget: View {
 // MARK: Actions
 private extension EditBudget {
   func onSaveTapped() {
-    switch budget {
-    case .some(.some(let budget)):
-      budget.name = name
-      budget.amount = amount
-      budget.startDate = startDate
-      budget.endDate = endDate
-    case .some(.none):
-      let newBudget = BudgetModel(
-        name: name, amount: amount, startDate: startDate, endDate: endDate, expenses: [])
-      modelContext.insert(newBudget)
-    default:
-      break
-    }
-    
-    budget = nil
+//    switch budget {
+//    case .some(.some(let budget)):
+//      budget.name = name
+//      budget.amount = amount
+//      budget.startDate = startDate
+//      budget.endDate = endDate
+//    case .some(.none):
+//      let newBudget = BudgetModel(
+//        name: name, amount: amount, startDate: startDate, endDate: endDate, expenses: [])
+//      modelContext.insert(newBudget)
+//    default:
+//      break
+//    }
+//    
+//    budget = nil
   }
   
   func onDeleteTapped() {

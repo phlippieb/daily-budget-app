@@ -15,82 +15,82 @@ struct EditExpense: View {
   
   var body: some View {
     NavigationView {
-      if let expense = expense {
-        Form {
-          Section {
-            TextField("Expense name", text: $name)
-          } header: {
-            Text("Name")
-          } footer: {
-            if isNameInvalid {
-              Text("Budget name is required")
-                .foregroundStyle(.red)
-            }
-          }
-          
-          Section {
-            TextField("Amount", value: $amount, format: .number)
-              .keyboardType(.numberPad)
-          } header: {
-            Text("Amount")
-          } footer: {
-            if isAmountInvalid {
-              Text("Amount is required")
-                .foregroundStyle(.red)
-            }
-          }
-          
-          Section {
-            DatePicker(
-              "Date",
-              selection: $date,
-              in: dateRange,
-              displayedComponents: [.date])
-          } header: {
-            Text("Date")
-          } footer: {
-            if isDateInvalid {
-              Text("Date must fall within budget period")
-                .foregroundStyle(.red)
-            }
-          }
-          
-          if expense != nil {
-            Button(role: .destructive, action: onDeleteTapped) {
-              HStack {
-                Image(systemName: "trash")
-                Text("Delete expense")
-              }
-            }
-            .frame(maxWidth: .infinity)
-          }
-        }
-        .onAppear {
-          if let expense {
-            name = expense.name
-            amount = expense.amount
-            date = expense.date
-          }
-        }
-        
-        .navigationTitle(
-          (expense == nil) ? "Create expense" : "Edit expense"
-        )
-        .navigationBarTitleDisplayMode(.inline)
-        
-        .toolbar {
-          Button(action: onSaveTapped) { Text("Save") }
-            .disabled(isInvalid)
-        }
-        
-        .alert(isPresented: $isConfirmDeleteShown) {
-          Alert(
-            title: Text("Delete this expense?"),
-            primaryButton: .destructive(
-              Text("Delete"), action: onConfirmDelete),
-            secondaryButton: .cancel())
-        }
-      }
+//      if let expense = expense {
+//        Form {
+//          Section {
+//            TextField("Expense name", text: $name)
+//          } header: {
+//            Text("Name")
+//          } footer: {
+//            if isNameInvalid {
+//              Text("Budget name is required")
+//                .foregroundStyle(.red)
+//            }
+//          }
+//          
+//          Section {
+//            TextField("Amount", value: $amount, format: .number)
+//              .keyboardType(.numberPad)
+//          } header: {
+//            Text("Amount")
+//          } footer: {
+//            if isAmountInvalid {
+//              Text("Amount is required")
+//                .foregroundStyle(.red)
+//            }
+//          }
+//          
+//          Section {
+//            DatePicker(
+//              "Date",
+//              selection: $date,
+//              in: dateRange,
+//              displayedComponents: [.date])
+//          } header: {
+//            Text("Date")
+//          } footer: {
+//            if isDateInvalid {
+//              Text("Date must fall within budget period")
+//                .foregroundStyle(.red)
+//            }
+//          }
+//          
+//          if expense != nil {
+//            Button(role: .destructive, action: onDeleteTapped) {
+//              HStack {
+//                Image(systemName: "trash")
+//                Text("Delete expense")
+//              }
+//            }
+//            .frame(maxWidth: .infinity)
+//          }
+//        }
+//        .onAppear {
+//          if let expense {
+//            name = expense.name
+//            amount = expense.amount
+//            date = expense.date
+//          }
+//        }
+//        
+//        .navigationTitle(
+//          (expense == nil) ? "Create expense" : "Edit expense"
+//        )
+//        .navigationBarTitleDisplayMode(.inline)
+//        
+//        .toolbar {
+//          Button(action: onSaveTapped) { Text("Save") }
+//            .disabled(isInvalid)
+//        }
+//        
+//        .alert(isPresented: $isConfirmDeleteShown) {
+//          Alert(
+//            title: Text("Delete this expense?"),
+//            primaryButton: .destructive(
+//              Text("Delete"), action: onConfirmDelete),
+//            secondaryButton: .cancel())
+//        }
+//      }
     }
   }
 }

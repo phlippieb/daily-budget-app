@@ -25,6 +25,14 @@ extension CalendarDate {
   }
 }
 
+// MARK: Days since -
+
+extension CalendarDate {
+  static func -(lhs: CalendarDate, rhs: CalendarDate) -> Int {
+    Int(lhs.date.timeIntervalSince(rhs.date) / 24 / 60 / 60)
+  }
+}
+
 // MARK: Comparisons -
 
 extension CalendarDate: Equatable {
