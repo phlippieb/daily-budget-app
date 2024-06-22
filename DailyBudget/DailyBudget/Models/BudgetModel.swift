@@ -55,15 +55,6 @@ extension BudgetModel {
   var totalExpenses: Double {
     expenses.reduce(0) { $0 + $1.amount }
   }
-  
-  /// A valid date range for expenses
-  var dateRange: ClosedRange<CalendarDate> {
-    return firstDay ... lastDay
-  }
-  
-  var daysRange: ClosedRange<CalendarDate> {
-    return firstDay ... lastDay
-  }
 }
 
 extension BudgetModel: DefaultInitializable {

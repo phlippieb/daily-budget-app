@@ -127,7 +127,7 @@ struct ViewBudget: View {
       EditExpense(
         expense: $editingExpense,
         associatedBudget: info.budget,
-        dateRange: info.budget.dateRange)
+        dateRange: info.budget.firstDay ... info.budget.lastDay)
     }
   }
 }
