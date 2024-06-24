@@ -11,28 +11,28 @@ struct Home: View {
   
   var body: some View {
     NavigationView {
-      ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
-        Group {
-          if budgets.isEmpty {
-            Button("Add a budget") {
-              onAddBudget()
-            }
-          } else {
-            List {
-              ForEach(budgets) { budget in
-                NavigationLink {
-                  Text("")
-                  ViewBudget(budget: budget)
-                } label: {
-                  BudgetListItem(item: budget)
-                }
+      // MARK: Budgets list
+      Group {
+        if budgets.isEmpty {
+          Button("Add a budget") {
+            onAddBudget()
+          }
+        } else {
+          List {
+            ForEach(budgets) { budget in
+              NavigationLink {
+                Text("")
+                ViewBudget(budget: budget)
+              } label: {
+                BudgetListItem(item: budget)
               }
             }
           }
         }
-        .frame(maxHeight: .infinity)
-        
-        Group {
+      }
+      
+      // MARK: App info
+      .overlay(alignment: .bottom) {
           if showingAppInfo {
             Spacer()
             VStack {
@@ -46,17 +46,14 @@ struct Home: View {
                 .font(.footnote)
             }
             .padding()
-            .background(
-              Material.regular
-            )
-            .transition(.offset(.init(width: 0, height: 100)))
-          }
+            .background(Material.regular)
+            .transition(.move(edge: .bottom))
+            .cornerRadius(20)
+            .padding()
         }
-        .cornerRadius(20)
-        .padding()
-        
       }
-
+      
+      // MARK: Title, toolbar, and adding a new budget
       .navigationTitle("Budgets")
       .navigationBarTitleDisplayMode(.inline)
       
@@ -71,14 +68,14 @@ struct Home: View {
       .sheet(item: $editingBudget) { _ in
         EditBudget(budget: $editingBudget)
       }
-  
+      
       // MARK: Show/hide app info
+      .animation(.bouncy, value: showingAppInfo)
       .gesture(
         DragGesture().onChanged { value in
           showingAppInfo = (value.translation.height > 0)
         }
       )
-      .animation(.easeInOut, value: showingAppInfo)
     }
   }
   
