@@ -13,6 +13,14 @@ struct EditBudget: View {
   
   @Environment(\.modelContext) private var modelContext: ModelContext
   
+  private var title: String {
+    if case .some(.none) = budget {
+      return "Create budget"
+    } else {
+      return "Edit budget"
+    }
+  }
+  
   private var dailyAmount: Double {
     let totalDays = (endDate.calendarDate - startDate.calendarDate) + 1
     return amount / Double(totalDays)
@@ -106,9 +114,7 @@ struct EditBudget: View {
         }
       }
       
-      .navigationTitle(
-        (budget != nil) ? "Edit budget" : "Create budget"
-      )
+      .navigationTitle(title)
       .navigationBarTitleDisplayMode(.inline)
       
       .toolbar {
