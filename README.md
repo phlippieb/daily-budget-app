@@ -43,3 +43,7 @@ View the backlog on the [Github project board](https://github.com/users/phlippie
 ## 🥸 Privacy
 
 **Daily Budget** does not collect any data. Information you enter into the application may be synced to your iCloud account.
+
+## ❗ Disclaimer
+
+Neither the **Daily Budget** app nor the content of this web page constitutes financial or legal advice. Use of the application is at your own risk. The developer takes no responsibility for any damages suffered as a result of using the application, including due to any defects with the software.
