@@ -17,6 +17,7 @@
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
 		0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5FF0A2C247C2400499D30 /* EditExpense.swift */; };
+		0AED67AF2C2944F700E5E941 /* CurrentDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AED67AE2C2944F700E5E941 /* CurrentDate.swift */; };
 		0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */; };
 		0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */; };
 		0AFEFB612C258570004847AE /* EditBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB602C258570004847AE /* EditBudget.swift */; };
@@ -52,6 +53,7 @@
 		0A7B10A22C24356F00474F10 /* DailyBudgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyBudgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10C52C24390600474F10 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		0AB5FF0A2C247C2400499D30 /* EditExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpense.swift; sourceTree = "<group>"; };
+		0AED67AE2C2944F700E5E941 /* CurrentDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDate.swift; sourceTree = "<group>"; };
 		0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModelTests.swift; sourceTree = "<group>"; };
 		0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetProgressInfoTests.swift; sourceTree = "<group>"; };
 		0AFEFB602C258570004847AE /* EditBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBudget.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				0AFEFB642C258D3E004847AE /* ExpenseModel.swift */,
 				0AFEFB692C25A5EE004847AE /* DefaultInitializable.swift */,
 				0AFEFB6D2C26A424004847AE /* CalendarDate.swift */,
+				0AED67AE2C2944F700E5E941 /* CurrentDate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				0AFEFB6C2C25D128004847AE /* ArrayExtensions.swift in Sources */,
 				0AFEFB6A2C25A5EE004847AE /* DefaultInitializable.swift in Sources */,
 				0AFEFB632C258CBC004847AE /* BudgetModel.swift in Sources */,
+				0AED67AF2C2944F700E5E941 /* CurrentDate.swift in Sources */,
 				0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */,
 				0A20A3E62C2471290028E5C2 /* ExpenseListItem.swift in Sources */,
 			);

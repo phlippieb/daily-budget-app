@@ -1,10 +1,6 @@
 import SwiftUI
 import SwiftData
 
-class CurrentDate: ObservableObject {
-  @Published var value = Date.now
-}
-
 struct Home: View {
   @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   
