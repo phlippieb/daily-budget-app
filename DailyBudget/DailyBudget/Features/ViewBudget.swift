@@ -144,8 +144,7 @@ struct ViewBudget: View {
     .sheet(item: $editingExpense) { expense in
       EditExpense(
         expense: $editingExpense,
-        associatedBudget: info.budget,
-        dateRange: info.budget.firstDay ... info.budget.lastDay)
+        associatedBudget: info.budget)
     }
   }
 }

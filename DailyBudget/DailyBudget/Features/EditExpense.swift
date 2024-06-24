@@ -3,7 +3,7 @@ import SwiftData
 
 struct EditExpense: View {
   @Binding var expense: ExpenseModel??
-  var associatedBudget: BudgetModel? = nil
+  var associatedBudget: BudgetModel = .init()
   
   @State private var name: String = ""
   @State private var amount: Double = 0
@@ -12,9 +12,8 @@ struct EditExpense: View {
   
   @Environment(\.modelContext) private var modelContext: ModelContext
   
-  private var dateRange: ClosedRange<CalendarDate>? {
-    guard let budget = associatedBudget else { return nil }
-    return budget.startDay ... budget.endDay
+  private var dateRange: ClosedRange<Date> {
+    associatedBudget.startDate ... associatedBudget.endDate
   }
   
   var body: some View {
@@ -48,19 +47,13 @@ struct EditExpense: View {
             DatePicker(
               "Date",
               selection: $date,
-              in: dateRange.lowerBound.date ... dateRange.upperBound.date,
+              in: dateRange,
               displayedComponents: [.date])
           } header: {
             Text("Date")
           } footer: {
             if isDateInvalid {
-              Text(
-                "Date must fall within budget period ("
-                + dateRange.lowerBound.toStandardFormatting()
-                + " - "
-                + dateRange.upperBound.toStandardFormatting()
-                + ")"
-              )
+              Text(invalidDateMessage)
                 .foregroundStyle(.red)
             }
           }
@@ -105,7 +98,7 @@ struct EditExpense: View {
   }
 }
 
-// MARK: Actions
+// MARK: Actions -
 private extension EditExpense {
   func onSaveTapped() {
     switch expense {
@@ -118,7 +111,7 @@ private extension EditExpense {
         name: name,
         amount: amount,
         date: date)
-      associatedBudget?.expenses.append(newExpense)
+      associatedBudget.expenses.append(newExpense)
     default:
       break
     }
@@ -132,7 +125,7 @@ private extension EditExpense {
   
   func onConfirmDelete() {
     if case .some(.some(let expense)) = expense {
-      associatedBudget?.expenses.remove(expense)
+      associatedBudget.expenses.remove(expense)
       modelContext.delete(expense)
     }
     
@@ -140,7 +133,7 @@ private extension EditExpense {
   }
 }
 
-// MARK: Validation
+// MARK: Validation -
 private extension EditExpense {
   var isInvalid: Bool {
     isNameInvalid || isAmountInvalid || isDateInvalid
@@ -155,8 +148,14 @@ private extension EditExpense {
   }
   
   var isDateInvalid: Bool {
-    date.calendarDate < dateRange.lowerBound
-    || date.calendarDate > dateRange.upperBound
+    date.calendarDate < dateRange.lowerBound.calendarDate
+    || date.calendarDate > dateRange.upperBound.calendarDate
+  }
+  
+  var invalidDateMessage: String {
+    "Date must fall within budget period ("
+    + dateRange.lowerBound.calendarDate.toStandardFormatting() + " - "
+    + dateRange.upperBound.calendarDate.toStandardFormatting() + ")"
   }
 }
 
