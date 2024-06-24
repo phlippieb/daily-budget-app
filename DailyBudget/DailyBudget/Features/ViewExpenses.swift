@@ -21,7 +21,11 @@ struct ViewExpenses: View {
           HStack {
             Text(group.0.toStandardFormatting())
             Spacer()
-            Text("Total: \(group.1.map(\.amount).reduce(0, +), specifier: "%.2f")")
+            if group.1.map(\.amount).reduce(0, +) < 0 {
+              Text("Total: +\(group.1.map(\.amount).reduce(0, +) * -1, specifier: "%.2f")")
+            } else {
+              Text("Total: \(group.1.map(\.amount).reduce(0, +), specifier: "%.2f")")
+            }
           }
         }
       }

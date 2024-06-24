@@ -5,6 +5,8 @@ struct EditExpense: View {
   @Binding var expense: ExpenseModel??
   var associatedBudget: BudgetModel = .init()
   
+  /// false indicates this is an income
+  @State private var isExpense = true
   @State private var name: String = ""
   @State private var amount: Double = 0
   @State private var date: Date = .now
@@ -32,8 +34,19 @@ struct EditExpense: View {
           }
           
           Section {
-            TextField("Amount", value: $amount, format: .number)
-              .keyboardType(.numberPad)
+            HStack {
+              Picker("Type", selection: $isExpense) {
+                Text("Expense").tag(true)
+                Text("Income").tag(false)
+              }
+              .pickerStyle(.segmented)
+              
+              TextField("Amount", value: $amount, format: .number)
+                .keyboardType(.numberPad)
+                .foregroundColor(isExpense ? .none : .green)
+                .multilineTextAlignment(.trailing)
+            }
+            
           } header: {
             Text("Amount")
           } footer: {
@@ -71,8 +84,14 @@ struct EditExpense: View {
         .onAppear {
           if let expense {
             name = expense.name
-            amount = expense.amount
             date = expense.date
+
+            if expense.amount < 0 {
+              isExpense = false
+              amount = -expense.amount
+            } else {
+              amount = expense.amount
+            }
           }
         }
         
@@ -104,12 +123,12 @@ private extension EditExpense {
     switch expense {
     case .some(.some(let expense)):
       expense.name = name
-      expense.amount = amount
+      expense.amount = isExpense ? amount : -amount
       expense.date = date
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
-        amount: amount,
+        amount: isExpense ? amount : -amount,
         date: date)
       associatedBudget.expenses.append(newExpense)
     default:
