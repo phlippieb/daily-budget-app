@@ -10,7 +10,14 @@ struct ExpenseListItem: View {
         Text(item.day.toStandardFormatting()).font(.footnote)
       }
       Spacer()
-      Text("\(item.amount, specifier: "%.2f")")
+      if item.amount < 0 {
+        // Income
+        Text("+\(item.amount * -1, specifier: "%.2f")")
+          .foregroundStyle(.green)
+      } else {
+        // Expense
+        Text("\(item.amount, specifier: "%.2f")")
+      }
     }
   }
 }
