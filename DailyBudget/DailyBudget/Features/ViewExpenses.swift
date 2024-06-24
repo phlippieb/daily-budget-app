@@ -77,7 +77,7 @@ private extension ViewExpenses {
   let budget = BudgetModel()
   budget.name = "My budget"
   container.mainContext.insert(budget)
-  var expenses = (1 ... 10).map { i in
+  let expenses = (1 ... 10).map { i in
     ExpenseModel(name: "Expense \(i)", amount: Double(1 * i), day: CalendarDate.today.adding(days: i/3))
   }
   expenses.forEach { container.mainContext.insert($0) }
