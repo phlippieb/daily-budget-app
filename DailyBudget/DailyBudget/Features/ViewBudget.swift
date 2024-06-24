@@ -107,7 +107,7 @@ struct ViewBudget: View {
           } else {
             ForEach(
               budget.expenses
-                .sorted(by: {$0.day < $1.day})
+                .sorted(by: {$0.day > $1.day})
                 .suffix(3)
             ) { expense in
               Button(
