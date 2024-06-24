@@ -10,6 +10,21 @@ When creating or editing a budget, you set an amount and a first and last day. T
 
 Tapping on a budget opens a detail view for that budget. Here, you will see your daily allowance minus any expenses. You can also add or edit expenses against the budget from this screen.
 
+## 🧘🏻‍♀️ How to use it
+
+**Daily Budget** aims to give you the tools you need to manage and track your budgets as you see fit. That said, here are two strategies you could try to get started:
+
+### Strategy 1: One budget for all day-to-day expenses
+
+1. At the start of the month, or when you start using the app, determine the total amount of money you have available. Optionally subtract any expenses you would not consider "day-to-day", such as bills.
+2. Create a budget in **Daily Budget** for that amount, that runs until your next payday.
+3. Log all your expenses against this budget.
+4. Try to stay within your daily allowance every day. If you go over budget (for example after a large expense such as grocery shopping), try to spend less on subsequent days until you break even again.
+
+### Strategy 2: Different budgets for different areas
+
+Rather than lumping all your available funds into one budget, and then logging all expenses to this budget, you can create different budgets with different pre-determined amounts. For example, create separate budgets for groceries, clothing, and going out. Decide up-front how much to spend on each.
+
 ## ⭐ Features
 
 - See a running daily allowance based on your total budgeted amount and expenses
