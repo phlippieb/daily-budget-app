@@ -55,3 +55,13 @@ extension CalendarDate: Comparable {
     lhs != rhs && lhs.date < rhs.date
   }
 }
+
+// MARK: Hashable -
+
+extension CalendarDate: Hashable {
+  /// Custom implementation with day granularity
+  func hash(into hasher: inout Hasher) {
+    calendar.dateComponents([.year, .month, .day], from: date)
+      .hash(into: &hasher)
+  }
+}
