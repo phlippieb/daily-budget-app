@@ -15,7 +15,6 @@ struct ViewBudget: View {
   
   var body: some View {
     ScrollView {
-      
       // MARK: Today's budget summary
       Group {
         Text("Today").font(.title)
@@ -45,7 +44,7 @@ struct ViewBudget: View {
       Spacer().frame(height: 40)
       GroupBox {
         HStack {
-          Text("Budget").font(.title)
+          Text("Budget").font(.headline)
           Spacer()
           Button(action: onEditBudgetTapped) {
             Image(systemName: "pencil")
@@ -87,35 +86,48 @@ struct ViewBudget: View {
       // MARK: Expenses
       Spacer().frame(height: 40)
       Section {
-        HStack {
-          Text("Expenses").font(.title)
-          Spacer()
-          Button(action: onAddExpenseTapped) {
-            Image(systemName: "plus")
-          }
-        }
-        Spacer().frame(height: 10)
-        
-        if info.budget.expenses.isEmpty {
+        VStack {
           HStack {
-            Text("No expenses")
-              .foregroundStyle(.gray)
+            Text("Recent expenses").font(.headline)
             Spacer()
+            Button(action: onAddExpenseTapped) {
+              Image(systemName: "plus")
+            }
           }
-          .padding(.vertical, 2)
+          Spacer().frame(height: 10)
           
-        } else {
-          ForEach($budget.expenses) { expense in
-            Button(
-              action: { onEditExpense(expense.wrappedValue) }
-            ) {
+          if info.budget.expenses.isEmpty {
+            HStack {
+              Text("No expenses")
+                .foregroundStyle(.gray)
+              Spacer()
+            }
+            .padding(.vertical, 2)
+            
+          } else {
+            ForEach(
+              budget.expenses
+                .sorted(by: {$0.day < $1.day})
+                .suffix(3)
+            ) { expense in
+              Button(
+                action: { onEditExpense(expense) }
+              ) {
                 VStack {
-                  ExpenseListItem(item: expense.wrappedValue)
+                  ExpenseListItem(item: expense)
                   Divider()
                 }
                 .contentShape(Rectangle())
+              }
+              .buttonStyle(PlainButtonStyle())
             }
-            .buttonStyle(PlainButtonStyle())
+            
+            NavigationLink(
+              destination: ViewExpenses(budget: $budget)
+            ) {
+              Text("View all")
+            }
+            .padding()
           }
         }
       }
@@ -151,4 +163,22 @@ private extension ViewBudget {
   func onEditExpense(_ expense: ExpenseModel) {
     editingExpense = expense
   }
+}
+
+#Preview {
+  let config = ModelConfiguration(isStoredInMemoryOnly: true)
+  let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
+  let budget = BudgetModel()
+  container.mainContext.insert(budget)
+  var expenses = (1 ... 10).map { i in
+    ExpenseModel(name: "Expense \(i)", amount: Double(1 * i), day: CalendarDate.today.adding(days: i/4))
+  }
+  expenses.forEach { container.mainContext.insert($0) }
+  budget.expenses = expenses
+  
+  return NavigationStack {
+    ViewBudget(budget: budget)
+  }
+  .modelContainer(container)
+  .environmentObject(CurrentDate())
 }

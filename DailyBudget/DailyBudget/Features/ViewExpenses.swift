@@ -52,7 +52,7 @@ private extension Array where Element == ExpenseModel {
   var groupedByDate: [(CalendarDate, [ExpenseModel])] {
     groupsByDate
       .map { ($0, $1) }
-      .sorted(by: { $0.0 < $1.0 })
+      .sorted(by: { $0.0 > $1.0 })
   }
   
   private var groupsByDate: [CalendarDate: [ExpenseModel]] {
