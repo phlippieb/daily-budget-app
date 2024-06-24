@@ -3,15 +3,7 @@ import SwiftUI
 @main
 struct DailyBudgetApp: App {
   private var currentDate = CurrentDate()
-  
   @AppStorage("appearance_preference") private var appearancePreference: Int = 0
-  private var preferredColorScheme: ColorScheme? {
-    switch appearancePreference {
-    case 1: return .light
-    case 2: return .dark
-    default: return .none
-    }
-  }
   
   var body: some Scene {
     WindowGroup {
@@ -29,8 +21,17 @@ struct DailyBudgetApp: App {
         }
       
       // MARK: Appearance
-        .preferredColorScheme(preferredColorScheme)
+        .preferredColorScheme(.init(appearancePreference: appearancePreference))
     }
   }
 }
 
+private extension ColorScheme {
+  init?(appearancePreference: Int) {
+    switch appearancePreference {
+    case 1: self = .light
+    case 2: self = .dark
+    default: return nil
+    }
+  }
+}
