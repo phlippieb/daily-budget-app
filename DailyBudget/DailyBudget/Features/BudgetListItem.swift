@@ -1,28 +1,34 @@
 import SwiftUI
 
 struct BudgetListItem: View {
-  let item: BudgetProgressInfo
+  let item: BudgetModel
+  
+  @EnvironmentObject private var currentDate: CurrentDate
+  
+  private var info: BudgetProgressInfo {
+    .init(budget: item, date: currentDate.value.calendarDate)
+  }
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text(item.budget.name)
+      Text(item.name)
         .font(.title2)
       
-      if item.isActive {
-        Text("Day \(item.dayOfBudget) / \(item.budget.totalDays)")
+      if info.isActive {
+        Text("Day \(info.dayOfBudget) / \(item.totalDays)")
       } else {
-        Text("Ended \(item.budget.endDate.calendarDate.toStandardFormatting())")
+        Text("Ended \(item.endDate.calendarDate.toStandardFormatting())")
       }
       
-      if item.isActive {
+      if info.isActive {
         // View for an active budget:
         // Show the amount available today after expenses
         LabeledContent {
-          Text("\(item.currentAllowance, specifier: "%.2f")")
+          Text("\(info.currentAllowance, specifier: "%.2f")")
             .font(.title)
             .foregroundStyle(
-              item.currentAllowance > 0 ? .green
-              : item.currentAllowance < 0 ? .red
+              info.currentAllowance > 0 ? .green
+              : info.currentAllowance < 0 ? .red
               : .black
             )
         } label: {
@@ -33,9 +39,9 @@ struct BudgetListItem: View {
         // View for a future or expire budget:
         // Show the final amount spent
         LabeledContent {
-          Text("\(item.budget.totalExpenses, specifier: "%.2f") / \(item.budget.amount, specifier: "%.2f")")
+          Text("\(item.totalExpenses, specifier: "%.2f") / \(item.amount, specifier: "%.2f")")
             .foregroundStyle(
-              item.currentAllowance > 0 ? .black
+              info.currentAllowance > 0 ? .black
               : .red
             )
         } label: {
@@ -47,8 +53,7 @@ struct BudgetListItem: View {
 }
 
 #Preview {
-  BudgetListItem(item: BudgetProgressInfo(
-    budget: BudgetModel(),
-    date: .today))
+  BudgetListItem(item: BudgetModel())
     .modelContainer(for: ExpenseModel.self, inMemory: true)
+    .environmentObject(CurrentDate())
 }

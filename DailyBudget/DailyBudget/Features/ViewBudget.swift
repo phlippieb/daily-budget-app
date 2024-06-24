@@ -2,10 +2,16 @@ import SwiftUI
 import SwiftData
 
 struct ViewBudget: View {
-  @State var info: BudgetProgressInfo
+  @State var budget: BudgetModel
   
   @State private var editingBudget: BudgetModel??
   @State private var editingExpense: ExpenseModel??
+  
+  @EnvironmentObject private var currentDate: CurrentDate
+  
+  private var info: BudgetProgressInfo {
+    .init(budget: budget, date: currentDate.value.calendarDate)
+  }
   
   var body: some View {
     ScrollView {
@@ -99,7 +105,7 @@ struct ViewBudget: View {
           .padding(.vertical, 2)
           
         } else {
-          ForEach($info.budget.expenses) { expense in
+          ForEach($budget.expenses) { expense in
             Button(
               action: { onEditExpense(expense.wrappedValue) }
             ) {

@@ -6,6 +6,7 @@ struct DailyBudgetApp: App {
     WindowGroup {
       Home()
         .modelContainer(for: BudgetModel.self)
+        .environmentObject(CurrentDate())
     }
   }
 }

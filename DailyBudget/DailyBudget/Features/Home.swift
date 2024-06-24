@@ -1,10 +1,15 @@
 import SwiftUI
 import SwiftData
 
+class CurrentDate: ObservableObject {
+  @Published var value = Date.now
+}
+
 struct Home: View {
-  var date: CalendarDate { .today }
-  
   @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
+  
+  @EnvironmentObject private var currentDate: CurrentDate
+  
   @State private var editingBudget: BudgetModel??
   
   var body: some View {
@@ -17,9 +22,10 @@ struct Home: View {
           List {
             ForEach(budgets) { budget in
               NavigationLink {
-                ViewBudget(info: .init(budget: budget, date: date))
+                Text("")
+                ViewBudget(budget: budget)
               } label: {
-                BudgetListItem(item: .init(budget: budget, date: date))
+                BudgetListItem(item: budget)
               }
             }
           }
@@ -53,4 +59,5 @@ struct Home: View {
   
   return Home()
     .modelContainer(container)
+    .environmentObject(CurrentDate())
 }
