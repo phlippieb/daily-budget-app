@@ -9,6 +9,25 @@ struct Home: View {
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
   
+  private var activeBudgets: [BudgetModel] {
+    budgets.filter { budget in
+      (budget.firstDay ... budget.lastDay)
+        .contains(currentDate.value.calendarDate)
+    }
+  }
+  
+  private var upcomingBudgets: [BudgetModel] {
+    budgets.filter { budget in
+      budget.firstDay > currentDate.value.calendarDate
+    }
+  }
+  
+  private var pastBudgets: [BudgetModel] {
+    budgets.filter { budget in
+      budget.lastDay < currentDate.value.calendarDate
+    }
+  }
+  
   var body: some View {
     NavigationView {
       // MARK: Budgets list
@@ -19,12 +38,42 @@ struct Home: View {
           }
         } else {
           List {
-            ForEach(budgets) { budget in
-              NavigationLink {
-                Text("")
-                ViewBudget(budget: budget)
-              } label: {
-                BudgetListItem(item: budget)
+            if !activeBudgets.isEmpty {
+              Section("Current budgets") {
+                ForEach(activeBudgets) { budget in
+                  NavigationLink {
+                    Text("")
+                    ViewBudget(budget: budget)
+                  } label: {
+                    BudgetListItem(item: budget)
+                  }
+                }
+              }
+            }
+            
+            if !upcomingBudgets.isEmpty {
+              Section("Upcoming budgets") {
+                ForEach(upcomingBudgets) { budget in
+                  NavigationLink {
+                    Text("")
+                    ViewBudget(budget: budget)
+                  } label: {
+                    BudgetListItem(item: budget)
+                  }
+                }
+              }
+            }
+            
+            if !pastBudgets.isEmpty {
+              Section("Past budgets") {
+                ForEach(pastBudgets) { budget in
+                  NavigationLink {
+                    Text("")
+                    ViewBudget(budget: budget)
+                  } label: {
+                    BudgetListItem(item: budget)
+                  }
+                }
               }
             }
           }
@@ -102,6 +151,12 @@ struct Home: View {
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
   container.mainContext.insert(BudgetModel())
+  container.mainContext.insert(BudgetModel(
+    name: "Upcoming",
+    amount: 100,
+    firstDay: .today.adding(days: 31),
+    lastDay: .today.adding(days: 61),
+    expenses: []))
   
   return Home()
     .modelContainer(container)
