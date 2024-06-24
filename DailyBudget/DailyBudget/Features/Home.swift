@@ -58,10 +58,15 @@ struct Home: View {
       .navigationBarTitleDisplayMode(.inline)
       
       .toolbar {
+        ToolbarItemGroup(placement: .topBarLeading) {
+          Button(action: onSettingsTapped) { 
+            Image(systemName: "gearshape")
+          }
+        }
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-          Button(action: onAddBudget, label: {
+          Button(action: onAddBudget) {
             Image(systemName: "plus")
-          })
+          }
         }
       }
       
@@ -81,6 +86,15 @@ struct Home: View {
   
   private func onAddBudget() {
     editingBudget = .some(nil)
+  }
+  
+  private func onSettingsTapped() {
+    guard 
+      let url = URL(string: UIApplication.openSettingsURLString),
+      UIApplication.shared.canOpenURL(url)
+    else { return }
+    
+    UIApplication.shared.open(url)
   }
 }
 
