@@ -40,9 +40,7 @@ struct ViewExpenses: View {
     .sheet(item: $editingExpense) { expense in
       EditExpense(
         expense: $editingExpense,
-        associatedBudget: budget,
-        // TODO: date range can now be inferred from associated budget
-        dateRange: budget.firstDay ... budget.lastDay)
+        associatedBudget: budget)
     }
   }
 }
