@@ -5,6 +5,7 @@ struct ViewExpenses: View {
   @Binding var budget: BudgetModel
   
   @State private var editingExpense: ExpenseModel??
+  @Environment(\.modelContext) private var modelContext: ModelContext
   
   var body: some View {
     List {
@@ -14,6 +15,13 @@ struct ViewExpenses: View {
             Button(action: { onEditExpense(expense) }, label: {
               ExpenseListItem(item: expense)
                 .contentShape(Rectangle())
+                .swipeActions {
+                  Button(role: .destructive) {
+                    onDeleteExpense(expense)
+                  } label: {
+                    Label("Delete", systemImage: "trash")
+                  }
+                }
             })
             .buttonStyle(PlainButtonStyle())
           }
@@ -72,6 +80,11 @@ private extension ViewExpenses {
   
   func onEditExpense(_ expense: ExpenseModel) {
     editingExpense = expense
+  }
+  
+  func onDeleteExpense(_ expense: ExpenseModel) {
+    budget.expenses.remove(expense)
+    modelContext.delete(expense)
   }
 }
 
