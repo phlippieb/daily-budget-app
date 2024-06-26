@@ -15,6 +15,10 @@ extension BudgetProgressInfo {
     budget.startDate.calendarDate <= date && date <= budget.endDate.calendarDate
   }
   
+  var isPast: Bool {
+    budget.endDate.calendarDate < date
+  }
+  
   /// The number of days that `date` falls after `budget`'s start date
   /// - NOTE: Starts at 1
   var dayOfBudget: Int {
