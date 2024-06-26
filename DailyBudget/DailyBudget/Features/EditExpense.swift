@@ -129,7 +129,6 @@ private extension EditExpense {
       expense.name = name
       expense.amount = isExpense ? amount : -amount
       expense.date = date
-      // TODO: signal to associatedBudget that it updated?
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
