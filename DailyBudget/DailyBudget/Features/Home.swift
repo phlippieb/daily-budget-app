@@ -150,13 +150,27 @@ struct Home: View {
 #Preview {
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
-  container.mainContext.insert(BudgetModel())
+  container.mainContext.insert(BudgetModel(
+    name: "Current",
+    amount: 100,
+    firstDay: .today,
+    lastDay: .today.adding(days: 30),
+    expenses: []))
   container.mainContext.insert(BudgetModel(
     name: "Upcoming",
     amount: 100,
     firstDay: .today.adding(days: 31),
     lastDay: .today.adding(days: 61),
     expenses: []))
+
+  container.mainContext.insert(BudgetModel(
+    name: "Past",
+    amount: 100,
+    firstDay: .today.adding(days: -61),
+    lastDay: .today.adding(days: -31),
+    expenses: [
+      ExpenseModel(name: "", amount: 200, date: .now)
+    ]))
   
   return Home()
     .modelContainer(container)
