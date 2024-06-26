@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ViewBudget: View {
+  // TODO: Should this be a binding?
   @State var budget: BudgetModel
   
   @State private var editingBudget: BudgetModel??
@@ -15,29 +16,59 @@ struct ViewBudget: View {
   
   var body: some View {
     VStack {
-      // MARK: Today's budget summary
-      Group {
-        Text("Today").font(.title)
-        
-        HStack {
-          Text(info.date.toStandardFormatting())
-          Image(systemName: "calendar")
-          Text("Day \(info.dayOfBudget) / \(info.budget.totalDays)")
+      if info.isActive {
+        // MARK: Today's budget summary
+        Group {
+          Text("Today").font(.title)
+          
+          HStack {
+            Text(info.date.toStandardFormatting())
+            Image(systemName: "calendar")
+            Text("Day \(info.dayOfBudget) / \(info.budget.totalDays)")
+          }
+          
+          Spacer().frame(height: 20)
+          
+          if info.currentAllowance < 0 {
+            Text("Over budget")
+            Text("\(info.currentAllowance, specifier: "%.2f")")
+              .font(.largeTitle)
+              .foregroundStyle(.red)
+          } else {
+            Text("Available")
+            Text("\(info.currentAllowance, specifier: "%.2f")")
+              .font(.largeTitle)
+              .foregroundStyle(.green)
+          }
         }
+        
+      } else if info.isPast {
+        // MARK: Summary of a past budget
+        Text("Ended on "
+             + budget.lastDay.toStandardFormatting())
         
         Spacer().frame(height: 20)
+        Text("Amount spent")
+        Text(
+          "\(budget.totalExpenses, specifier: "%.2f") / \(budget.amount, specifier: "%.2f")"
+        )
+        .font(.title)
+        .foregroundStyle(
+          budget.totalExpenses <= budget.amount ? Color(UIColor.label) : .red
+        )
         
-        if info.currentAllowance < 0 {
-          Text("Over budget")
-          Text("\(info.currentAllowance, specifier: "%.2f")")
-            .font(.largeTitle)
-            .foregroundStyle(.red)
-        } else {
-          Text("Available")
-          Text("\(info.currentAllowance, specifier: "%.2f")")
-            .font(.largeTitle)
-            .foregroundStyle(.green)
-        }
+      } else {
+        // MARK: Summary of a future budget
+        Text("Starts on "
+             + budget.firstDay.toStandardFormatting()
+        )
+        
+        Spacer().frame(height: 20)
+        Text("Amount")
+        Text(
+          "\(budget.amount, specifier: "%.2f")"
+        )
+        .font(.title)
       }
       
       // MARK: Budget info
@@ -167,10 +198,17 @@ private extension ViewBudget {
 #Preview {
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
-  let budget = BudgetModel()
+  
+  let budget = BudgetModel(
+    name: "My budget",
+    amount: 10000,
+    firstDay: .today.adding(days: 1),
+    lastDay: .today.adding(days: 1),
+    expenses: [])
   container.mainContext.insert(budget)
+  
   let expenses = (1 ... 10).map { i in
-    ExpenseModel(name: "Expense \(i)", amount: Double(1 * i), day: CalendarDate.today.adding(days: i/4))
+    ExpenseModel(name: "Expense \(i)", amount: Double(20 * i), day: CalendarDate.today.adding(days: i/4))
   }
   expenses.forEach { container.mainContext.insert($0) }
   budget.expenses = expenses

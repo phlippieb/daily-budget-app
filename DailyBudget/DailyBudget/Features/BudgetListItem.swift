@@ -17,8 +17,10 @@ struct BudgetListItem: View {
       
       if info.isActive {
         Text("Day \(info.dayOfBudget) / \(item.totalDays)")
-      } else {
+      } else if info.isPast {
         Text("Ended \(item.endDate.calendarDate.toStandardFormatting())")
+      } else {
+        Text("Starts \(item.endDate.calendarDate.toStandardFormatting())")
       }
       
       if info.isActive {
@@ -34,8 +36,8 @@ struct BudgetListItem: View {
           Text("Available")
         }
         
-      } else {
-        // View for a future or expire budget:
+      } else if info.isPast {
+        // View for a past budget:
         // Show the final amount spent
         LabeledContent {
           Text("\(item.totalExpenses, specifier: "%.2f") / \(item.amount, specifier: "%.2f")")
@@ -44,6 +46,16 @@ struct BudgetListItem: View {
             )
         } label: {
           Text("Budget spent")
+        }
+        
+      } else {
+        // View for a future budget:
+        // Show the total amount
+        LabeledContent {
+          Text("\(item.amount, specifier: "%.2f")")
+            .foregroundStyle(Color(UIColor.label))
+        } label: {
+          Text("Budget")
         }
       }
     }
