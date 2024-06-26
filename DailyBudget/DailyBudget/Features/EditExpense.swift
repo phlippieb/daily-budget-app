@@ -83,6 +83,10 @@ struct EditExpense: View {
         }
         .onAppear {
           if let expense {
+            // TODO: This fixes edits not propogating to the Home view,
+            // but it looks weird. Might be better to rethink the data layer.
+            associatedBudget.expenses.append(expense)
+            
             name = expense.name
             date = expense.date
 
@@ -125,11 +129,13 @@ private extension EditExpense {
       expense.name = name
       expense.amount = isExpense ? amount : -amount
       expense.date = date
+      // TODO: signal to associatedBudget that it updated?
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
         amount: isExpense ? amount : -amount,
         date: date)
+      modelContext.insert(newExpense)
       associatedBudget.expenses.append(newExpense)
     default:
       break
