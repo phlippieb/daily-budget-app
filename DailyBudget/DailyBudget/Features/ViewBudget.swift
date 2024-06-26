@@ -14,7 +14,7 @@ struct ViewBudget: View {
   }
   
   var body: some View {
-    ScrollView {
+    VStack {
       // MARK: Today's budget summary
       Group {
         Text("Today").font(.title)
