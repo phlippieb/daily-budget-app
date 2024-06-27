@@ -97,7 +97,7 @@ struct Home: View {
             }
             .padding()
             .background(Material.regular)
-            .transition(.move(edge: .bottom))
+            .transition(.offset(CGSize(width: 0, height: 150)))
             .cornerRadius(20)
             .padding()
         }
