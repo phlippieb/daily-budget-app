@@ -79,6 +79,7 @@ struct Home: View {
           }
         }
       }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
       
       // MARK: App info
       .overlay(alignment: .bottom) {
@@ -163,14 +164,16 @@ struct Home: View {
     lastDay: .today.adding(days: 61),
     expenses: []))
 
-  container.mainContext.insert(BudgetModel(
-    name: "Past",
-    amount: 100,
-    firstDay: .today.adding(days: -61),
-    lastDay: .today.adding(days: -31),
-    expenses: [
-      ExpenseModel(name: "", amount: 200, date: .now)
-    ]))
+  for _ in 0 ... 5 {
+    container.mainContext.insert(BudgetModel(
+      name: "Past",
+      amount: 100,
+      firstDay: .today.adding(days: -61),
+      lastDay: .today.adding(days: -31),
+      expenses: [
+        ExpenseModel(name: "", amount: 200, date: .now)
+      ]))
+  }
   
   return Home()
     .modelContainer(container)
