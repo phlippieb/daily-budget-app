@@ -73,4 +73,23 @@ class CalendarDateTests: XCTestCase {
     // Then the resulting date should be 2 days before the other
     XCTAssertEqual(calendarDate3, CalendarDate(year: 1999, month: 12, day: 30))
   }
+  
+  func testDifferentTimesWithinSameDayAreEquivalent() {
+    // Given "now" is 10:00 noon on 2 Jan 2000
+    let now = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 12).date!
+    let today = now.calendarDate
+    // Given a date range created at 11:00, running from yesterday to today
+    let firstDayDate = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 1, hour: 11).date!
+    let firstDay = firstDayDate.calendarDate
+    let lastDay = firstDay.adding(days: 1)
+    let range = firstDay ... lastDay
+    
+    // When I check where "now" falls in the range
+    // Then "now" should be on the last day
+    XCTAssertEqual(today, lastDay)
+    XCTAssertEqual(lastDay - today, 0)
+    XCTAssert(range.contains(today))
+  }
 }

@@ -148,32 +148,53 @@ struct Home: View {
   }
 }
 
+// MARK: Preview -
+
 #Preview {
+  enum PreviewVariants {
+    case singleBudget, multipleBudgets, empty
+  }
+  let variant = PreviewVariants.singleBudget
+  
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
-  container.mainContext.insert(BudgetModel(
-    name: "Current",
-    amount: 100,
-    firstDay: .today,
-    lastDay: .today.adding(days: 30),
-    expenses: []))
-  container.mainContext.insert(BudgetModel(
-    name: "Upcoming",
-    amount: 100,
-    firstDay: .today.adding(days: 31),
-    lastDay: .today.adding(days: 61),
-    expenses: []))
-
-  for _ in 0 ... 5 {
+  
+  switch variant {
+  case .singleBudget:
     container.mainContext.insert(BudgetModel(
-      name: "Past",
+      name: "Current",
       amount: 100,
-      firstDay: .today.adding(days: -61),
-      lastDay: .today.adding(days: -31),
-      expenses: [
-        ExpenseModel(name: "", amount: 200, date: .now)
-      ]))
+      startDate: Date.now.addingTimeInterval(300).calendarDate.adding(days: -1).date,
+      endDate: Date.now.addingTimeInterval(300),
+      expenses: []))
+  case .multipleBudgets:
+    container.mainContext.insert(BudgetModel(
+      name: "Current",
+      amount: 100,
+      firstDay: .today,
+      lastDay: .today.adding(days: 30),
+      expenses: []))
+    container.mainContext.insert(BudgetModel(
+      name: "Upcoming",
+      amount: 100,
+      firstDay: .today.adding(days: 31),
+      lastDay: .today.adding(days: 61),
+      expenses: []))
+    
+    for _ in 0 ... 5 {
+      container.mainContext.insert(BudgetModel(
+        name: "Past",
+        amount: 100,
+        firstDay: .today.adding(days: -61),
+        lastDay: .today.adding(days: -31),
+        expenses: [
+          ExpenseModel(name: "", amount: 200, date: .now)
+        ]))
+    }
+  case .empty:
+    break
   }
+  
   
   return Home()
     .modelContainer(container)
