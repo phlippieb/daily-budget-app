@@ -67,6 +67,8 @@ final class BudgetProgressInfoTests: XCTestCase {
     // Then the budget has 2 days
     XCTAssertEqual(budgetInfo.budget.totalDays, 2)
     // And then now is the 2nd and last day of the budget
+    XCTAssertEqual(day, budgetInfo.budget.lastDay)
+    XCTAssertEqual(day - budgetInfo.budget.firstDay, 1)
     XCTAssertEqual(budgetInfo.dayOfBudget, 2)
   }
   

@@ -45,8 +45,12 @@ class CalendarDateTests: XCTestCase {
   func testDaysSince() {
     // Given two dates a day apart
     let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+      .date.addingTimeInterval(7200).calendarDate
     let calendarDate2 = CalendarDate(year: 2000, month: 1, day: 2)
+      .date.addingTimeInterval(7200).calendarDate
     let calendarDate3 = CalendarDate(year: 2000, month: 1, day: 3)
+      .date.addingTimeInterval(7200).calendarDate
+    
     // And given a date on the same day but at a different instant as date 1
     let calendarDate1Later = CalendarDate(
       date: calendarDate1.date.addingTimeInterval(3600))
