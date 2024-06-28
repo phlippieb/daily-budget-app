@@ -48,7 +48,7 @@ final class BudgetProgressInfoTests: XCTestCase {
   func testDayOfBudgetWithStartDateLaterInDayThanNow() {
     // Given now is 09:00 on 2 Jan 2000
     let day = DateComponents(
-      calendar: .current, year: 2000, month: 1, day: 1, hour: 9
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 9
     ).date!.calendarDate
     
     // Given a buget that starts on 1 Jan 2000 at 10:00
@@ -58,7 +58,7 @@ final class BudgetProgressInfoTests: XCTestCase {
       calendar: .current, year: 2000, month: 1, day: 1, hour: 10
     ).date!
     budget.endDate = DateComponents(
-      calendar: .current, year: 2000, month: 1, day: 2, hour: 10
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 9
     ).date!
     
     // When I have the budget's info
