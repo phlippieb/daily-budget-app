@@ -30,7 +30,17 @@ extension CalendarDate {
 
 extension CalendarDate {
   static func -(lhs: CalendarDate, rhs: CalendarDate) -> Int {
-    Int(lhs.date.timeIntervalSince(rhs.date) / 24 / 60 / 60)
+    Calendar.current.numberOfDaysBetween(rhs.date, and: lhs.date)
+  }
+}
+
+private extension Calendar {
+  func numberOfDaysBetween(_ from: Date, and to: Date) -> Int {
+      let fromDate = startOfDay(for: from)
+      let toDate = startOfDay(for: to)
+      let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
+      
+      return numberOfDays.day!
   }
 }
 
