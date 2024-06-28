@@ -2,6 +2,8 @@
 
 A simple iOS budgeting app by Phlippie Bosman
 
+[Download on the AppStore](https://apps.apple.com/us/app/daily-budget/id6504949539)
+
 ## 🔍 How it works
 
 The first screen you see when you open the app is the home screen. From here, you can add a new budget or view any budgets you've created.
