@@ -54,7 +54,7 @@ struct ViewBudget: View {
         )
         .font(.title)
         .foregroundStyle(
-          budget.totalExpenses <= budget.amount ? Color(UIColor.label) : .red
+          budget.totalExpenses <= budget.amount ? Color.label : .red
         )
         
       } else {

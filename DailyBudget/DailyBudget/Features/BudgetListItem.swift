@@ -20,38 +20,6 @@ struct BudgetListItem: View {
     }
   }
   
-  private var todayAmountTitle: String? {
-    if info.isActive {
-      return "Available today"
-    } else {
-      return nil
-    }
-  }
-  
-  private var todayAmount: Double? {
-    if info.isActive {
-      return info.currentAllowance
-    } else {
-      return nil
-    }
-  }
-  
-  private var todayAmountColor: Color? {
-    if info.isActive {
-      return info.currentAllowance < 0 ? .red : .label
-    } else {
-      return nil
-    }
-  }
-  
-  private var totalAmountTitle: String {
-    "Total spent"
-  }
-  
-  private var totalAmountColor: Color {
-    item.totalExpenses > item.amount ? .red : .label
-  }
-  
   private var status: String? {
     if item.totalExpenses >= item.amount {
       return "Entire budget depleted"
@@ -80,18 +48,20 @@ struct BudgetListItem: View {
       
       // MARK: Amount
       Grid(alignment: .topLeading) {
-        if let todayAmountTitle, let todayAmount, let todayAmountColor {
+        if info.isActive {
           GridRow {
-            Text(todayAmountTitle)
-            Text("\(todayAmount, specifier: "%.2f")")
-              .foregroundStyle(todayAmountColor)
+            Text("Available today")
+            Text("\(info.currentAllowance, specifier: "%.2f")")
+              .foregroundStyle(
+                info.currentAllowance < 0 ? .red : .label
+              )
           }
         }
         
         GridRow {
-          Text(totalAmountTitle)
+          Text("Total spent")
           Text("\(item.totalExpenses, specifier: "%.2f") of \(item.amount, specifier: "%.2f")")
-            .foregroundStyle(totalAmountColor)
+            .foregroundStyle(item.totalExpenses > item.amount ? .red : .label)
         }
       }
       
