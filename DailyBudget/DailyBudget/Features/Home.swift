@@ -154,7 +154,7 @@ struct Home: View {
   enum PreviewVariants {
     case singleBudget, multipleBudgets, empty
   }
-  let variant = PreviewVariants.singleBudget
+  let variant = PreviewVariants.multipleBudgets
   
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
@@ -188,7 +188,7 @@ struct Home: View {
         firstDay: .today.adding(days: -61),
         lastDay: .today.adding(days: -31),
         expenses: [
-          ExpenseModel(name: "", amount: 200, date: .now)
+          ExpenseModel(name: "", amount: 400, date: .now)
         ]))
     }
   case .empty:
