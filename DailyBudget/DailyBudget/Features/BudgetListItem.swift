@@ -5,6 +5,8 @@ struct BudgetListItem: View {
   let item: BudgetModel
   
   @EnvironmentObject private var currentDate: CurrentDate
+  @Environment(\.colorScheme) var colorScheme
+  private var idiom: UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
   
   private var info: BudgetProgressInfo {
     .init(budget: item, date: currentDate.value.calendarDate)
@@ -27,6 +29,15 @@ struct BudgetListItem: View {
       return "Daily allowance depleted"
     } else {
       return nil
+    }
+  }
+  
+  var red: Color {
+    // Handle the default `Color.red` being illegible in List on iPad
+    if colorScheme == .dark, idiom == .pad {
+      return Color(red: 1, green: 0.5, blue: 0.5)
+    } else {
+      return Color.red
     }
   }
   
@@ -53,7 +64,7 @@ struct BudgetListItem: View {
             Text("Available today")
             Text("\(info.currentAllowance, specifier: "%.2f")")
               .foregroundStyle(
-                info.currentAllowance < 0 ? .red : .label
+                info.currentAllowance < 0 ? red : .label
               )
           }
         }
@@ -61,7 +72,7 @@ struct BudgetListItem: View {
         GridRow {
           Text("Total spent")
           Text("\(item.totalExpenses, specifier: "%.2f") of \(item.amount, specifier: "%.2f")")
-            .foregroundStyle(item.totalExpenses > item.amount ? .red : .label)
+            .foregroundStyle(item.totalExpenses > item.amount ? red : .label)
         }
       }
       
@@ -69,7 +80,7 @@ struct BudgetListItem: View {
       if let status {
         HStack {
           Image(systemName: "flag")
-            .foregroundStyle(.red)
+            .foregroundStyle(red)
           Text(status)
         }
         .font(.footnote)
