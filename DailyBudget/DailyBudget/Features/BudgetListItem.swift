@@ -10,55 +10,103 @@ struct BudgetListItem: View {
     .init(budget: item, date: currentDate.value.calendarDate)
   }
   
+  private var dateText: String {
+    if info.isActive {
+      return "Day \(info.dayOfBudget) of \(item.totalDays)"
+    } else if info.isPast {
+      return "Ended \(item.lastDay.toStandardFormatting())"
+    } else {
+      return "Starts \(item.firstDay.toStandardFormatting())"
+    }
+  }
+  
+  private var todayAmountTitle: String? {
+    if info.isActive {
+      return "Available today"
+    } else {
+      return nil
+    }
+  }
+  
+  private var todayAmount: Double? {
+    if info.isActive {
+      return info.currentAllowance
+    } else {
+      return nil
+    }
+  }
+  
+  private var todayAmountColor: Color? {
+    if info.isActive {
+      return info.currentAllowance < 0 ? .red : .label
+    } else {
+      return nil
+    }
+  }
+  
+  private var totalAmountTitle: String {
+    "Total spent"
+  }
+  
+  private var totalAmountColor: Color {
+    item.totalExpenses > item.amount ? .red : .label
+  }
+  
+  private var status: String? {
+    if item.totalExpenses >= item.amount {
+      return "Entire budget depleted"
+    } else if info.isActive, info.currentAllowance <= 0 {
+      return "Daily allowance depleted"
+    } else {
+      return nil
+    }
+  }
+  
   var body: some View {
     VStack(alignment: .leading) {
+      // MARK: Day/date
+      HStack {
+        Image(systemName: "calendar")
+        Text(dateText)
+      }
+      .font(.footnote)
+      .bold()
+      .foregroundStyle(.gray)
+      
+      // MARK: Budget name
       Text(item.name)
         .font(.title2)
+        .padding(.vertical, 1)
       
-      if info.isActive {
-        Text("Day \(info.dayOfBudget) / \(item.totalDays)")
-      } else if info.isPast {
-        Text("Ended \(item.lastDay.toStandardFormatting())")
-      } else {
-        Text("Starts \(item.firstDay.toStandardFormatting())")
+      // MARK: Amount
+      Grid(alignment: .topLeading) {
+        if let todayAmountTitle, let todayAmount, let todayAmountColor {
+          GridRow {
+            Text(todayAmountTitle)
+            Text("\(todayAmount, specifier: "%.2f")")
+              .foregroundStyle(todayAmountColor)
+          }
+        }
+        
+        GridRow {
+          Text(totalAmountTitle)
+          Text("\(item.totalExpenses, specifier: "%.2f") of \(item.amount, specifier: "%.2f")")
+            .foregroundStyle(totalAmountColor)
+        }
       }
       
-      if info.isActive {
-        // View for an active budget:
-        // Show the amount available today after expenses
-        LabeledContent {
-          Text("\(info.currentAllowance, specifier: "%.2f")")
-            .font(.title)
-            .foregroundStyle(
-              info.currentAllowance >= 0 ? .green : .red
-            )
-        } label: {
-          Text("Available")
+      // MARK: Status
+      if let status {
+        HStack {
+          Image(systemName: "flag")
+            .foregroundStyle(.red)
+          Text(status)
         }
-        
-      } else if info.isPast {
-        // View for a past budget:
-        // Show the final amount spent
-        LabeledContent {
-          Text("\(item.totalExpenses, specifier: "%.2f") / \(item.amount, specifier: "%.2f")")
-            .foregroundStyle(
-              info.budget.totalExpenses <= info.budget.amount ? Color(UIColor.label) : .red
-            )
-        } label: {
-          Text("Budget spent")
-        }
-        
-      } else {
-        // View for a future budget:
-        // Show the total amount
-        LabeledContent {
-          Text("\(item.amount, specifier: "%.2f")")
-            .foregroundStyle(Color(UIColor.label))
-        } label: {
-          Text("Budget")
-        }
+        .font(.footnote)
+        .padding(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
       }
     }
+    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
   }
 }
 
