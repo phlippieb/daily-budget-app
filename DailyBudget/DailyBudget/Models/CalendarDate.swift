@@ -48,7 +48,12 @@ private extension Calendar {
 
 extension CalendarDate {
   func toStandardFormatting() -> String {
-    self.date.formatted(.dateTime.day().month().year())
+    if Calendar.current.isDate(self.date, equalTo: .now, toGranularity: .year) {
+      // Omit year if in the same year
+      return self.date.formatted(.dateTime.day().month(.wide))
+    } else {
+      return self.date.formatted(.dateTime.day().month(.wide).year())
+    }
   }
 }
 

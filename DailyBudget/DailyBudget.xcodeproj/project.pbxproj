@@ -14,6 +14,7 @@
 		0A20A3E62C2471290028E5C2 /* ExpenseListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */; };
 		0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20B1222C29731D00A26FBD /* ViewExpenses.swift */; };
 		0A20B1252C2993CE00A26FBD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A20B1242C2993CE00A26FBD /* Settings.bundle */; };
+		0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */; };
 		0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */; };
 		0A7B109A2C24356F00474F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B10992C24356F00474F10 /* Assets.xcassets */; };
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		0A20B1242C2993CE00A26FBD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudget.entitlements; sourceTree = "<group>"; };
 		0A3D31D32C2EC2AB00E17CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		0A7B10922C24356D00474F10 /* DailyBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBudgetApp.swift; sourceTree = "<group>"; };
 		0A7B10992C24356F00474F10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				0A20A3DB2C243CAA0028E5C2 /* DateExtensions.swift */,
 				0AFEFB672C259C46004847AE /* OptionalExtensions.swift */,
 				0AFEFB6B2C25D128004847AE /* ArrayExtensions.swift */,
+				0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				0A20A3E42C246A740028E5C2 /* ViewBudget.swift in Sources */,
 				0A7B10C62C24390600474F10 /* Home.swift in Sources */,
 				0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */,
+				0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */,
 				0A20A3D72C243A780028E5C2 /* BudgetListItem.swift in Sources */,
 				0A20A3DC2C243CAA0028E5C2 /* DateExtensions.swift in Sources */,
 				0AFEFB652C258D3E004847AE /* ExpenseModel.swift in Sources */,
@@ -448,7 +452,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_ASSET_PATHS = "\"DailyBudget/Preview Content\"";
 				DEVELOPMENT_TEAM = 7YC4M6VD27;
 				ENABLE_PREVIEWS = YES;
@@ -464,7 +468,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.phlippieb.DailyBudgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -480,7 +484,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_ASSET_PATHS = "\"DailyBudget/Preview Content\"";
 				DEVELOPMENT_TEAM = 7YC4M6VD27;
 				ENABLE_PREVIEWS = YES;
@@ -496,7 +500,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.phlippieb.DailyBudgetApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
