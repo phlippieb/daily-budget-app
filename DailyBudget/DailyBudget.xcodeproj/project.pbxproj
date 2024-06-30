@@ -15,7 +15,7 @@
 		0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20B1222C29731D00A26FBD /* ViewExpenses.swift */; };
 		0A20B1252C2993CE00A26FBD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A20B1242C2993CE00A26FBD /* Settings.bundle */; };
 		0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */; };
-		0A3CABB22C31700900ECD1F1 /* DefaultInitializableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB12C31700900ECD1F1 /* DefaultInitializableTests.swift */; };
+		0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */; };
 		0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */; };
 		0A7B109A2C24356F00474F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B10992C24356F00474F10 /* Assets.xcassets */; };
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
@@ -53,7 +53,7 @@
 		0A20B1222C29731D00A26FBD /* ViewExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExpenses.swift; sourceTree = "<group>"; };
 		0A20B1242C2993CE00A26FBD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
-		0A3CABB12C31700900ECD1F1 /* DefaultInitializableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInitializableTests.swift; sourceTree = "<group>"; };
+		0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitProvidingTests.swift; sourceTree = "<group>"; };
 		0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudget.entitlements; sourceTree = "<group>"; };
 		0A3D31D32C2EC2AB00E17CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0A7B10922C24356D00474F10 /* DailyBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,7 +153,7 @@
 				0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */,
 				0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */,
 				0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */,
-				0A3CABB12C31700900ECD1F1 /* DefaultInitializableTests.swift */,
+				0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */,
 			);
 			path = DailyBudgetTests;
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 				0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */,
 				0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */,
 				0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */,
-				0A3CABB22C31700900ECD1F1 /* DefaultInitializableTests.swift in Sources */,
+				0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
