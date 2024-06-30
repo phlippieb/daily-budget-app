@@ -1,7 +1,7 @@
 import Foundation
 
-/// Adds `Identifiable` conformance for `Optional`s wrapping `Identifiable` values,
-/// where those values are also `DefaultInitializable`, by returning the id of a default value.
+/// Adds `Identifiable` conformance for `Optional`s wrapping `Identifiable` types,
+/// where those types are also `UnitProviding`, by returning the id of a unit value when the value is nil.
 ///
 /// # Use case: Double-optional bindings for edit screens
 ///
@@ -58,13 +58,7 @@ import Foundation
 ///
 /// Using a double optional as an item binding requires that the inner optional must conform to Identifiable.
 /// This extension provides this conformance.
-//extension Optional: Identifiable where Wrapped: Identifiable, Wrapped: DefaultInitializable {
-//  public var id: Wrapped.ID {
-//    self?.id ?? Wrapped().id
-//  }
-//}
-
-extension Optional: Identifiable where Wrapped: Identifiable, Wrapped: UnitProvider {
+extension Optional: Identifiable where Wrapped: Identifiable, Wrapped: UnitProviding {
   public var id: Wrapped.ID {
     return self?.id ?? Wrapped.unit.id
   }
