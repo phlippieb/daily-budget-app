@@ -57,13 +57,20 @@ extension BudgetModel {
   }
 }
 
-extension BudgetModel: DefaultInitializable {
+extension BudgetModel: DefaultInitializable, UnitProvider {
   convenience init() {
-    self.init(
-      name: "", 
+    self.init( 
+      name: "",
       amount: 0,
-      startDate: .now,
-      endDate: CalendarDate.today.adding(days: 30).date,
+      startDate: .distantPast,
+      endDate: .distantPast,
       expenses: [])
   }
+  
+  static let unit = BudgetModel(
+    name: "",
+    amount: 0,
+    startDate: .distantPast,
+    endDate: .distantPast,
+    expenses: [])
 }

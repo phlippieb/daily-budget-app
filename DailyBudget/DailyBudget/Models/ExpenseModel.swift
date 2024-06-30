@@ -33,8 +33,10 @@ extension ExpenseModel {
   }
 }
 
-extension ExpenseModel: DefaultInitializable {
+extension ExpenseModel: DefaultInitializable, UnitProvider {
   convenience init() {
     self.init(name: "", amount: 0, day: .today)
   }
+  
+  static let unit = ExpenseModel()
 }
