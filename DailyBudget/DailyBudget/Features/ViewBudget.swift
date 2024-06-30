@@ -22,7 +22,6 @@ struct ViewBudget: View {
           Text("Today").font(.title)
           
           HStack {
-            Text(info.date.toStandardFormatting())
             Image(systemName: "calendar")
             Text("Day \(info.dayOfBudget) / \(info.budget.totalDays)")
           }
@@ -196,24 +195,44 @@ private extension ViewBudget {
 }
 
 #Preview {
+  let variant = Variants.currentUnder
+  
+  enum Variants {
+    case currentUnder, currentOver
+  }
+  
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
+  let budget: BudgetModel
   
-  let budget = BudgetModel(
-    name: "My budget",
-    amount: 10000,
-    firstDay: .today.adding(days: 1),
-    lastDay: .today.adding(days: 1),
-    expenses: [])
+  switch variant {
+  case .currentUnder:
+    budget = BudgetModel(
+      name: "My budget",
+      amount: 10000,
+      firstDay: .today.adding(days: -30),
+      lastDay: .today.adding(days: 1),
+      expenses: [])
+  case .currentOver:
+    budget = BudgetModel(
+      name: "My budget",
+      amount: 10000,
+      firstDay: .today.adding(days: -30),
+      lastDay: .today.adding(days: 1),
+      expenses: [])
+  }
   container.mainContext.insert(budget)
   
-  let expenses = (1 ... 10).map { i in
-    ExpenseModel(name: "Expense \(i)", amount: Double(20 * i), day: CalendarDate.today.adding(days: i/4))
+  var expenses = (1 ... 10).map { i in
+    ExpenseModel(name: "Expense \(i)", amount: Double(20 * i), day: CalendarDate.today.adding(days: -(i/4)))
+  }
+  if case .currentOver = variant {
+    expenses.append(ExpenseModel(name: "Expense over budget", amount: 10000, day: .today))
   }
   expenses.forEach { container.mainContext.insert($0) }
   budget.expenses = expenses
   
-  return NavigationStack {
+  return NavigationView {
     ViewBudget(budget: budget)
   }
   .modelContainer(container)
