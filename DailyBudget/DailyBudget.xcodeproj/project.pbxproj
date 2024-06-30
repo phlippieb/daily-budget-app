@@ -51,6 +51,8 @@
 		0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListItem.swift; sourceTree = "<group>"; };
 		0A20B1222C29731D00A26FBD /* ViewExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExpenses.swift; sourceTree = "<group>"; };
 		0A20B1242C2993CE00A26FBD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudget.entitlements; sourceTree = "<group>"; };
+		0A3D31D32C2EC2AB00E17CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		0A7B10922C24356D00474F10 /* DailyBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBudgetApp.swift; sourceTree = "<group>"; };
@@ -122,6 +124,8 @@
 		0A7B10942C24356D00474F10 /* DailyBudget */ = {
 			isa = PBXGroup;
 			children = (
+				0A3D31D32C2EC2AB00E17CB4 /* Info.plist */,
+				0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */,
 				0A7B10992C24356F00474F10 /* Assets.xcassets */,
 				0A20B1242C2993CE00A26FBD /* Settings.bundle */,
 				0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */,
@@ -446,12 +450,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_ASSET_PATHS = "\"DailyBudget/Preview Content\"";
 				DEVELOPMENT_TEAM = 7YC4M6VD27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyBudget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Budget";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -476,12 +482,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_ASSET_PATHS = "\"DailyBudget/Preview Content\"";
 				DEVELOPMENT_TEAM = 7YC4M6VD27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyBudget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Budget";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

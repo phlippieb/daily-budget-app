@@ -127,7 +127,7 @@ struct ViewBudget: View {
           }
           Spacer().frame(height: 10)
           
-          if info.budget.expenses.isEmpty {
+          if info.budget.expenses?.isEmpty ?? true {
             HStack {
               Text("No expenses")
                 .foregroundStyle(.gray)
@@ -137,9 +137,9 @@ struct ViewBudget: View {
             
           } else {
             ForEach(
-              budget.expenses
+              budget.expenses?
                 .sorted(by: {$0.day > $1.day})
-                .suffix(3)
+                .suffix(3) ?? []
             ) { expense in
               Button(
                 action: { onEditExpense(expense) }
