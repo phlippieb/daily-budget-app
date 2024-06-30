@@ -9,7 +9,7 @@ struct ViewExpenses: View {
   
   var body: some View {
     List {
-      ForEach(budget.expenses.groupedByDate, id: \.0) { group in
+      ForEach(budget.expenses?.groupedByDate ?? [], id: \.0) { group in
         Section {
           ForEach(group.1) { expense in
             Button(action: { onEditExpense(expense) }, label: {
@@ -83,7 +83,7 @@ private extension ViewExpenses {
   }
   
   func onDeleteExpense(_ expense: ExpenseModel) {
-    budget.expenses.remove(expense)
+    budget.expenses?.remove(expense)
     modelContext.delete(expense)
   }
 }

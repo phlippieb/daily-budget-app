@@ -7,9 +7,15 @@ import SwiftData
 /// An instance represents a single expense associated with a budget.
 @Model final class ExpenseModel {
   
-  var name: String
-  var amount: Double
-  var date: Date
+  var name: String = ""
+  var amount: Double = 0
+  var date: Date = Date()
+  
+  @Relationship var budget: BudgetModel? = nil
+  
+  convenience init() {
+    self.init(name: "", amount: 0, day: .today)
+  }
   
   init(name: String, amount: Double, date: Date) {
     self.name = name
@@ -31,8 +37,6 @@ extension ExpenseModel {
   }
 }
 
-extension ExpenseModel: DefaultInitializable {
-  convenience init() {
-    self.init(name: "", amount: 0, day: .today)
-  }
+extension ExpenseModel: UnitProviding {
+  static let unit = ExpenseModel()
 }

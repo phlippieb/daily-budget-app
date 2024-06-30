@@ -85,7 +85,7 @@ struct EditExpense: View {
           if let expense {
             // TODO: This fixes edits not propogating to the Home view,
             // but it looks weird. Might be better to rethink the data layer.
-            associatedBudget.expenses.append(expense)
+            associatedBudget.expenses?.append(expense)
             
             name = expense.name
             date = expense.date
@@ -135,7 +135,7 @@ private extension EditExpense {
         amount: isExpense ? amount : -amount,
         date: date)
       modelContext.insert(newExpense)
-      associatedBudget.expenses.append(newExpense)
+      associatedBudget.expenses?.append(newExpense)
     default:
       break
     }
@@ -149,7 +149,7 @@ private extension EditExpense {
   
   func onConfirmDelete() {
     if case .some(.some(let expense)) = expense {
-      associatedBudget.expenses.remove(expense)
+      associatedBudget.expenses?.remove(expense)
       modelContext.delete(expense)
     }
     
