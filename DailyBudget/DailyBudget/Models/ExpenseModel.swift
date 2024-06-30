@@ -13,6 +13,10 @@ import SwiftData
   
   @Relationship var budget: BudgetModel? = nil
   
+  convenience init() {
+    self.init(name: "", amount: 0, day: .today)
+  }
+  
   init(name: String, amount: Double, date: Date) {
     self.name = name
     self.amount = amount
@@ -33,8 +37,6 @@ extension ExpenseModel {
   }
 }
 
-extension ExpenseModel: DefaultInitializable {
-  convenience init() {
-    self.init(name: "", amount: 0, day: .today)
-  }
+extension ExpenseModel: UnitProviding {
+  static let unit = ExpenseModel()
 }

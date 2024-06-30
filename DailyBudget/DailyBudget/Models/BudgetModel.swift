@@ -20,6 +20,15 @@ import SwiftData
     self.endDate = endDate
     self.expenses = expenses
   }
+  
+  convenience init() {
+    self.init(
+      name: "",
+      amount: 0,
+      startDate: .distantPast,
+      endDate: .distantPast,
+      expenses: [])
+  }
 }
 
 // MARK: Calendar days -
@@ -57,13 +66,6 @@ extension BudgetModel {
   }
 }
 
-extension BudgetModel: DefaultInitializable {
-  convenience init() {
-    self.init(
-      name: "", 
-      amount: 0,
-      startDate: .now,
-      endDate: CalendarDate.today.adding(days: 30).date,
-      expenses: [])
-  }
+extension BudgetModel: UnitProviding {
+  static let unit = BudgetModel()
 }

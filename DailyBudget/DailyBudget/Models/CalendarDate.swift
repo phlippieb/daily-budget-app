@@ -10,7 +10,7 @@ struct CalendarDate {
 
 extension CalendarDate {
   static var today: CalendarDate {
-    .init(date: .now)
+    .init(date: Calendar.current.startOfDay(for: .now))
   }
   
   init(year: Int, month: Int, day: Int) {
