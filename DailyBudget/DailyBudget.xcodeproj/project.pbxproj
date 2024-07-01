@@ -14,6 +14,7 @@
 		0A20A3E62C2471290028E5C2 /* ExpenseListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */; };
 		0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20B1222C29731D00A26FBD /* ViewExpenses.swift */; };
 		0A20B1252C2993CE00A26FBD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A20B1242C2993CE00A26FBD /* Settings.bundle */; };
+		0A3381382C32FF3B00FC378F /* BudgetSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */; };
 		0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */; };
 		0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */; };
 		0A3CABB42C31BE7400ECD1F1 /* ViewBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */; };
@@ -54,6 +55,7 @@
 		0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListItem.swift; sourceTree = "<group>"; };
 		0A20B1222C29731D00A26FBD /* ViewExpenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExpenses.swift; sourceTree = "<group>"; };
 		0A20B1242C2993CE00A26FBD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryViewModel.swift; sourceTree = "<group>"; };
 		0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitProvidingTests.swift; sourceTree = "<group>"; };
 		0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBudget.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				0A7B10C02C24377000474F10 /* Models */,
 				0A7B109B2C24356F00474F10 /* Preview Content */,
 				0A20B1242C2993CE00A26FBD /* Settings.bundle */,
+				0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */,
 			);
 			path = DailyBudget;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				0A20A3D92C243AB20028E5C2 /* BudgetProgressInfo.swift in Sources */,
 				0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */,
 				0A20A3E42C246A740028E5C2 /* ViewBudgetOld.swift in Sources */,
+				0A3381382C32FF3B00FC378F /* BudgetSummaryViewModel.swift in Sources */,
 				0A7B10C62C24390600474F10 /* Home.swift in Sources */,
 				0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */,
 				0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */,

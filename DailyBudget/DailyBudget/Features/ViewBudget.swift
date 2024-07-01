@@ -63,24 +63,22 @@ struct ViewBudget: View {
   
   private var sections: [ViewBudgetSection] {
     [
-      (info.isActive)
-      ? (title: "Today old", body: .init(Today(info: info)), action: nil)
-      : (title: "Summary old", body: .init(PastBudgetSummary(info: info)), action: nil),
+      // TODO: Cleanup? Move to view?
       (title: info.isActive ? "Today" : "Summary",
-       body: .init(TodaySummary(info: info)),
+       body: .init(TodaySummary(viewModel: info.summaryViewModel)),
        action: nil),
-//     (title: "Budget info",
-//      body: .init(BudgetInfo(
-//        budget: budget, editingBudget: $editingBudget)),
-//      action: .init(Button(action: { editingBudget = budget }, label: {
-//      HStack { Text("Edit"); Image(systemName: "pencil.line") }
-//    }))
-//     ),
-//     (title: "Recent expenses", body: .init(RecentExpenses(
-//      expenses: budget.expenses ?? [],
-//      budget: $budget,
-//      editingExpense: $editingExpense)),
-//      action: .init(Button(action: { editingExpense = .some(.none) }, label: { HStack { Text("Add"); Image(systemName: "plus.circle") }})))
+      (title: "Budget info",
+       body: .init(BudgetInfo(
+        budget: budget, editingBudget: $editingBudget)),
+       action: .init(Button(action: { editingBudget = budget }, label: {
+         HStack { Text("Edit"); Image(systemName: "pencil.line") }
+       }))
+      ),
+      (title: "Recent expenses", body: .init(RecentExpenses(
+        expenses: budget.expenses ?? [],
+        budget: $budget,
+        editingExpense: $editingExpense)),
+       action: .init(Button(action: { editingExpense = .some(.none) }, label: { HStack { Text("Add"); Image(systemName: "plus.circle") }})))
     ]
   }
 }
@@ -90,16 +88,16 @@ struct ViewBudget: View {
 // For past budgets: over/under budget amount; total spent amount
 // For future budgets: amount
 private struct TodaySummary: View {
-  let info: BudgetProgressInfo
+  let viewModel: BudgetSummaryViewModel
   
   var body: some View {
     VStack(alignment: .leading) {
       // MARK: Date and status
       HStack {
         Image(systemName: "calendar")
-        Text(date)
+        Text(viewModel.dateSummary)
         
-        if let status {
+        if let status = viewModel.status {
           Spacer()
           Image(systemName: "flag")
             .foregroundStyle(.red)
@@ -110,20 +108,20 @@ private struct TodaySummary: View {
       
       // MARK: Primary amount
       Text("")
-      Text(primaryAmountTitle)
-      AmountText(amount: primaryAmount, wholePartFont: .largeTitle)
+      Text(viewModel.primaryAmountTitle)
+      AmountText(amount: viewModel.primaryAmount, wholePartFont: .largeTitle)
         .bold()
-        .foregroundStyle(accentColor)
+        .foregroundStyle(viewModel.accentColor)
       
       // MARK: Secondary amount
-      if let secondaryAmountTitle, let secondaryAmount {
+      if let secondaryAmountTitle = viewModel.secondaryAmountTitle, let secondaryAmount = viewModel.secondaryAmount {
         Divider()
         Text("")
         Text(secondaryAmountTitle)
         HStack(spacing: 0) {
           AmountText(amount: secondaryAmount)
           
-          if let secondaryAmountOf {
+          if let secondaryAmountOf = viewModel.secondaryAmountOf {
             Text(" of ")
             AmountText(amount: secondaryAmountOf)
           }
@@ -135,247 +133,11 @@ private struct TodaySummary: View {
       LinearGradient(
         stops: [
           .init(color: .secondarySystemGroupedBackground, location: 0.4),
-          .init(color: backgroundAccentColor.opacity(0.3), location: 0.9),
+          .init(color: viewModel.backgroundAccentColor.opacity(0.3), location: 0.9),
         ],
         startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
       )
       .background(Color.secondarySystemGroupedBackground)
-    )
-  }
-  
-  private var accentColor: Color {
-    if info.isActive {
-      return info.currentAllowance < 0 ? .red : .green
-    } else if info.isPast {
-      return info.budget.totalExpenses > info.budget.amount ? .red : .green
-    } else {
-      return .label
-    }
-  }
-  
-  private var backgroundAccentColor: Color {
-    info.isActive ? accentColor : .secondarySystemGroupedBackground
-  }
-  
-  // TODO: Factor out to info? Also used in Home
-  private var date: String {
-    if info.isActive {
-      return "Day \(info.dayOfBudget) of \(info.budget.totalDays)"
-    } else if info.isPast {
-      return "Ended \(info.budget.lastDay.toStandardFormatting())"
-    } else {
-      return "Starts \(info.budget.firstDay.toStandardFormatting())"
-    }
-  }
-  
-  // TODO: Factor out?
-  private var status: String? {
-    if info.budget.totalExpenses > info.budget.amount {
-      return "Total budget exceeded"
-    } else if info.isActive, info.currentAllowance < 0 {
-      return "Daily amount exceeded"
-    }
-    
-    return nil
-  }
-  
-  private var primaryAmountTitle: String {
-    if info.isActive {
-      return "Available today"
-    } else if info.isPast {
-      return info.budget.totalExpenses > info.budget.amount
-      ? "Over budget by"
-      : "Under budget by"
-    } else {
-      return "Amount"
-    }
-  }
-  
-  private var primaryAmount: Double {
-    if info.isActive {
-      return info.currentAllowance
-    } else if info.isPast {
-      return abs(info.budget.amount - info.budget.totalExpenses)
-    } else {
-      return info.budget.amount
-    }
-  }
-  
-  private var secondaryAmountTitle: String? {
-    if info.isActive {
-      return "Spent"
-    } else if info.isPast {
-      return "Total spent"
-    } else {
-      return nil
-    }
-  }
-  
-  private var secondaryAmount: Double? {
-    if info.isActive {
-      // TODO: Only today's expenditure
-      return info.budget.totalExpenses
-    } else if info.isPast {
-      return info.budget.totalExpenses
-    } else {
-      return nil
-    }
-  }
-  
-  private var secondaryAmountOf: Double? {
-    if info.isActive {
-      return info.budget.dailyAmount
-    } else if info.isPast {
-      return info.budget.amount
-    }
-    
-    return nil
-  }
-}
-
-// MARK: Today section -
-// For active budgets
-
-private struct Today: View {
-  let info: BudgetProgressInfo
-  
-  private var accentColor: Color {
-    info.currentAllowance < 0 ? .red : .green
-  }
-  
-  private var status: String? {
-    if info.budget.totalExpenses >= info.budget.amount {
-      return "Entire budget depleted"
-    } else if info.isActive, info.currentAllowance <= 0 {
-      return "Daily allowance depleted"
-    } else {
-      return nil
-    }
-  }
-  
-  private let cornerRadius: CGFloat = 10
-  
-  var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        Image(systemName: "calendar")
-        Text("Day \(info.dayOfBudget) of \(info.budget.totalDays)")
-        
-        if let status {
-          Spacer()
-          Image(systemName: "flag")
-            .foregroundStyle(.red)
-          Text(status)
-        }
-      }
-      .font(.footnote)
-      
-      Text("")
-      Text("Available")
-      HStack(alignment: .lastTextBaseline, spacing: 0) {
-        AmountText(amount: info.currentAllowance, wholePartFont: .largeTitle).bold()
-          .foregroundStyle(accentColor)
-        Text(" of ")
-        AmountText(
-          amount: info.budget.dailyAmount,
-          wholePartFont: .body)
-        // TODO: ^^ what makes the most sense to display here, and below?
-      }
-      
-      Divider()
-      Text("")
-      Text("Spent")
-      HStack(alignment: .lastTextBaseline, spacing: 0) {
-        // TODO: Get only amount spent today
-        AmountText(amount: info.budget.totalExpenses)
-        Text(" of ")
-        AmountText(amount: info.budget.dailyAmount)
-      }
-    }
-    .listRowBackground(
-      LinearGradient(
-        stops: [
-          .init(color: .secondarySystemGroupedBackground, location: 0.4),
-          .init(color: accentColor.opacity(0.2), location: 1),
-        ],
-        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
-      )
-    )
-  }
-}
-
-// MARK: Past/future budget section -
-// TODO: Consolidate with Today?
-
-private struct PastBudgetSummary: View {
-  let info: BudgetProgressInfo
-  
-  private var dateText: String {
-    info.isPast
-    ? "Ended \(info.budget.lastDay.toStandardFormatting())"
-    : "Starts \(info.budget.firstDay.toStandardFormatting())"
-  }
-  
-  private var status: String? {
-    if info.budget.totalExpenses > info.budget.amount {
-      return "Budget exceeded"
-    } else {
-      return nil
-    }
-  }
-  
-  private var accentColor: Color {
-    info.budget.totalExpenses > info.budget.amount ? .red : .green
-  }
-  
-  var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        Image(systemName: "calendar")
-        Text(dateText)
-        
-        if let status {
-          Spacer()
-          Image(systemName: "flag")
-            .foregroundStyle(.red)
-          Text(status)
-        }
-      }
-      .font(.footnote)
-      
-      if info.isPast {
-        Text("")
-        Text((info.budget.totalExpenses > info.budget.amount ? "Over" : "Under") + " budget by")
-        AmountText(
-          amount: abs(info.budget.amount - info.budget.totalExpenses),
-          wholePartFont: .largeTitle
-        )
-        .bold()
-        .foregroundColor(accentColor)
-        
-        Divider()
-        Text("")
-        Text("Total spent")
-        HStack(alignment: .lastTextBaseline, spacing: 0) {
-          AmountText(amount: info.budget.totalExpenses)
-          Text(" of ")
-          AmountText(amount: info.budget.amount)
-        }
-      } else {
-        // Future budget summary
-        Text("")
-        Text("Amount")
-        AmountText(amount: info.budget.amount, wholePartFont: .largeTitle)
-      }
-    }
-    .listRowBackground(
-      LinearGradient(
-        stops: [
-          .init(color: .secondarySystemGroupedBackground, location: 0.4),
-          .init(color: .secondary.opacity(0.1), location: 1),
-        ],
-        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
-      )
     )
   }
 }
@@ -391,7 +153,7 @@ private struct BudgetInfo: View {
       LabeledContent(title, content: { content })
     }
     
-//    Button("Edit budget", action: onEditBudgetTapped)
+    //    Button("Edit budget", action: onEditBudgetTapped)
     Button(action: onEditBudgetTapped) {
       HStack {
         Text("Edit")
