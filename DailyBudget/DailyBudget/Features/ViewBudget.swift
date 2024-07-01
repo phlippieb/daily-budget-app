@@ -27,9 +27,7 @@ struct ViewBudget: View {
             }
           }
         }
-
-//        Section(title) { content }
-          .headerProminence(.increased)
+        .headerProminence(.increased)
       }
     }
     .navigationTitle(info.budget.name)
@@ -66,9 +64,11 @@ struct ViewBudget: View {
   private var sections: [ViewBudgetSection] {
     [
       (info.isActive)
-      ? (title: "Today", body: .init(Today(info: info)), action: nil)
-      : (title: "Summary", body: .init(PastBudgetSummary(info: info)), action: nil),
-      (title: "Summary TODO", body: .init(TodaySummary(info: info)), action: nil),
+      ? (title: "Today old", body: .init(Today(info: info)), action: nil)
+      : (title: "Summary old", body: .init(PastBudgetSummary(info: info)), action: nil),
+      (title: info.isActive ? "Today" : "Summary",
+       body: .init(TodaySummary(info: info)),
+       action: nil),
 //     (title: "Budget info",
 //      body: .init(BudgetInfo(
 //        budget: budget, editingBudget: $editingBudget)),
@@ -109,24 +109,24 @@ private struct TodaySummary: View {
       .font(.footnote)
       
       // MARK: Primary amount
-      if let primaryAmountTitle, let primaryAmount {
-        Text("")
-        Text(primaryAmountTitle)
-        AmountText(amount: primaryAmount, wholePartFont: .largeTitle)
-          .bold()
-          .foregroundStyle(accentColor)
-        Divider()
-      }
+      Text("")
+      Text(primaryAmountTitle)
+      AmountText(amount: primaryAmount, wholePartFont: .largeTitle)
+        .bold()
+        .foregroundStyle(accentColor)
       
       // MARK: Secondary amount
-      Text("")
-      Text(secondaryAmountTitle)
-      HStack(spacing: 0) {
-        AmountText(amount: secondaryAmount)
-        
-        if let secondaryAmountOf {
-          Text(" of ")
-          AmountText(amount: secondaryAmountOf)
+      if let secondaryAmountTitle, let secondaryAmount {
+        Divider()
+        Text("")
+        Text(secondaryAmountTitle)
+        HStack(spacing: 0) {
+          AmountText(amount: secondaryAmount)
+          
+          if let secondaryAmountOf {
+            Text(" of ")
+            AmountText(amount: secondaryAmountOf)
+          }
         }
       }
     }
@@ -135,15 +135,26 @@ private struct TodaySummary: View {
       LinearGradient(
         stops: [
           .init(color: .secondarySystemGroupedBackground, location: 0.4),
-          .init(color: accentColor.opacity(0.3), location: 0.9),
+          .init(color: backgroundAccentColor.opacity(0.3), location: 0.9),
         ],
         startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
       )
+      .background(Color.secondarySystemGroupedBackground)
     )
   }
   
   private var accentColor: Color {
-    .green // TODO
+    if info.isActive {
+      return info.currentAllowance < 0 ? .red : .green
+    } else if info.isPast {
+      return info.budget.totalExpenses > info.budget.amount ? .red : .green
+    } else {
+      return .label
+    }
+  }
+  
+  private var backgroundAccentColor: Color {
+    info.isActive ? accentColor : .secondarySystemGroupedBackground
   }
   
   // TODO: Factor out to info? Also used in Home
@@ -165,48 +176,60 @@ private struct TodaySummary: View {
       return "Daily amount exceeded"
     }
     
-    return nil // TODO
+    return nil
   }
   
-  private var primaryAmountTitle: String? {
+  private var primaryAmountTitle: String {
     if info.isActive {
       return "Available today"
+    } else if info.isPast {
+      return info.budget.totalExpenses > info.budget.amount
+      ? "Over budget by"
+      : "Under budget by"
+    } else {
+      return "Amount"
     }
-    
-    return nil // TODO
   }
   
-  private var primaryAmount: Double? {
+  private var primaryAmount: Double {
     if info.isActive {
       return info.currentAllowance
+    } else if info.isPast {
+      return abs(info.budget.amount - info.budget.totalExpenses)
+    } else {
+      return info.budget.amount
     }
-    
-    return nil // TODO
   }
   
-  private var secondaryAmountTitle: String {
+  private var secondaryAmountTitle: String? {
     if info.isActive {
       return "Spent"
+    } else if info.isPast {
+      return "Total spent"
+    } else {
+      return nil
     }
-    
-    return "TODO"
   }
   
-  private var secondaryAmount: Double {
+  private var secondaryAmount: Double? {
     if info.isActive {
       // TODO: Only today's expenditure
       return info.budget.totalExpenses
+    } else if info.isPast {
+      return info.budget.totalExpenses
+    } else {
+      return nil
     }
-    
-    return -666
   }
   
   private var secondaryAmountOf: Double? {
     if info.isActive {
       return info.budget.dailyAmount
+    } else if info.isPast {
+      return info.budget.amount
     }
     
-    return nil // TODO
+    return nil
   }
 }
 
@@ -448,8 +471,8 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: -1),
-    lastDay: .today.adding(days: 29),
+    firstDay: .today.adding(days: -10),
+    lastDay: .today.adding(days: -1),
     expenses: [])
   container.mainContext.insert(budget)
   
