@@ -15,19 +15,9 @@ struct ViewBudget: View {
   
   var body: some View {
     List {
-      ForEach(sections, id: \.0) { (title, content, action) in
-        Section {
-          content
-        } header: {
-          HStack {
-            Text(title)
-            if let action {
-              Spacer()
-              action
-            }
-          }
-        }
-        .headerProminence(.increased)
+      ForEach(sections, id: \.0) { (title, content) in
+        Section(title) { content }
+          .headerProminence(.increased)
       }
     }
     .navigationTitle(info.budget.name)
@@ -42,45 +32,26 @@ struct ViewBudget: View {
         expense: $editingExpense,
         associatedBudget: info.budget)
     }
-    
-    .toolbar {
-      ToolbarItem(placement: .bottomBar) {
-        Button(action: { editingBudget = budget }, label: {
-          Image(systemName: "pencil.line")
-        })
-      }
-      
-      ToolbarItem(placement: .bottomBar) {
-        Button(action: { editingExpense = .some(.none) }, label: {
-          Image(systemName: "plus.circle")
-        })
-      }
-    }
   }
   
   private typealias ViewBudgetSection = (
-    title: String, body: AnyView, action: AnyView?)
+    title: String, body: AnyView)
   
-  private var sections: [ViewBudgetSection] {
-    [
-      // TODO: Cleanup? Move to view?
-      (title: info.isActive ? "Today" : "Summary",
-       body: .init(TodaySummary(viewModel: info.summaryViewModel)),
-       action: nil),
-      (title: "Budget info",
-       body: .init(BudgetInfo(
-        budget: budget, editingBudget: $editingBudget)),
-       action: .init(Button(action: { editingBudget = budget }, label: {
-         HStack { Text("Edit"); Image(systemName: "pencil.line") }
-       }))
-      ),
-      (title: "Recent expenses", body: .init(RecentExpenses(
+  private var sections: [ViewBudgetSection] { [
+    (
+      title: info.isActive ? "Today" : "Summary",
+      body: .init(TodaySummary(viewModel: info.summaryViewModel))
+    ), (
+      title: "Budget info",
+      body: .init(BudgetInfo(budget: budget, editingBudget: $editingBudget))
+    ), (
+      title: "Recent expenses",
+      body: .init(RecentExpenses(
         expenses: budget.expenses ?? [],
         budget: $budget,
-        editingExpense: $editingExpense)),
-       action: .init(Button(action: { editingExpense = .some(.none) }, label: { HStack { Text("Add"); Image(systemName: "plus.circle") }})))
-    ]
-  }
+        editingExpense: $editingExpense))
+    )
+  ] }
 }
 
 // MARK: Summary section -
@@ -104,11 +75,11 @@ private struct TodaySummary: View {
           Text(status)
         }
       }
-      .font(.footnote)
+      .font(.subheadline)
       
       // MARK: Primary amount
       Text("")
-      Text(viewModel.primaryAmountTitle)
+      Text(viewModel.primaryAmountTitle).font(.headline)
       AmountText(amount: viewModel.primaryAmount, wholePartFont: .largeTitle)
         .bold()
         .foregroundStyle(viewModel.accentColor)
@@ -117,9 +88,9 @@ private struct TodaySummary: View {
       if let secondaryAmountTitle = viewModel.secondaryAmountTitle, let secondaryAmount = viewModel.secondaryAmount {
         Divider()
         Text("")
-        Text(secondaryAmountTitle)
+        Text(secondaryAmountTitle).font(.subheadline).bold()
         HStack(spacing: 0) {
-          AmountText(amount: secondaryAmount)
+          AmountText(amount: secondaryAmount).bold()
           
           if let secondaryAmountOf = viewModel.secondaryAmountOf {
             Text(" of ")
@@ -133,7 +104,7 @@ private struct TodaySummary: View {
       LinearGradient(
         stops: [
           .init(color: .secondarySystemGroupedBackground, location: 0.4),
-          .init(color: viewModel.backgroundAccentColor.opacity(0.3), location: 0.9),
+          .init(color: viewModel.backgroundAccentColor.opacity(0.15), location: 1),
         ],
         startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
       )
@@ -149,17 +120,16 @@ private struct BudgetInfo: View {
   @Binding var editingBudget: BudgetModel??
   
   var body: some View {
-    ForEach(items, id: \.0) { (title, content) in
-      LabeledContent(title, content: { content })
-    }
-    
-    //    Button("Edit budget", action: onEditBudgetTapped)
     Button(action: onEditBudgetTapped) {
       HStack {
         Text("Edit")
         Spacer()
         Image(systemName: "pencil.line")
       }
+    }
+    
+    ForEach(items, id: \.0) { (title, content) in
+      LabeledContent(title, content: { content })
     }
   }
   
@@ -190,6 +160,13 @@ private struct RecentExpenses: View {
   @Binding var editingExpense: ExpenseModel??
   
   var body: some View {
+    Button(action: onAddExpenseTapped, label: {
+      HStack {
+        Text("Add")
+        Spacer()
+        Image(systemName: "plus.circle")
+      }
+    })
     
     if expenses.isEmpty {
       Text("No expenses")
@@ -233,15 +210,15 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: -10),
-    lastDay: .today.adding(days: -1),
+    firstDay: .today.adding(days: -1),
+    lastDay: .today.adding(days: 30),
     expenses: [])
   container.mainContext.insert(budget)
   
   let expenses = [
     ExpenseModel(
       name: "Expense",
-      amount: 100,
+      amount: 1000,
       day: CalendarDate.today),
     ExpenseModel(
       name: "Expense2",
