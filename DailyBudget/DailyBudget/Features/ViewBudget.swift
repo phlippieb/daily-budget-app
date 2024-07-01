@@ -11,25 +11,27 @@ struct ViewBudget: View {
   }
   
   var body: some View {
-    ScrollView {
-      VStack(alignment: .listRowSeparatorLeading) {
-        Text("Today").font(.title)
-        Today(info: info)
-        
-        Text("Budget info").font(.title)
-          .padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
-        BudgetInfo(budget: budget)
-        
-        Text("Recent expenses").font(.title)
-          .padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
-        RecentExpenses(expenses: budget.expenses ?? [])
+    List {
+      ForEach(sections, id: \.0) { (title, content) in
+        Section(title) { content }
+          .headerProminence(.increased)
       }
-      .padding(.horizontal, 24)
     }
     .navigationTitle(info.budget.name)
     .navigationBarTitleDisplayMode(.inline)
   }
+  
+  private var sections: [(String, AnyView)] {
+    [
+      ("Today", AnyView(Today(info: info))),
+      ("Budget info", AnyView(BudgetInfo(budget: budget))),
+      ("Recent expenses", AnyView(RecentExpenses(
+        expenses: budget.expenses ?? [])))
+    ]
+  }
 }
+
+// MARK: Today section -
 
 private struct Today: View {
   let info: BudgetProgressInfo
@@ -69,7 +71,8 @@ private struct Today: View {
       Text("")
       Text("Available")
       HStack(alignment: .lastTextBaseline, spacing: 0) {
-        AmountText(amount: info.currentAllowance).bold()
+        AmountText(amount: info.currentAllowance, wholePartFont: .largeTitle).bold()
+          .foregroundStyle(accentColor)
         Text(" of ")
         AmountText(
           amount: info.budget.dailyAmount,
@@ -78,147 +81,98 @@ private struct Today: View {
       }
       
       Divider()
-      
       Text("")
       Text("Spent")
       HStack(alignment: .lastTextBaseline, spacing: 0) {
         // TODO: Get only amount spent today
         AmountText(amount: info.budget.totalExpenses)
         Text(" of ")
-        AmountText(
-          amount: info.budget.dailyAmount,
-          wholePartFont: .body)
+        AmountText(amount: info.budget.dailyAmount)
       }
     }
-    .padding()
-    .background(Material.thick)
-    .background(Gradient(colors: [.secondary, .secondary, accentColor]).opacity(0.5))
-//    .background(Color.secondary)
-    .cornerRadius(cornerRadius)
-    .overlay(
-      RoundedRectangle(cornerRadius: cornerRadius)
-        .stroke(Gradient(colors: [.gray.opacity(0.2), accentColor.opacity(0.9)]), lineWidth: 1)
+    .listRowBackground(
+      LinearGradient(
+        stops: [
+          .init(color: .secondarySystemGroupedBackground, location: 0.4),
+          .init(color: accentColor.opacity(0.2), location: 1),
+        ],
+        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
+      )
     )
-    .shadow(color: .gray.opacity(0.3), radius: 20)
   }
 }
 
-private struct AmountText: View {
-  let amount: Double
-  var wholePartFont: Font = .largeTitle
-  var fractionPartFont: Font = .body
-  
-  private var wholePart: Int {
-    Int(amount)
-  }
-  
-  private var fractionPart: String {
-    String(abs(Int(amount.truncatingRemainder(dividingBy: 1) * 100)))
-  }
-  
-  var body: some View {
-    HStack(alignment: .lastTextBaseline, spacing: 0) {
-      Text("\(wholePart)").font(wholePartFont)
-      Text(".")
-      // TODO: Show as "00", not "0" for 0
-      Text(fractionPart).font(fractionPartFont)
-    }
-  }
-}
+// MARK: Budget info section -
 
 private struct BudgetInfo: View {
   let budget: BudgetModel
   
   var body: some View {
-    VStack {
-      LabeledContent {
-        Text(
-          budget.startDate.calendarDate.toStandardFormatting()
-          + " - "
-          + budget.endDate.calendarDate.toStandardFormatting()
-        )
-      } label: {
-        Text("Period")
-      }
-      
-      Divider()
-      LabeledContent {
-        Text("\(budget.amount, specifier: "%.2f")")
-      } label: {
-        Text("Total budget")
-      }
-      
-      Divider()
-      LabeledContent {
-        Text("\(budget.totalExpenses, specifier: "%.2f")")
-      } label: {
-        Text("Total spent")
-      }
-      
-      Divider()
-      LabeledContent {
-        Text("\(budget.dailyAmount, specifier: "%.2f")")
-      } label: {
-        Text("Daily budget")
-      }
+    ForEach(items, id: \.0) { (title, content) in
+      LabeledContent(title, content: { content })
     }
-    .padding()
-//    .background(.white)
-//    .background(Color.primary.colorInvert())
-    .background(Material.regular)
-    .cornerRadius(8)
-    .overlay(
-      RoundedRectangle(cornerRadius: 8)
-        .stroke(.primary, lineWidth: 0.1)
-    )
-    .shadow(color: .gray.opacity(0.3), radius: 20)
+    
+    Button("Edit budget", action: {}) // TODO: Action
+  }
+  
+  private var items: [(String, AnyView)] {
+    [
+      ("Period", .init(HStack(spacing: 0) {
+        Text(budget.firstDay.toStandardFormatting())
+        if budget.firstDay != budget.lastDay {
+          Text(" to " + budget.lastDay.toStandardFormatting())
+        }
+      })),
+      ("Total budget", .init(AmountText(amount: budget.amount))),
+      ("Total spent", .init(AmountText(amount: budget.totalExpenses))),
+      ("Daily budget", .init(AmountText(amount: budget.dailyAmount)))
+    ]
   }
 }
+
+// MARK: Recent expenses section -
 
 private struct RecentExpenses: View {
   let expenses: [ExpenseModel]
   
   var body: some View {
-//    List {
-      if expenses.isEmpty {
-        HStack {
-          Text("No expenses")
-            .foregroundStyle(.gray)
-          Spacer()
-        }
-        .padding(.vertical, 2)
-        
-      } else {
-        ForEach(
-          expenses
-            .sorted(by: {$0.day > $1.day})
-            .suffix(3)
-        ) { expense in
-          Button(
-            // TODO: implement
-            action: { }//onEditExpense(expense) }
-          ) {
-            VStack {
-              ExpenseListItem(item: expense)
-              Divider()
-            }
-            .contentShape(Rectangle())
-          }
-          .buttonStyle(PlainButtonStyle())
-        }
-        
-        // TODO: Implement
-        //      NavigationLink(
-        //        destination: ViewExpenses(budget: $budget)
-        //      ) {
-        //        Text("View all")
-        //      }
-//        .padding()
+    if expenses.isEmpty {
+      HStack {
+        Text("No expenses")
+          .foregroundStyle(.gray)
+        Spacer()
       }
-//    }
-//    .listStyle(.plain)
+      .padding(.vertical, 2)
+      
+    } else {
+      ForEach(
+        expenses
+          .sorted(by: {$0.day > $1.day})
+          .suffix(3)
+      ) { expense in
+        Button(
+          // TODO: implement
+          action: { }//onEditExpense(expense) }
+        ) {
+          VStack {
+            ExpenseListItem(item: expense)
+          }
+          .contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+      }
+      
+      // TODO: Implement
+      //      NavigationLink(
+      //        destination: ViewExpenses(budget: $budget)
+      //      ) {
+      //        Text("View all")
+      //      }
+    }
   }
 }
+
+// MARK: Preview -
 
 #Preview {
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
@@ -234,7 +188,7 @@ private struct RecentExpenses: View {
   let expenses = [
     ExpenseModel(
       name: "Expense",
-      amount: 1000,
+      amount: 100,
       day: CalendarDate.today),
     ExpenseModel(
       name: "Expense2",

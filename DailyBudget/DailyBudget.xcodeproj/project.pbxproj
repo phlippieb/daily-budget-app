@@ -33,6 +33,7 @@
 		0AFEFB6C2C25D128004847AE /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6B2C25D128004847AE /* ArrayExtensions.swift */; };
 		0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
 		0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */; };
+		0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFEEE82C32A586000D810F /* AmountText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		0AFEFB6B2C25D128004847AE /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		0AFEFB6D2C26A424004847AE /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateTests.swift; sourceTree = "<group>"; };
+		0AFFEEE82C32A586000D810F /* AmountText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				0AFEFB602C258570004847AE /* EditBudget.swift */,
 				0A20B1222C29731D00A26FBD /* ViewExpenses.swift */,
 				0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */,
+				0AFFEEE82C32A586000D810F /* AmountText.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */,
 				0A20A3D92C243AB20028E5C2 /* BudgetProgressInfo.swift in Sources */,
 				0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */,
 				0A20A3E42C246A740028E5C2 /* ViewBudgetOld.swift in Sources */,
