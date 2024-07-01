@@ -42,7 +42,6 @@ struct Home: View {
               Section("Current budgets") {
                 ForEach(activeBudgets) { budget in
                   NavigationLink {
-                    Text("")
                     ViewBudget(budget: budget)
                   } label: {
                     BudgetListItem(item: budget)
@@ -55,7 +54,6 @@ struct Home: View {
               Section("Upcoming budgets") {
                 ForEach(upcomingBudgets) { budget in
                   NavigationLink {
-                    Text("")
                     ViewBudget(budget: budget)
                   } label: {
                     BudgetListItem(item: budget)
@@ -68,7 +66,6 @@ struct Home: View {
               Section("Past budgets") {
                 ForEach(pastBudgets) { budget in
                   NavigationLink {
-                    Text("")
                     ViewBudget(budget: budget)
                   } label: {
                     BudgetListItem(item: budget)
