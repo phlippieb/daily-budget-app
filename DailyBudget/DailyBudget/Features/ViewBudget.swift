@@ -2,11 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ViewBudget: View {
-  // TODO: Should this be a binding?
   @State var budget: BudgetModel
-  
-  @State private var editingBudget: BudgetModel??
-  @State private var editingExpense: ExpenseModel??
   
   @EnvironmentObject private var currentDate: CurrentDate
   
@@ -15,221 +11,243 @@ struct ViewBudget: View {
   }
   
   var body: some View {
-    VStack {
-      if info.isActive {
-        // MARK: Today's budget summary
-        Group {
-          Text("Today").font(.title)
-          
-          HStack {
-            Image(systemName: "calendar")
-            Text("Day \(info.dayOfBudget) / \(info.budget.totalDays)")
-          }
-          
-          Spacer().frame(height: 20)
-          
-          if info.currentAllowance < 0 {
-            Text("Over budget")
-            Text("\(info.currentAllowance, specifier: "%.2f")")
-              .font(.largeTitle)
-              .foregroundStyle(.red)
-          } else {
-            Text("Available")
-            Text("\(info.currentAllowance, specifier: "%.2f")")
-              .font(.largeTitle)
-              .foregroundStyle(.green)
-          }
-        }
+    ScrollView {
+      VStack(alignment: .listRowSeparatorLeading) {
+        Text("Today").font(.title)
+        Today(info: info)
         
-      } else if info.isPast {
-        // MARK: Summary of a past budget
-        Text("Ended on "
-             + budget.lastDay.toStandardFormatting())
+        Text("Budget info").font(.title)
+          .padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
+        BudgetInfo(budget: budget)
         
-        Spacer().frame(height: 20)
-        Text("Amount spent")
-        Text(
-          "\(budget.totalExpenses, specifier: "%.2f") / \(budget.amount, specifier: "%.2f")"
-        )
-        .font(.title)
-        .foregroundStyle(
-          budget.totalExpenses <= budget.amount ? Color.label : .red
-        )
-        
-      } else {
-        // MARK: Summary of a future budget
-        Text("Starts on "
-             + budget.firstDay.toStandardFormatting()
-        )
-        
-        Spacer().frame(height: 20)
-        Text("Amount")
-        Text(
-          "\(budget.amount, specifier: "%.2f")"
-        )
-        .font(.title)
+        Text("Recent expenses").font(.title)
+          .padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
+        RecentExpenses(expenses: budget.expenses ?? [])
       }
-      
-      // MARK: Budget info
-      Spacer().frame(height: 40)
-      GroupBox {
-        HStack {
-          Text("Budget").font(.headline)
+      .padding(.horizontal, 24)
+    }
+    .navigationTitle(info.budget.name)
+    .navigationBarTitleDisplayMode(.inline)
+  }
+}
+
+private struct Today: View {
+  let info: BudgetProgressInfo
+  
+  private var accentColor: Color {
+    info.currentAllowance < 0 ? .red : .green
+  }
+  
+  private var status: String? {
+    if info.budget.totalExpenses >= info.budget.amount {
+      return "Entire budget depleted"
+    } else if info.isActive, info.currentAllowance <= 0 {
+      return "Daily allowance depleted"
+    } else {
+      return nil
+    }
+  }
+  
+  private let cornerRadius: CGFloat = 10
+  
+  var body: some View {
+    VStack(alignment: .leading) {
+      HStack {
+        Image(systemName: "calendar")
+        Text("Day \(info.dayOfBudget) of \(info.budget.totalDays)")
+        
+        if let status {
           Spacer()
-          Button(action: onEditBudgetTapped) {
-            Image(systemName: "pencil")
-          }
-        }
-        
-        LabeledContent {
-          Text(
-            info.budget.startDate.calendarDate.toStandardFormatting()
-            + " - "
-            + info.budget.endDate.calendarDate.toStandardFormatting()
-          )
-        } label: {
-          Text("Period")
-        }
-        
-        LabeledContent {
-          Text("\(info.budget.amount, specifier: "%.2f")")
-        } label: {
-          Text("Total budget")
-        }
-        
-        LabeledContent {
-          Text("\(info.budget.totalExpenses, specifier: "%.2f")")
-        } label: {
-          Text("Total spent")
-        }
-        
-        LabeledContent {
-          Text("\(info.budget.dailyAmount, specifier: "%.2f")")
-        } label: {
-          Text("Daily budget")
+          Image(systemName: "flag")
+            .foregroundStyle(.red)
+          Text(status)
         }
       }
-      .onTapGesture {
-        onEditBudgetTapped()
+      .font(.footnote)
+      
+      
+      Text("")
+      Text("Available")
+      HStack(alignment: .lastTextBaseline, spacing: 0) {
+        AmountText(amount: info.currentAllowance).bold()
+        Text(" of ")
+        AmountText(
+          amount: info.budget.dailyAmount,
+          wholePartFont: .body)
+        // TODO: ^^ what makes the most sense to display here, and below?
       }
       
-      // MARK: Expenses
-      Spacer().frame(height: 40)
-      Section {
-        VStack {
-          HStack {
-            Text("Recent expenses").font(.headline)
-            Spacer()
-            Button(action: onAddExpenseTapped) {
-              Image(systemName: "plus")
-            }
-          }
-          Spacer().frame(height: 10)
-          
-          if info.budget.expenses?.isEmpty ?? true {
-            HStack {
-              Text("No expenses")
-                .foregroundStyle(.gray)
-              Spacer()
-            }
-            .padding(.vertical, 2)
-            
-          } else {
-            ForEach(
-              budget.expenses?
-                .sorted(by: {$0.day > $1.day})
-                .suffix(3) ?? []
-            ) { expense in
-              Button(
-                action: { onEditExpense(expense) }
-              ) {
-                VStack {
-                  ExpenseListItem(item: expense)
-                  Divider()
-                }
-                .contentShape(Rectangle())
-              }
-              .buttonStyle(PlainButtonStyle())
-            }
-            
-            NavigationLink(
-              destination: ViewExpenses(budget: $budget)
-            ) {
-              Text("View all")
-            }
-            .padding()
-          }
-        }
+      Divider()
+      
+      Text("")
+      Text("Spent")
+      HStack(alignment: .lastTextBaseline, spacing: 0) {
+        // TODO: Get only amount spent today
+        AmountText(amount: info.budget.totalExpenses)
+        Text(" of ")
+        AmountText(
+          amount: info.budget.dailyAmount,
+          wholePartFont: .body)
       }
     }
     .padding()
-    
-    .navigationTitle(info.budget.name)
-    .navigationBarTitleDisplayMode(.inline)
-    
-    .sheet(item: $editingBudget, content: { _ in
-      EditBudget(budget: $editingBudget)
-    })
-    
-    .sheet(item: $editingExpense) { expense in
-      EditExpense(
-        expense: $editingExpense,
-        associatedBudget: info.budget)
+    .background(Material.thick)
+    .background(Gradient(colors: [.secondary, .secondary, accentColor]).opacity(0.5))
+//    .background(Color.secondary)
+    .cornerRadius(cornerRadius)
+    .overlay(
+      RoundedRectangle(cornerRadius: cornerRadius)
+        .stroke(Gradient(colors: [.gray.opacity(0.2), accentColor.opacity(0.9)]), lineWidth: 1)
+    )
+    .shadow(color: .gray.opacity(0.3), radius: 20)
+  }
+}
+
+private struct AmountText: View {
+  let amount: Double
+  var wholePartFont: Font = .largeTitle
+  var fractionPartFont: Font = .body
+  
+  private var wholePart: Int {
+    Int(amount)
+  }
+  
+  private var fractionPart: String {
+    String(abs(Int(amount.truncatingRemainder(dividingBy: 1) * 100)))
+  }
+  
+  var body: some View {
+    HStack(alignment: .lastTextBaseline, spacing: 0) {
+      Text("\(wholePart)").font(wholePartFont)
+      Text(".")
+      // TODO: Show as "00", not "0" for 0
+      Text(fractionPart).font(fractionPartFont)
     }
   }
 }
 
-// MARK: Actions
-private extension ViewBudget {
-  func onEditBudgetTapped() {
-    editingBudget = info.budget
-  }
+private struct BudgetInfo: View {
+  let budget: BudgetModel
   
-  func onAddExpenseTapped() {
-    editingExpense = .some(nil)
+  var body: some View {
+    VStack {
+      LabeledContent {
+        Text(
+          budget.startDate.calendarDate.toStandardFormatting()
+          + " - "
+          + budget.endDate.calendarDate.toStandardFormatting()
+        )
+      } label: {
+        Text("Period")
+      }
+      
+      Divider()
+      LabeledContent {
+        Text("\(budget.amount, specifier: "%.2f")")
+      } label: {
+        Text("Total budget")
+      }
+      
+      Divider()
+      LabeledContent {
+        Text("\(budget.totalExpenses, specifier: "%.2f")")
+      } label: {
+        Text("Total spent")
+      }
+      
+      Divider()
+      LabeledContent {
+        Text("\(budget.dailyAmount, specifier: "%.2f")")
+      } label: {
+        Text("Daily budget")
+      }
+    }
+    .padding()
+//    .background(.white)
+//    .background(Color.primary.colorInvert())
+    .background(Material.regular)
+    .cornerRadius(8)
+    .overlay(
+      RoundedRectangle(cornerRadius: 8)
+        .stroke(.primary, lineWidth: 0.1)
+    )
+    .shadow(color: .gray.opacity(0.3), radius: 20)
   }
+}
+
+private struct RecentExpenses: View {
+  let expenses: [ExpenseModel]
   
-  func onEditExpense(_ expense: ExpenseModel) {
-    editingExpense = expense
+  var body: some View {
+//    List {
+      if expenses.isEmpty {
+        HStack {
+          Text("No expenses")
+            .foregroundStyle(.gray)
+          Spacer()
+        }
+        .padding(.vertical, 2)
+        
+      } else {
+        ForEach(
+          expenses
+            .sorted(by: {$0.day > $1.day})
+            .suffix(3)
+        ) { expense in
+          Button(
+            // TODO: implement
+            action: { }//onEditExpense(expense) }
+          ) {
+            VStack {
+              ExpenseListItem(item: expense)
+              Divider()
+            }
+            .contentShape(Rectangle())
+          }
+          .buttonStyle(PlainButtonStyle())
+        }
+        
+        // TODO: Implement
+        //      NavigationLink(
+        //        destination: ViewExpenses(budget: $budget)
+        //      ) {
+        //        Text("View all")
+        //      }
+//        .padding()
+      }
+//    }
+//    .listStyle(.plain)
   }
 }
 
 #Preview {
-  let variant = Variants.currentUnder
-  
-  enum Variants {
-    case currentUnder, currentOver
-  }
-  
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
-  let budget: BudgetModel
-  
-  switch variant {
-  case .currentUnder:
-    budget = BudgetModel(
-      name: "My budget",
-      amount: 10000,
-      firstDay: .today.adding(days: -30),
-      lastDay: .today.adding(days: 1),
-      expenses: [])
-  case .currentOver:
-    budget = BudgetModel(
-      name: "My budget",
-      amount: 10000,
-      firstDay: .today.adding(days: -30),
-      lastDay: .today.adding(days: 1),
-      expenses: [])
-  }
+  let budget = BudgetModel(
+    name: "My budget",
+    amount: 10000,
+    firstDay: .today.adding(days: -1),
+    lastDay: .today.adding(days: 30),
+    expenses: [])
   container.mainContext.insert(budget)
   
-  var expenses = (1 ... 10).map { i in
-    ExpenseModel(name: "Expense \(i)", amount: Double(20 * i), day: CalendarDate.today.adding(days: -(i/4)))
+  let expenses = [
+    ExpenseModel(
+      name: "Expense",
+      amount: 1000,
+      day: CalendarDate.today),
+    ExpenseModel(
+      name: "Expense2",
+      amount: 10,
+      day: CalendarDate.today.adding(days: -1)),
+    ExpenseModel(
+      name: "Expense 3",
+      amount: 10,
+      day: CalendarDate.today.adding(days: -1))
+  ]
+  expenses.forEach {
+    container.mainContext.insert($0)
   }
-  if case .currentOver = variant {
-    expenses.append(ExpenseModel(name: "Expense over budget", amount: 10000, day: .today))
-  }
-  expenses.forEach { container.mainContext.insert($0) }
   budget.expenses = expenses
   
   return NavigationView {
