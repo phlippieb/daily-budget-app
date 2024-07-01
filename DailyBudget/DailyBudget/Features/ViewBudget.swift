@@ -15,8 +15,20 @@ struct ViewBudget: View {
   
   var body: some View {
     List {
-      ForEach(sections, id: \.0) { (title, content) in
-        Section(title) { content }
+      ForEach(sections, id: \.0) { (title, content, action) in
+        Section {
+          content
+        } header: {
+          HStack {
+            Text(title)
+            if let action {
+              Spacer()
+              action
+            }
+          }
+        }
+
+//        Section(title) { content }
           .headerProminence(.increased)
       }
     }
@@ -48,16 +60,23 @@ struct ViewBudget: View {
     }
   }
   
-  private typealias ViewBudgetSection = (title: String, body: AnyView, action: AnyView)
-  private var sections: [(String, AnyView)] {
-    [
-      ("Today", AnyView(Today(info: info))),
-      ("Budget info", AnyView(BudgetInfo(
-        budget: budget, editingBudget: $editingBudget))),
-      ("Recent expenses", AnyView(RecentExpenses(
-        expenses: budget.expenses ?? [],
-        budget: $budget,
-        editingExpense: $editingExpense)))
+  private typealias ViewBudgetSection = (
+    title: String, body: AnyView, action: AnyView?)
+  
+  private var sections: [ViewBudgetSection] {
+    [(title: "Today", body: .init(Today(info: info)), action: nil),
+     (title: "Budget info",
+      body: .init(BudgetInfo(
+        budget: budget, editingBudget: $editingBudget)),
+      action: .init(Button(action: { editingBudget = budget }, label: {
+      HStack { Text("Edit"); Image(systemName: "pencil.line") }
+    }))
+     ),
+     (title: "Recent expenses", body: .init(RecentExpenses(
+      expenses: budget.expenses ?? [],
+      budget: $budget,
+      editingExpense: $editingExpense)),
+      action: .init(Button(action: { editingExpense = .some(.none) }, label: { HStack { Text("Add"); Image(systemName: "plus.circle") }})))
     ]
   }
 }
