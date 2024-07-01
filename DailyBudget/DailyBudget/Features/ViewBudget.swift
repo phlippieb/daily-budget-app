@@ -47,7 +47,6 @@ struct ViewBudget: View {
     ), (
       title: "Recent expenses",
       body: .init(RecentExpenses(
-        expenses: budget.expenses ?? [],
         budget: $budget,
         editingExpense: $editingExpense))
     )
@@ -155,7 +154,6 @@ private struct BudgetInfo: View {
 // MARK: Recent expenses section -
 
 private struct RecentExpenses: View {
-  let expenses: [ExpenseModel] // TODO: Duplicates budget now
   @Binding var budget: BudgetModel
   @Binding var editingExpense: ExpenseModel??
   
@@ -168,13 +166,13 @@ private struct RecentExpenses: View {
       }
     })
     
-    if expenses.isEmpty {
+    if (budget.expenses ?? []).isEmpty {
       Text("No expenses")
         .foregroundStyle(.gray)
       
     } else {
       ForEach(
-        expenses
+        budget.expenses ?? []
           .sorted(by: {$0.day > $1.day})
           .suffix(3)
       ) { expense in

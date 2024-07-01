@@ -10,15 +10,27 @@ struct AmountText: View {
   }
   
   private var fractionPart: String {
-    String(abs(Int(amount.truncatingRemainder(dividingBy: 1) * 100)))
+    String(
+      // Show 2 decimal places
+      format: "%02d",
+      // Take first two decimal digits
+      abs(Int(amount.truncatingRemainder(dividingBy: 1) * 100))
+    )
   }
   
   var body: some View {
     HStack(alignment: .lastTextBaseline, spacing: 0) {
       Text("\(wholePart)").font(wholePartFont)
       Text(".")
-      // TODO: Show as "00", not "0" for 0
       Text(fractionPart).font(fractionPartFont)
     }
+  }
+}
+
+#Preview {
+  List {
+    AmountText(amount: 1.1)
+    AmountText(amount: 1)
+    AmountText(amount: 2.345)
   }
 }
