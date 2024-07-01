@@ -67,7 +67,7 @@ struct ViewBudget: View {
     [
       (info.isActive)
       ? (title: "Today", body: .init(Today(info: info)), action: nil)
-      : (title: "Summary", body: .init(PastBudgetSummary(budget: budget)), action: nil),
+      : (title: "Summary", body: .init(PastBudgetSummary(info: info)), action: nil),
      (title: "Budget info",
       body: .init(BudgetInfo(
         budget: budget, editingBudget: $editingBudget)),
@@ -155,13 +155,20 @@ private struct Today: View {
   }
 }
 
-// MARK: Past budget section -
+// MARK: Past/future budget section -
+// TODO: Consolidate with Today?
 
 private struct PastBudgetSummary: View {
-  let budget: BudgetModel
+  let info: BudgetProgressInfo
+  
+  private var dateText: String {
+    info.isPast
+    ? "Ended \(info.budget.lastDay.toStandardFormatting())"
+    : "Starts \(info.budget.firstDay.toStandardFormatting())"
+  }
   
   private var status: String? {
-    if budget.totalExpenses > budget.amount {
+    if info.budget.totalExpenses > info.budget.amount {
       return "Budget exceeded"
     } else {
       return nil
@@ -169,14 +176,14 @@ private struct PastBudgetSummary: View {
   }
   
   private var accentColor: Color {
-    budget.totalExpenses > budget.amount ? .red : .green
+    info.budget.totalExpenses > info.budget.amount ? .red : .green
   }
   
   var body: some View {
     VStack(alignment: .leading) {
       HStack {
         Image(systemName: "calendar")
-        Text("Ended \(budget.lastDay.toStandardFormatting())")
+        Text(dateText)
         
         if let status {
           Spacer()
@@ -187,22 +194,29 @@ private struct PastBudgetSummary: View {
       }
       .font(.footnote)
       
-      Text("")
-      Text((budget.totalExpenses > budget.amount ? "Over" : "Under") + " budget by")
-      AmountText(
-        amount: abs(budget.amount - budget.totalExpenses),
-        wholePartFont: .largeTitle
-      )
-      .bold()
-      .foregroundColor(accentColor)
-      
-      Divider()
-      Text("")
-      Text("Total spent")
-      HStack(alignment: .lastTextBaseline, spacing: 0) {
-        AmountText(amount: budget.totalExpenses)
-        Text(" of ")
-        AmountText(amount: budget.amount)
+      if info.isPast {
+        Text("")
+        Text((info.budget.totalExpenses > info.budget.amount ? "Over" : "Under") + " budget by")
+        AmountText(
+          amount: abs(info.budget.amount - info.budget.totalExpenses),
+          wholePartFont: .largeTitle
+        )
+        .bold()
+        .foregroundColor(accentColor)
+        
+        Divider()
+        Text("")
+        Text("Total spent")
+        HStack(alignment: .lastTextBaseline, spacing: 0) {
+          AmountText(amount: info.budget.totalExpenses)
+          Text(" of ")
+          AmountText(amount: info.budget.amount)
+        }
+      } else {
+        // Future budget summary
+        Text("")
+        Text("Amount")
+        AmountText(amount: info.budget.amount, wholePartFont: .largeTitle)
       }
     }
     .listRowBackground(
@@ -308,8 +322,8 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: -31),
-    lastDay: .today.adding(days: -1),
+    firstDay: .today.adding(days: 1),
+    lastDay: .today.adding(days: 31),
     expenses: [])
   container.mainContext.insert(budget)
   
