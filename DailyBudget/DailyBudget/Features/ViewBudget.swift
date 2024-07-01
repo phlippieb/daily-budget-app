@@ -68,19 +68,145 @@ struct ViewBudget: View {
       (info.isActive)
       ? (title: "Today", body: .init(Today(info: info)), action: nil)
       : (title: "Summary", body: .init(PastBudgetSummary(info: info)), action: nil),
-     (title: "Budget info",
-      body: .init(BudgetInfo(
-        budget: budget, editingBudget: $editingBudget)),
-      action: .init(Button(action: { editingBudget = budget }, label: {
-      HStack { Text("Edit"); Image(systemName: "pencil.line") }
-    }))
-     ),
-     (title: "Recent expenses", body: .init(RecentExpenses(
-      expenses: budget.expenses ?? [],
-      budget: $budget,
-      editingExpense: $editingExpense)),
-      action: .init(Button(action: { editingExpense = .some(.none) }, label: { HStack { Text("Add"); Image(systemName: "plus.circle") }})))
+      (title: "Summary TODO", body: .init(TodaySummary(info: info)), action: nil),
+//     (title: "Budget info",
+//      body: .init(BudgetInfo(
+//        budget: budget, editingBudget: $editingBudget)),
+//      action: .init(Button(action: { editingBudget = budget }, label: {
+//      HStack { Text("Edit"); Image(systemName: "pencil.line") }
+//    }))
+//     ),
+//     (title: "Recent expenses", body: .init(RecentExpenses(
+//      expenses: budget.expenses ?? [],
+//      budget: $budget,
+//      editingExpense: $editingExpense)),
+//      action: .init(Button(action: { editingExpense = .some(.none) }, label: { HStack { Text("Add"); Image(systemName: "plus.circle") }})))
     ]
+  }
+}
+
+// MARK: Summary section -
+// For active budgets: today's amount; total spent amount
+// For past budgets: over/under budget amount; total spent amount
+// For future budgets: amount
+private struct TodaySummary: View {
+  let info: BudgetProgressInfo
+  
+  var body: some View {
+    VStack(alignment: .leading) {
+      // MARK: Date and status
+      HStack {
+        Image(systemName: "calendar")
+        Text(date)
+        
+        if let status {
+          Spacer()
+          Image(systemName: "flag")
+            .foregroundStyle(.red)
+          Text(status)
+        }
+      }
+      .font(.footnote)
+      
+      // MARK: Primary amount
+      if let primaryAmountTitle, let primaryAmount {
+        Text("")
+        Text(primaryAmountTitle)
+        AmountText(amount: primaryAmount, wholePartFont: .largeTitle)
+          .bold()
+          .foregroundStyle(accentColor)
+        Divider()
+      }
+      
+      // MARK: Secondary amount
+      Text("")
+      Text(secondaryAmountTitle)
+      HStack(spacing: 0) {
+        AmountText(amount: secondaryAmount)
+        
+        if let secondaryAmountOf {
+          Text(" of ")
+          AmountText(amount: secondaryAmountOf)
+        }
+      }
+    }
+    
+    .listRowBackground(
+      LinearGradient(
+        stops: [
+          .init(color: .secondarySystemGroupedBackground, location: 0.4),
+          .init(color: accentColor.opacity(0.3), location: 0.9),
+        ],
+        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
+      )
+    )
+  }
+  
+  private var accentColor: Color {
+    .green // TODO
+  }
+  
+  // TODO: Factor out to info? Also used in Home
+  private var date: String {
+    if info.isActive {
+      return "Day \(info.dayOfBudget) of \(info.budget.totalDays)"
+    } else if info.isPast {
+      return "Ended \(info.budget.lastDay.toStandardFormatting())"
+    } else {
+      return "Starts \(info.budget.firstDay.toStandardFormatting())"
+    }
+  }
+  
+  // TODO: Factor out?
+  private var status: String? {
+    if info.budget.totalExpenses > info.budget.amount {
+      return "Total budget exceeded"
+    } else if info.isActive, info.currentAllowance < 0 {
+      return "Daily amount exceeded"
+    }
+    
+    return nil // TODO
+  }
+  
+  private var primaryAmountTitle: String? {
+    if info.isActive {
+      return "Available today"
+    }
+    
+    return nil // TODO
+  }
+  
+  private var primaryAmount: Double? {
+    if info.isActive {
+      return info.currentAllowance
+    }
+    
+    return nil // TODO
+  }
+  
+  private var secondaryAmountTitle: String {
+    if info.isActive {
+      return "Spent"
+    }
+    
+    return "TODO"
+  }
+  
+  private var secondaryAmount: Double {
+    if info.isActive {
+      // TODO: Only today's expenditure
+      return info.budget.totalExpenses
+    }
+    
+    return -666
+  }
+  
+  private var secondaryAmountOf: Double? {
+    if info.isActive {
+      return info.budget.dailyAmount
+    }
+    
+    return nil // TODO
   }
 }
 
@@ -322,8 +448,8 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: 1),
-    lastDay: .today.adding(days: 31),
+    firstDay: .today.adding(days: -1),
+    lastDay: .today.adding(days: 29),
     expenses: [])
   container.mainContext.insert(budget)
   
