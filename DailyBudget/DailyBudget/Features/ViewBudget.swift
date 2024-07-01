@@ -6,6 +6,9 @@ struct ViewBudget: View {
   
   @EnvironmentObject private var currentDate: CurrentDate
   
+  @State private var editingBudget: BudgetModel??
+  @State private var editingExpense: ExpenseModel??
+  
   private var info: BudgetProgressInfo {
     .init(budget: budget, date: currentDate.value.calendarDate)
   }
@@ -19,14 +22,42 @@ struct ViewBudget: View {
     }
     .navigationTitle(info.budget.name)
     .navigationBarTitleDisplayMode(.inline)
+    
+    .sheet(item: $editingBudget, content: { _ in
+      EditBudget(budget: $editingBudget)
+    })
+    
+    .sheet(item: $editingExpense) { expense in
+      EditExpense(
+        expense: $editingExpense,
+        associatedBudget: info.budget)
+    }
+    
+    .toolbar {
+      ToolbarItem(placement: .bottomBar) {
+        Button(action: { editingBudget = budget }, label: {
+          Image(systemName: "pencil.line")
+        })
+      }
+      
+      ToolbarItem(placement: .bottomBar) {
+        Button(action: { editingExpense = .some(.none) }, label: {
+          Image(systemName: "plus.circle")
+        })
+      }
+    }
   }
   
+  private typealias ViewBudgetSection = (title: String, body: AnyView, action: AnyView)
   private var sections: [(String, AnyView)] {
     [
       ("Today", AnyView(Today(info: info))),
-      ("Budget info", AnyView(BudgetInfo(budget: budget))),
+      ("Budget info", AnyView(BudgetInfo(
+        budget: budget, editingBudget: $editingBudget))),
       ("Recent expenses", AnyView(RecentExpenses(
-        expenses: budget.expenses ?? [])))
+        expenses: budget.expenses ?? [],
+        budget: $budget,
+        editingExpense: $editingExpense)))
     ]
   }
 }
@@ -106,13 +137,21 @@ private struct Today: View {
 
 private struct BudgetInfo: View {
   let budget: BudgetModel
+  @Binding var editingBudget: BudgetModel??
   
   var body: some View {
     ForEach(items, id: \.0) { (title, content) in
       LabeledContent(title, content: { content })
     }
     
-    Button("Edit budget", action: {}) // TODO: Action
+//    Button("Edit budget", action: onEditBudgetTapped)
+    Button(action: onEditBudgetTapped) {
+      HStack {
+        Text("Edit")
+        Spacer()
+        Image(systemName: "pencil.line")
+      }
+    }
   }
   
   private var items: [(String, AnyView)] {
@@ -125,24 +164,27 @@ private struct BudgetInfo: View {
       })),
       ("Total budget", .init(AmountText(amount: budget.amount))),
       ("Total spent", .init(AmountText(amount: budget.totalExpenses))),
-      ("Daily budget", .init(AmountText(amount: budget.dailyAmount)))
+      ("Daily amount", .init(AmountText(amount: budget.dailyAmount)))
     ]
+  }
+  
+  private func onEditBudgetTapped() {
+    editingBudget = budget
   }
 }
 
 // MARK: Recent expenses section -
 
 private struct RecentExpenses: View {
-  let expenses: [ExpenseModel]
+  let expenses: [ExpenseModel] // TODO: Duplicates budget now
+  @Binding var budget: BudgetModel
+  @Binding var editingExpense: ExpenseModel??
   
   var body: some View {
+    
     if expenses.isEmpty {
-      HStack {
-        Text("No expenses")
-          .foregroundStyle(.gray)
-        Spacer()
-      }
-      .padding(.vertical, 2)
+      Text("No expenses")
+        .foregroundStyle(.gray)
       
     } else {
       ForEach(
@@ -150,10 +192,7 @@ private struct RecentExpenses: View {
           .sorted(by: {$0.day > $1.day})
           .suffix(3)
       ) { expense in
-        Button(
-          // TODO: implement
-          action: { }//onEditExpense(expense) }
-        ) {
+        Button(action: { onEditExpenseTapped(expense) }) {
           VStack {
             ExpenseListItem(item: expense)
           }
@@ -162,13 +201,18 @@ private struct RecentExpenses: View {
         .buttonStyle(PlainButtonStyle())
       }
       
-      // TODO: Implement
-      //      NavigationLink(
-      //        destination: ViewExpenses(budget: $budget)
-      //      ) {
-      //        Text("View all")
-      //      }
+      NavigationLink(destination: ViewExpenses(budget: $budget)) {
+        Text("View all")
+      }
     }
+  }
+  
+  private func onAddExpenseTapped() {
+    editingExpense = .some(nil)
+  }
+  
+  private func onEditExpenseTapped(_ expense: ExpenseModel) {
+    editingExpense = expense
   }
 }
 
