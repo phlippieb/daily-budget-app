@@ -28,6 +28,14 @@ struct Home: View {
     }
   }
   
+  private var appVersion: String? {
+    Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  }
+  private var buildVersion: String? {
+    Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+  }
+
+  
   var body: some View {
     NavigationView {
       // MARK: Budgets list
@@ -86,11 +94,13 @@ struct Home: View {
               Link(destination: URL(string: "https://phlippieb.github.io/daily-budget-app/")!) {
                 HStack {
                   Text("Daily Budget")
-                  Image(systemName: "info.circle")
+                  Image(systemName: "safari")
                 }
               }
-              Text("Created by Phlippie Bosman")
-                .font(.footnote)
+              if let appVersion, let buildVersion {
+                Text("Version \(appVersion) (\(buildVersion))")
+                  .foregroundStyle(.gray)
+              }
             }
             .padding()
             .background(Material.regular)
