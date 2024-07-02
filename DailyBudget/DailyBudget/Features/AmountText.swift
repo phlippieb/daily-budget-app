@@ -29,6 +29,7 @@ struct AmountText: View {
 
 #Preview {
   List {
+    AmountText(amount: 123.456, wholePartFont: .largeTitle, fractionPartFont: .body)
     AmountText(amount: 1.1)
     AmountText(amount: 1)
     AmountText(amount: 2.345)

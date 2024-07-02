@@ -35,8 +35,10 @@ extension BudgetProgressInfo {
       primaryAmountTitle: "Available today",
       primaryAmount: currentAllowance,
       secondaryAmountTitle: "Spent today",
-      // TODO: Only today's expenditure
-      secondaryAmount: budget.totalExpenses,
+      secondaryAmount: (budget.expenses ?? [])
+        .filter { $0.day == date }
+        .map(\.amount)
+        .reduce(0, +),
       secondaryAmountOf: budget.dailyAmount)
   }
   
