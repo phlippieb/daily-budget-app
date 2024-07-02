@@ -65,6 +65,7 @@ private struct TodaySummary: View {
       // MARK: Date and status
       HStack {
         Image(systemName: "calendar")
+          .foregroundStyle(viewModel.isActive ? Color.label : .gray)
         Text(viewModel.dateSummary)
         
         if let status = viewModel.status {
@@ -208,20 +209,20 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: -1),
-    lastDay: .today.adding(days: 30),
+    firstDay: .today.adding(days: -3),
+    lastDay: .today.adding(days: -1),
     expenses: [])
   container.mainContext.insert(budget)
   
   let expenses = [
     ExpenseModel(
       name: "Expense",
-      amount: 1000,
+      amount: 10000,
       day: CalendarDate.today),
     ExpenseModel(
       name: "Expense2",
       amount: 10,
-      day: CalendarDate.today.adding(days: -1)),
+      day: CalendarDate.today.adding(days: -10)),
     ExpenseModel(
       name: "Expense 3",
       amount: 10,

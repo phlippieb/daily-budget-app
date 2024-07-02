@@ -22,8 +22,8 @@ struct BudgetListItem: View {
         Text(viewModel.dateSummary)
       }
       .font(.footnote)
-      .bold()
-      .foregroundStyle(.gray)
+      .bold(!viewModel.isActive)
+      .foregroundStyle(viewModel.isActive ? Color.label : .gray)
       
       // MARK: Budget name
       Text(viewModel.name)

@@ -5,6 +5,7 @@ struct BudgetSummaryViewModel {
   let accentColor: Color
   let backgroundAccentColor: Color
   let dateSummary: String
+  let isActive: Bool
   let status: String?
   let name: String
   let primaryAmountTitle: String
@@ -28,7 +29,8 @@ extension BudgetProgressInfo {
       accentColor: currentAllowance < 0 ? .red : .green,
       backgroundAccentColor: currentAllowance < 0 ? .red : .green,
       dateSummary: "Day \(dayOfBudget) of \(budget.totalDays)",
-      status: budget.totalExpenses > budget.amount 
+      isActive: isActive,
+      status: budget.totalExpenses > budget.amount
       ? "Total budget exceeded"
       : currentAllowance < 0 ? "Daily amount exceeded" : nil, 
       name: budget.name,
@@ -47,6 +49,7 @@ extension BudgetProgressInfo {
       accentColor: budget.totalExpenses > budget.amount ? .red : .green,
       backgroundAccentColor: .secondarySystemGroupedBackground,
       dateSummary: "Ended \(budget.lastDay.toStandardFormatting())",
+      isActive: isActive,
       status: budget.totalExpenses > budget.amount ? "Total budget exceeded" : nil,
       name: budget.name,
       primaryAmountTitle: budget.totalExpenses > budget.amount ? "Over budget by" : "Under budget by",
@@ -61,6 +64,7 @@ extension BudgetProgressInfo {
       accentColor: .label,
       backgroundAccentColor: .secondarySystemGroupedBackground,
       dateSummary: "Starts \(budget.firstDay.toStandardFormatting())",
+      isActive: isActive,
       status: budget.totalExpenses > budget.amount ? "Total budget exceeded" : nil,
       name: budget.name,
       primaryAmountTitle: "Amount",
