@@ -158,6 +158,13 @@ private struct RecentExpenses: View {
   @Binding var budget: BudgetModel
   @Binding var editingExpense: ExpenseModel??
   
+  private var listedExpenses: [ExpenseModel] {
+    (budget.expenses ?? [])
+      .sorted { $0.day > $1.day } // Most recent first
+      .prefix(3) // Take 3
+      .map { $0 } // Convert back to array
+  }
+  
   var body: some View {
     Button(action: onAddExpenseTapped, label: {
       HStack {
@@ -172,11 +179,7 @@ private struct RecentExpenses: View {
         .foregroundStyle(.gray)
       
     } else {
-      ForEach(
-        budget.expenses ?? []
-          .sorted(by: {$0.day > $1.day})
-          .suffix(3)
-      ) { expense in
+      ForEach(listedExpenses) { expense in
         Button(action: { onEditExpenseTapped(expense) }) {
           VStack {
             ExpenseListItem(item: expense)
@@ -210,23 +213,31 @@ private struct RecentExpenses: View {
     name: "My budget",
     amount: 10000,
     firstDay: .today.adding(days: -3),
-    lastDay: .today.adding(days: -1),
+    lastDay: .today.adding(days: 1),
     expenses: [])
   container.mainContext.insert(budget)
   
   let expenses = [
     ExpenseModel(
-      name: "Expense",
+      name: "Expense 1",
       amount: 10000,
       day: CalendarDate.today),
     ExpenseModel(
-      name: "Expense2",
+      name: "Expense 2",
       amount: 10,
       day: CalendarDate.today.adding(days: -10)),
     ExpenseModel(
       name: "Expense 3",
       amount: 10,
-      day: CalendarDate.today.adding(days: -1))
+      day: CalendarDate.today.adding(days: -1)),
+    ExpenseModel(
+      name: "Expense 4",
+      amount: 10,
+      day: CalendarDate.today.adding(days: -2)),
+    ExpenseModel(
+      name: "Expense 5",
+      amount: 10,
+      day: CalendarDate.today.adding(days: -10)),
   ]
   expenses.forEach {
     container.mainContext.insert($0)

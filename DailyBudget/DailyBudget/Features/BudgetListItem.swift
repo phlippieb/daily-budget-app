@@ -1,5 +1,3 @@
-// TODO: Use BudgetSummaryViewModel
-
 import SwiftUI
 import SwiftData
 
@@ -35,16 +33,12 @@ struct BudgetListItem: View {
         GridRow {
           Text(viewModel.primaryAmountTitle)
           AmountText(amount: viewModel.primaryAmount)
-          // TODO: Green doesn't look so good here
-//            .foregroundStyle(viewModel.accentColor)
         }
         
         if let secondaryAmountTitle = viewModel.secondaryAmountTitle, let secondaryAmount = viewModel.secondaryAmount {
           GridRow {
             Text(secondaryAmountTitle)
             AmountText(amount: secondaryAmount)
-            // TODO: Consider adding color here
-//              .foregroundStyle()
           }
         }
       }
@@ -62,6 +56,17 @@ struct BudgetListItem: View {
       }
     }
     .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+    
+    .listRowBackground(
+      LinearGradient(
+        stops: [
+          .init(color: .secondarySystemGroupedBackground, location: 0.4),
+          .init(color: viewModel.backgroundAccentColor.opacity(0.1), location: 1),
+        ],
+        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
+      )
+      .background(Color.secondarySystemGroupedBackground)
+    )
   }
 }
 
