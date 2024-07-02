@@ -80,8 +80,10 @@ private struct TodaySummary: View {
       // MARK: Primary amount
       Text("")
       Text(viewModel.primaryAmountTitle).font(.headline)
-      AmountText(amount: viewModel.primaryAmount, wholePartFont: .largeTitle)
-        .bold()
+      AmountText(
+        amount: viewModel.primaryAmount, 
+        wholePartFont: .system(
+          size: UIFont.textStyleSize(.largeTitle) * 1.4))
         .foregroundStyle(viewModel.accentColor)
       
       // MARK: Secondary amount
@@ -213,7 +215,7 @@ private struct RecentExpenses: View {
     name: "My budget",
     amount: 10000,
     firstDay: .today.adding(days: -3),
-    lastDay: .today.adding(days: 1),
+    lastDay: .today.adding(days: -1),
     expenses: [])
   container.mainContext.insert(budget)
   
