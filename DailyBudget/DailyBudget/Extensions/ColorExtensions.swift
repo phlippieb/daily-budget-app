@@ -1,5 +1,8 @@
 import SwiftUI
 
 extension Color {
-  static let label = Color(UIColor.label)
+  static var label: Color { Color(UIColor.label) }
+  static var systemBackground: Color { Color(UIColor.systemBackground) }
+  static var systemGroupedBackground: Color { Color(UIColor.systemGroupedBackground) }
+  static var secondarySystemGroupedBackground: Color { Color(UIColor.secondarySystemGroupedBackground) }
 }

@@ -5,40 +5,11 @@ struct BudgetListItem: View {
   let item: BudgetModel
   
   @EnvironmentObject private var currentDate: CurrentDate
-  @Environment(\.colorScheme) var colorScheme
-  private var idiom: UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
   
-  private var info: BudgetProgressInfo {
-    .init(budget: item, date: currentDate.value.calendarDate)
-  }
-  
-  private var dateText: String {
-    if info.isActive {
-      return "Day \(info.dayOfBudget) of \(item.totalDays)"
-    } else if info.isPast {
-      return "Ended \(item.lastDay.toStandardFormatting())"
-    } else {
-      return "Starts \(item.firstDay.toStandardFormatting())"
-    }
-  }
-  
-  private var status: String? {
-    if item.totalExpenses >= item.amount {
-      return "Entire budget depleted"
-    } else if info.isActive, info.currentAllowance <= 0 {
-      return "Daily allowance depleted"
-    } else {
-      return nil
-    }
-  }
-  
-  var red: Color {
-    // Handle the default `Color.red` being illegible in List on iPad
-    if colorScheme == .dark, idiom == .pad {
-      return Color(red: 1, green: 0.5, blue: 0.5)
-    } else {
-      return Color.red
-    }
+  private var viewModel: BudgetSummaryViewModel {
+    BudgetProgressInfo(
+      budget: item, date: currentDate.value.calendarDate)
+    .summaryViewModel
   }
   
   var body: some View {
@@ -46,48 +17,56 @@ struct BudgetListItem: View {
       // MARK: Day/date
       HStack {
         Image(systemName: "calendar")
-        Text(dateText)
+        Text(viewModel.dateSummary)
       }
       .font(.footnote)
-      .bold()
-      .foregroundStyle(.gray)
+      .bold(!viewModel.isActive)
+      .foregroundStyle(viewModel.isActive ? Color.label : .gray)
       
       // MARK: Budget name
-      Text(item.name)
+      Text(viewModel.name)
         .font(.title2)
         .padding(.vertical, 1)
       
       // MARK: Amount
       Grid(alignment: .topLeading) {
-        if info.isActive {
-          GridRow {
-            Text("Available today")
-            Text("\(info.currentAllowance, specifier: "%.2f")")
-              .foregroundStyle(
-                info.currentAllowance < 0 ? red : .label
-              )
-          }
+        GridRow {
+          Text(viewModel.primaryAmountTitle)
+          AmountText(amount: viewModel.primaryAmount)
         }
         
-        GridRow {
-          Text("Total spent")
-          Text("\(item.totalExpenses, specifier: "%.2f") of \(item.amount, specifier: "%.2f")")
-            .foregroundStyle(item.totalExpenses > item.amount ? red : .label)
+        if let secondaryAmountTitle = viewModel.secondaryAmountTitle, let secondaryAmount = viewModel.secondaryAmount {
+          GridRow {
+            Text(secondaryAmountTitle)
+            AmountText(amount: secondaryAmount)
+          }
         }
       }
       
       // MARK: Status
-      if let status {
+      if let status = viewModel.status {
         HStack {
           Image(systemName: "flag")
-            .foregroundStyle(red)
+            .foregroundStyle(.red)
           Text(status)
         }
         .font(.footnote)
-        .padding(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
+        .padding(EdgeInsets(
+          top: 2, leading: 0, bottom: 0, trailing: 0))
       }
     }
     .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+    
+    .listRowBackground(
+      LinearGradient(
+        stops: [
+          .init(color: .secondarySystemGroupedBackground, location: 0.4),
+          .init(color: viewModel.backgroundAccentColor.opacity(0.1), location: 1),
+        ],
+        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
+      )
+      .background(Color.secondarySystemGroupedBackground)
+    )
   }
 }
 

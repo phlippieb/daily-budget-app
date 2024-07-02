@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 /// # BudgetProgressInfo model
 ///
@@ -8,6 +8,8 @@ struct BudgetProgressInfo {
   var budget: BudgetModel
   let date: CalendarDate
 }
+
+// MARK: Computed -
 
 extension BudgetProgressInfo {
   /// Whether `date` falls within `budget`'s start and end dates
