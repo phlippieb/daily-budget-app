@@ -1,6 +1,6 @@
 # 🦜 Daily Budget App
 
-A simple iOS budgeting app by Phlippie Bosman
+A simple iOS budgeting app by [Phlippie Bosman](https://phlippieb.dev)
 
 **[Download on the AppStore](https://apps.apple.com/us/app/daily-budget/id6504949539)**
 
