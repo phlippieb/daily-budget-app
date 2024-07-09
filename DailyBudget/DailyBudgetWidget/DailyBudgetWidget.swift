@@ -1,55 +1,14 @@
-//
-
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
-  func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(
-      date: Date(), emoji: "😀",
-      dateText: "Day 1 of 30")
-  }
-  
-  func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(
-      date: Date(), emoji: "😀",
-      dateText: "Day 1 of 30"
-    )
-    completion(entry)
-  }
-  
-  func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    var entries: [SimpleEntry] = []
-    
-    // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-    let currentDate = Date()
-    for hourOffset in 0 ..< 5 {
-      let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-      let entry = SimpleEntry(
-        date: entryDate, emoji: "😀",
-        dateText: "Day 1 of 30")
-      entries.append(entry)
-    }
-    
-    let timeline = Timeline(entries: entries, policy: .atEnd)
-    completion(timeline)
-  }
-}
-
-struct SimpleEntry: TimelineEntry {
-  let date: Date
-  let emoji: String
-  
-  // MARK: My dummy data
-  let dateText: String
-}
+// MARK: View -
 
 struct DailyBudgetWidget: Widget {
   let kind: String = "DailyBudgetWidget"
   
   var body: some WidgetConfiguration {
     StaticConfiguration(kind: kind, provider: Provider()) { entry in
-      DailyBudgetWidgetView2(entry: entry)
+      DailyBudgetWidgetView1(entry: entry)
       .containerBackground(.fill.tertiary, for: .widget)
     }
     .configurationDisplayName("My Widget")
@@ -62,23 +21,20 @@ struct DailyBudgetWidgetView1: View {
   
   var body: some View {
     VStack(alignment: .center) {
-      // TODO: Unconstant
-      HStack(alignment: .lastTextBaseline, spacing: 0) {
-        Text("1")
-          .font(.system(
-            size: UIFont.preferredFont(
-              forTextStyle: .largeTitle).pointSize * 2))
-          .minimumScaleFactor(0.1)
-        Text(".80")
-      }
+      AmountText(
+        amount: entry.available,
+        wholePartFont: .system(
+          size: UIFont.preferredFont(
+            forTextStyle: .largeTitle).pointSize * 2)
+      )
+      .minimumScaleFactor(0.1)
       .bold()
       .foregroundStyle(.green)
       
       Text("Available today")
         .fontWeight(.light)
       
-      // TODO: Unconstant
-      Text("July daily budget")
+      Text(entry.title)
         .font(.subheadline)
         .bold()
         .lineLimit(2)
@@ -92,10 +48,8 @@ struct DailyBudgetWidgetView2: View {
   
   var body: some View {
     VStack {
-      // TODO: Unconstant
-      
       HStack {
-        Text("July daily budget")
+        Text(entry.title)
           .font(.subheadline)
           .bold()
           .lineLimit(2)
@@ -110,29 +64,25 @@ struct DailyBudgetWidgetView2: View {
       
       Grid {
         GridRow(alignment: .lastTextBaseline) {
-          // TODO: Unconstant
-          HStack(alignment: .lastTextBaseline, spacing: 0) {
-            Text("1288")
-              .font(.system(
-                size: UIFont.preferredFont(
-                  forTextStyle: .largeTitle).pointSize * 2))
-              .minimumScaleFactor(0.1)
-            Text(".80")
-          }
+          AmountText(
+            amount: entry.available,
+            wholePartFont: .system(
+              size: UIFont.preferredFont(
+                forTextStyle: .largeTitle).pointSize * 2)
+          )
+          .minimumScaleFactor(0.1)
           .bold()
           .foregroundStyle(.green)
           
           Text("")
           
-          // TODO: Unconstant
-          HStack(alignment: .lastTextBaseline, spacing: 0) {
-            Text("300")
-              .font(.system(
-                size: UIFont.preferredFont(
-                  forTextStyle: .largeTitle).pointSize))
-              .minimumScaleFactor(0.1)
-            Text(".80")
-          }
+          AmountText(
+            amount: entry.spent,
+            wholePartFont: .system(
+              size: UIFont.preferredFont(
+                forTextStyle: .largeTitle).pointSize)
+          )
+          .minimumScaleFactor(0.1)
           .bold()
         }
         
@@ -146,30 +96,123 @@ struct DailyBudgetWidgetView2: View {
             .fontWeight(.light)
         }
       }
-      
-      
-//      HStack(alignment: .lastTextBaseline) {
-//        VStack {
-//          
-//          
-//        }
-//        
-//        Divider().frame(width: 1)
-//        
-//        VStack {
-//          
-//          
-//        }
-//      }
     }
   }
 }
 
+// MARK: Entry -
+
+struct BudgetEntry: TimelineEntry {
+  var date: Date
+  
+  let title: String
+  let dateText: String
+  let available: Double
+  let spent: Double
+}
+
+// MARK: Provider -
+
+struct Provider: TimelineProvider {
+  func placeholder(in context: Context) -> BudgetEntry {
+    BudgetEntry(
+      date: Date(),
+      title: "My daily budget",
+      dateText: "Day 1 of 31",
+      available: 99,
+      spent: 1)
+  }
+  
+  func getSnapshot(
+    in context: Context, completion: @escaping (BudgetEntry) -> ()
+  ) {
+    completion(BudgetEntry(
+      date: Date(),
+      title: "My daily budget",
+      dateText: "Day 1 of 31",
+      available: 99,
+      spent: 1))
+  }
+  
+  func getTimeline(in context: Context, completion: @escaping (Timeline<BudgetEntry>) -> ()) {
+    var entries: [BudgetEntry] = []
+    
+    // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+//    let currentDate = Date()
+//    for hourOffset in 0 ..< 5 {
+//      let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+//      let entry = SimpleEntry(
+//        date: entryDate, emoji: "😀",
+//        dateText: "Day 1 of 30")
+//      entries.append(entry)
+//    }
+    
+    let timeline = Timeline(entries: entries, policy: .atEnd)
+    completion(timeline)
+  }
+}
+
+// MARK: Double extension -
+// TODO: Refactor
+
+extension Double {
+  var wholePart: Int {
+    Int(self)
+  }
+  
+  var fractionPart: String {
+    String(
+      // Show 2 decimal places
+      format: "%02d",
+      // Take first two decimal digits
+      abs(Int(self.truncatingRemainder(dividingBy: 1) * 100))
+    )
+  }
+}
+
+// MARK: Amount label -
+// TODO: Refactor if not too different from main?
+
+struct AmountText: View {
+  let amount: Double
+  var wholePartFont: Font = .body
+  var fractionPartFont: Font = .body
+  
+  var body: some View {
+    HStack(alignment: .lastTextBaseline, spacing: 0) {
+      Text("\(amount.wholePart)").font(wholePartFont)
+      Text(".")
+      Text(amount.fractionPart).font(fractionPartFont)
+    }
+  }
+}
+
+#Preview {
+  List {
+    AmountText(amount: 123.456, wholePartFont: .largeTitle, fractionPartFont: .body)
+    AmountText(amount: 1.1)
+    AmountText(amount: 1)
+    AmountText(amount: 2.345)
+  }
+}
+
+
+
 #Preview(as: .systemMedium) {
   DailyBudgetWidget()
 } timeline: {
-  SimpleEntry(date: .now, emoji: "😀",
-              dateText: "Day 1 of 30")
-  SimpleEntry(date: .now, emoji: "🤩",
-              dateText: "Day 1 of 30")
+  BudgetEntry(
+    date: .now,
+    title: "July daily budget",
+    dateText: "Day 1 of 30",
+    available: 1288.99,
+    spent: 300.88)
+  
+  BudgetEntry(
+    date: .now,
+    title: "July daily budget",
+    dateText: "Day 1 of 30",
+    available: 4.22,
+    spent: 555.88)
 }
+

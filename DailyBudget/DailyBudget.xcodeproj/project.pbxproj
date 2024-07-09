@@ -21,6 +21,7 @@
 		0A7B109A2C24356F00474F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B10992C24356F00474F10 /* Assets.xcassets */; };
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
+		0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */; };
 		0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5FF0A2C247C2400499D30 /* EditExpense.swift */; };
 		0AD723952C33E8220015ABE6 /* UIFontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */; };
 		0AD723BA2C3463630015ABE6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD723B92C3463630015ABE6 /* WidgetKit.framework */; };
@@ -93,6 +94,7 @@
 		0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A7B10A22C24356F00474F10 /* DailyBudgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyBudgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10C52C24390600474F10 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
 		0AB5FF0A2C247C2400499D30 /* EditExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpense.swift; sourceTree = "<group>"; };
 		0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtensions.swift; sourceTree = "<group>"; };
 		0AD723B72C3463630015ABE6 /* DailyBudgetWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyBudgetWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +153,7 @@
 				0A20A3DB2C243CAA0028E5C2 /* DateExtensions.swift */,
 				0AFEFB672C259C46004847AE /* OptionalExtensions.swift */,
 				0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */,
+				0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */,
 				0A20A3D72C243A780028E5C2 /* BudgetListItem.swift in Sources */,
 				0A20A3DC2C243CAA0028E5C2 /* DateExtensions.swift in Sources */,
+				0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */,
 				0AFEFB652C258D3E004847AE /* ExpenseModel.swift in Sources */,
 				0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */,
 				0AFEFB682C259C46004847AE /* OptionalExtensions.swift in Sources */,
