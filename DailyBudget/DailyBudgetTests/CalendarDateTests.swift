@@ -45,11 +45,17 @@ class CalendarDateTests: XCTestCase {
   func testDaysSince() {
     // Given two dates a day apart
     let calendarDate1 = CalendarDate(year: 2000, month: 1, day: 1)
+      .date.addingTimeInterval(7200).calendarDate
     let calendarDate2 = CalendarDate(year: 2000, month: 1, day: 2)
+      .date.addingTimeInterval(7200).calendarDate
     let calendarDate3 = CalendarDate(year: 2000, month: 1, day: 3)
+      .date.addingTimeInterval(7200).calendarDate
+    
     // And given a date on the same day but at a different instant as date 1
     let calendarDate1Later = CalendarDate(
-      date: calendarDate1.date.addingTimeInterval(60))
+      date: calendarDate1.date.addingTimeInterval(3600))
+    let calendarDate1Earlier = CalendarDate(
+      date: calendarDate1.date.addingTimeInterval(-3600))
     
     // Then subtraction yields the correct results
     XCTAssertEqual(calendarDate2 - calendarDate1, 1)
@@ -57,6 +63,23 @@ class CalendarDateTests: XCTestCase {
     XCTAssertEqual(calendarDate3 - calendarDate1, 2)
     XCTAssertEqual(calendarDate1 - calendarDate1Later, 0)
     XCTAssertEqual(calendarDate1Later - calendarDate1, 0)
+    XCTAssertEqual(calendarDate1Earlier - calendarDate1, 0)
+  }
+  
+  func testDaysSinceWithDateComponentsWithDifferentHours() {
+    // Given now is 09:00 on 2 Jan 2000
+    let today = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 9
+    ).date!.calendarDate
+    
+    // Given a first day of 10:00 on 1 Jan 2000
+    let firstDay = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 1, hour: 10
+    ).date!.calendarDate
+    
+    // When I compare today to the first day
+    // Then it is 1 day ago
+    XCTAssertEqual(today - firstDay, 1)
   }
   
   func testAddingDays() {
@@ -72,5 +95,38 @@ class CalendarDateTests: XCTestCase {
     
     // Then the resulting date should be 2 days before the other
     XCTAssertEqual(calendarDate3, CalendarDate(year: 1999, month: 12, day: 30))
+  }
+  
+  func testDifferentTimesWithinSameDayAreEquivalent() {
+    // Given "now" is 08:00 noon on 2 Jan 2000
+    let now = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 8).date!
+    let today = now.calendarDate
+    // Given a date range created at 09:00, running from yesterday to today
+    let firstDayDate = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 1, hour: 9).date!
+    let firstDay = firstDayDate.calendarDate
+    let lastDay = firstDay.adding(days: 1)
+    let range = firstDay ... lastDay
+    
+    // When I check where "now" falls in the range
+    // Then "now" should be on the last day
+    XCTAssertEqual(today, lastDay)
+    XCTAssertEqual(lastDay - today, 0)
+    XCTAssert(range.contains(today))
+  }
+  
+  func testCalendarDateCreatedFromDateEqualsCreatedFromComponents() {
+    // Given 2 dates representing 1 Jan 2000:
+    // - one created using the CalendarDate initialiser:
+    let day1 = CalendarDate(year: 2000, month: 1, day: 1)
+    // - and one created from a Date object:
+    let day2Date = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 1).date!
+    let day2 = day2Date.calendarDate
+    
+    // When I compare them
+    // Then they are equal
+    XCTAssertEqual(day1, day2)
   }
 }

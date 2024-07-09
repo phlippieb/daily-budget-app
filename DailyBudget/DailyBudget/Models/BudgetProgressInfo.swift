@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 /// # BudgetProgressInfo model
 ///
@@ -9,20 +9,22 @@ struct BudgetProgressInfo {
   let date: CalendarDate
 }
 
+// MARK: Computed -
+
 extension BudgetProgressInfo {
   /// Whether `date` falls within `budget`'s start and end dates
   var isActive: Bool {
-    budget.startDate.calendarDate <= date && date <= budget.endDate.calendarDate
+    budget.firstDay <= date && date <= budget.lastDay
   }
   
   var isPast: Bool {
-    budget.endDate.calendarDate < date
+    budget.lastDay < date
   }
   
   /// The number of days that `date` falls after `budget`'s start date
   /// - NOTE: Starts at 1
   var dayOfBudget: Int {
-    (date - budget.startDate.calendarDate) + 1
+    date - budget.firstDay + 1
   }
   
   /// The budget available on `date`

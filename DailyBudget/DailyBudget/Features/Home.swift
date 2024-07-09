@@ -28,6 +28,14 @@ struct Home: View {
     }
   }
   
+  private var appVersion: String? {
+    Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  }
+  private var buildVersion: String? {
+    Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+  }
+
+  
   var body: some View {
     NavigationView {
       // MARK: Budgets list
@@ -42,7 +50,6 @@ struct Home: View {
               Section("Current budgets") {
                 ForEach(activeBudgets) { budget in
                   NavigationLink {
-                    Text("")
                     ViewBudget(budget: budget)
                   } label: {
                     BudgetListItem(item: budget)
@@ -55,7 +62,6 @@ struct Home: View {
               Section("Upcoming budgets") {
                 ForEach(upcomingBudgets) { budget in
                   NavigationLink {
-                    Text("")
                     ViewBudget(budget: budget)
                   } label: {
                     BudgetListItem(item: budget)
@@ -68,7 +74,6 @@ struct Home: View {
               Section("Past budgets") {
                 ForEach(pastBudgets) { budget in
                   NavigationLink {
-                    Text("")
                     ViewBudget(budget: budget)
                   } label: {
                     BudgetListItem(item: budget)
@@ -89,11 +94,13 @@ struct Home: View {
               Link(destination: URL(string: "https://phlippieb.github.io/daily-budget-app/")!) {
                 HStack {
                   Text("Daily Budget")
-                  Image(systemName: "info.circle")
+                  Image(systemName: "safari")
                 }
               }
-              Text("Created by Phlippie Bosman")
-                .font(.footnote)
+              if let appVersion, let buildVersion {
+                Text("Version \(appVersion) (\(buildVersion))")
+                  .foregroundStyle(.gray)
+              }
             }
             .padding()
             .background(Material.regular)
@@ -148,32 +155,53 @@ struct Home: View {
   }
 }
 
+// MARK: Preview -
+
 #Preview {
+  enum PreviewVariants {
+    case singleBudget, multipleBudgets, empty
+  }
+  let variant = PreviewVariants.multipleBudgets
+  
   let config = ModelConfiguration(isStoredInMemoryOnly: true)
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
-  container.mainContext.insert(BudgetModel(
-    name: "Current",
-    amount: 100,
-    firstDay: .today,
-    lastDay: .today.adding(days: 30),
-    expenses: []))
-  container.mainContext.insert(BudgetModel(
-    name: "Upcoming",
-    amount: 100,
-    firstDay: .today.adding(days: 31),
-    lastDay: .today.adding(days: 61),
-    expenses: []))
-
-  for _ in 0 ... 5 {
+  
+  switch variant {
+  case .singleBudget:
     container.mainContext.insert(BudgetModel(
-      name: "Past",
+      name: "Current",
       amount: 100,
-      firstDay: .today.adding(days: -61),
-      lastDay: .today.adding(days: -31),
-      expenses: [
-        ExpenseModel(name: "", amount: 200, date: .now)
-      ]))
+      startDate: Date.now.addingTimeInterval(300).calendarDate.adding(days: -1).date,
+      endDate: Date.now.addingTimeInterval(300),
+      expenses: []))
+  case .multipleBudgets:
+    container.mainContext.insert(BudgetModel(
+      name: "Current",
+      amount: 100,
+      firstDay: .today,
+      lastDay: .today.adding(days: 30),
+      expenses: []))
+    container.mainContext.insert(BudgetModel(
+      name: "Upcoming",
+      amount: 100,
+      firstDay: .today.adding(days: 31),
+      lastDay: .today.adding(days: 61),
+      expenses: []))
+    
+    for _ in 0 ... 5 {
+      container.mainContext.insert(BudgetModel(
+        name: "Past",
+        amount: 100,
+        firstDay: .today.adding(days: -61),
+        lastDay: .today.adding(days: -31),
+        expenses: [
+          ExpenseModel(name: "", amount: 400, date: .now)
+        ]))
+    }
+  case .empty:
+    break
   }
+  
   
   return Home()
     .modelContainer(container)

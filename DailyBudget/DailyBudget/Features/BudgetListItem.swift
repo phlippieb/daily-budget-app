@@ -6,59 +6,67 @@ struct BudgetListItem: View {
   
   @EnvironmentObject private var currentDate: CurrentDate
   
-  private var info: BudgetProgressInfo {
-    .init(budget: item, date: currentDate.value.calendarDate)
+  private var viewModel: BudgetSummaryViewModel {
+    BudgetProgressInfo(
+      budget: item, date: currentDate.value.calendarDate)
+    .summaryViewModel
   }
   
   var body: some View {
     VStack(alignment: .leading) {
-      Text(item.name)
-        .font(.title2)
+      // MARK: Day/date
+      HStack {
+        Image(systemName: "calendar")
+        Text(viewModel.dateSummary)
+      }
+      .font(.footnote)
+      .bold(!viewModel.isActive)
+      .foregroundStyle(viewModel.isActive ? Color.label : .gray)
       
-      if info.isActive {
-        Text("Day \(info.dayOfBudget) / \(item.totalDays)")
-      } else if info.isPast {
-        Text("Ended \(item.endDate.calendarDate.toStandardFormatting())")
-      } else {
-        Text("Starts \(item.endDate.calendarDate.toStandardFormatting())")
+      // MARK: Budget name
+      Text(viewModel.name)
+        .font(.title2)
+        .padding(.vertical, 1)
+      
+      // MARK: Amount
+      Grid(alignment: .topLeading) {
+        GridRow {
+          Text(viewModel.primaryAmountTitle)
+          AmountText(amount: viewModel.primaryAmount)
+        }
+        
+        if let secondaryAmountTitle = viewModel.secondaryAmountTitle, let secondaryAmount = viewModel.secondaryAmount {
+          GridRow {
+            Text(secondaryAmountTitle)
+            AmountText(amount: secondaryAmount)
+          }
+        }
       }
       
-      if info.isActive {
-        // View for an active budget:
-        // Show the amount available today after expenses
-        LabeledContent {
-          Text("\(info.currentAllowance, specifier: "%.2f")")
-            .font(.title)
-            .foregroundStyle(
-              info.currentAllowance >= 0 ? .green : .red
-            )
-        } label: {
-          Text("Available")
+      // MARK: Status
+      if let status = viewModel.status {
+        HStack {
+          Image(systemName: "flag")
+            .foregroundStyle(.red)
+          Text(status)
         }
-        
-      } else if info.isPast {
-        // View for a past budget:
-        // Show the final amount spent
-        LabeledContent {
-          Text("\(item.totalExpenses, specifier: "%.2f") / \(item.amount, specifier: "%.2f")")
-            .foregroundStyle(
-              info.budget.totalExpenses <= info.budget.amount ? Color(UIColor.label) : .red
-            )
-        } label: {
-          Text("Budget spent")
-        }
-        
-      } else {
-        // View for a future budget:
-        // Show the total amount
-        LabeledContent {
-          Text("\(item.amount, specifier: "%.2f")")
-            .foregroundStyle(Color(UIColor.label))
-        } label: {
-          Text("Budget")
-        }
+        .font(.footnote)
+        .padding(EdgeInsets(
+          top: 2, leading: 0, bottom: 0, trailing: 0))
       }
     }
+    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+    
+    .listRowBackground(
+      LinearGradient(
+        stops: [
+          .init(color: .secondarySystemGroupedBackground, location: 0.4),
+          .init(color: viewModel.backgroundAccentColor.opacity(0.1), location: 1),
+        ],
+        startPoint: UnitPoint.topLeading, endPoint: .bottomTrailing
+      )
+      .background(Color.secondarySystemGroupedBackground)
+    )
   }
 }
 

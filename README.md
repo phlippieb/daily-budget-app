@@ -1,8 +1,14 @@
 # 🦜 Daily Budget App
 
-A simple iOS budgeting app by Phlippie Bosman
+A simple iOS budgeting app by [Phlippie Bosman](https://phlippieb.dev)
 
-[Download on the AppStore](https://apps.apple.com/us/app/daily-budget/id6504949539)
+**[Download on the AppStore](https://apps.apple.com/us/app/daily-budget/id6504949539)**
+
+<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/561b0ce5-fff7-437e-84d8-ca53c2962c20" />
+<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/96112056-6b97-4961-955b-c17c4a0f1c4a" />
+<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/245b8f74-a978-4a56-a789-efb3c2c267e3" />
+<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/4a06a708-e265-421c-8293-10845ce4edde" />
+
 
 ## 🔍 How it works
 
@@ -19,7 +25,7 @@ Tapping on a budget opens a detail view for that budget. Here, you will see your
 ### Strategy 1: One budget for all day-to-day expenses
 
 1. At the start of the month, or when you start using the app, determine the total amount of money you have available. Optionally subtract any expenses you would not consider "day-to-day", such as bills.
-2. Create a budget in **Daily Budget** for that amount, that runs until your next payday.
+2. Create a budget in **Daily Budget** for that amount that runs until your next payday. The app will allocate a daily amount available for you to use, based on your available amount and the duration of the budget.
 3. Log all your expenses against this budget.
 4. Try to stay within your daily allowance every day. If you go over budget (for example after a large expense such as grocery shopping), try to spend less on subsequent days until you break even again.
 
@@ -33,6 +39,7 @@ Rather than lumping all your available funds into one budget, and then logging a
 - Manage multiple budgets
 - Fully offline
 - Lightweight, simple and fast
+- iCloud backup and syncing
 
 ## 👷🏻 Upcoming features
 
@@ -45,6 +52,10 @@ View the backlog on the [Github project board](https://github.com/users/phlippie
 ## 🥸 Privacy
 
 **Daily Budget** does not collect any data. Information you enter into the application may be synced to your iCloud account.
+
+## 🥽 Security
+
+The data synced to your iCloud account is encrypted.
 
 ## ❗ Disclaimer
 

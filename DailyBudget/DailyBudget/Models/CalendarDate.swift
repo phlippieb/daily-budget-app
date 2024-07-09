@@ -10,7 +10,7 @@ struct CalendarDate {
 
 extension CalendarDate {
   static var today: CalendarDate {
-    .init(date: .now)
+    .init(date: Calendar.current.startOfDay(for: .now))
   }
   
   init(year: Int, month: Int, day: Int) {
@@ -30,7 +30,17 @@ extension CalendarDate {
 
 extension CalendarDate {
   static func -(lhs: CalendarDate, rhs: CalendarDate) -> Int {
-    Int(lhs.date.timeIntervalSince(rhs.date) / 24 / 60 / 60)
+    Calendar.current.numberOfDaysBetween(rhs.date, and: lhs.date)
+  }
+}
+
+private extension Calendar {
+  func numberOfDaysBetween(_ from: Date, and to: Date) -> Int {
+      let fromDate = startOfDay(for: from)
+      let toDate = startOfDay(for: to)
+      let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
+      
+      return numberOfDays.day!
   }
 }
 
@@ -38,7 +48,12 @@ extension CalendarDate {
 
 extension CalendarDate {
   func toStandardFormatting() -> String {
-    self.date.formatted(.dateTime.day().month().year())
+    if Calendar.current.isDate(self.date, equalTo: .now, toGranularity: .year) {
+      // Omit year if in the same year
+      return self.date.formatted(.dateTime.day().month(.wide))
+    } else {
+      return self.date.formatted(.dateTime.day().month(.wide).year())
+    }
   }
 }
 

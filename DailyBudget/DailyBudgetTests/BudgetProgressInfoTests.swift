@@ -45,6 +45,33 @@ final class BudgetProgressInfoTests: XCTestCase {
     XCTAssertEqual(budgetInfo.dayOfBudget, 5)
   }
   
+  func testDayOfBudgetWithStartDateLaterInDayThanNow() {
+    // Given now is 09:00 on 2 Jan 2000
+    let day = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 9
+    ).date!.calendarDate
+    
+    // Given a buget that starts on 1 Jan 2000 at 10:00
+    // and ends on 2 Jan 2000 at 10:00
+    let budget = BudgetModel()
+    budget.startDate = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 1, hour: 10
+    ).date!
+    budget.endDate = DateComponents(
+      calendar: .current, year: 2000, month: 1, day: 2, hour: 9
+    ).date!
+    
+    // When I have the budget's info
+    let budgetInfo = BudgetProgressInfo(budget: budget, date: day)
+    
+    // Then the budget has 2 days
+    XCTAssertEqual(budgetInfo.budget.totalDays, 2)
+    // And then now is the 2nd and last day of the budget
+    XCTAssertEqual(day, budgetInfo.budget.lastDay)
+    XCTAssertEqual(day - budgetInfo.budget.firstDay, 1)
+    XCTAssertEqual(budgetInfo.dayOfBudget, 2)
+  }
+  
   @MainActor func testCurrentAllowanceOnDay1() {
     // Given a daily amount of 1
     assertCurrentAllowance(
