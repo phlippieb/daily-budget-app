@@ -5,11 +5,6 @@ import AppIntents
 
 // TODO: Ensure i didn't mess up the migration - install from app store, then from test flight
 
-// TODO: Fix this warning:
-// The CFBundleVersion of an app extension ('1') must match that of its containing parent app ('0').
-
-// MARK: View -
-
 struct DailyBudgetWidget: Widget {
   let kind: String = "DailyBudgetWidget"
   
