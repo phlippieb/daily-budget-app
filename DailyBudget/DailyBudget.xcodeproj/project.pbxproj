@@ -22,6 +22,12 @@
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
 		0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */; };
+		0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB622C258CBC004847AE /* BudgetModel.swift */; };
+		0A9AE4ED2C4155FC0093FAAE /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB642C258D3E004847AE /* ExpenseModel.swift */; };
+		0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
+		0A9AE4EF2C4156130093FAAE /* BudgetProgressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3D82C243AB20028E5C2 /* BudgetProgressInfo.swift */; };
+		0A9AE4F02C4156360093FAAE /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A20A3DB2C243CAA0028E5C2 /* DateExtensions.swift */; };
+		0A9AE4F12C4156420093FAAE /* UnitProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB692C25A5EE004847AE /* UnitProviding.swift */; };
 		0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5FF0A2C247C2400499D30 /* EditExpense.swift */; };
 		0AD723952C33E8220015ABE6 /* UIFontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */; };
 		0AD723BA2C3463630015ABE6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD723B92C3463630015ABE6 /* WidgetKit.framework */; };
@@ -30,6 +36,11 @@
 		0AD723C12C3463630015ABE6 /* DailyBudgetWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD723C02C3463630015ABE6 /* DailyBudgetWidget.swift */; };
 		0AD723C32C3463650015ABE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AD723C22C3463650015ABE6 /* Assets.xcassets */; };
 		0AD723C72C3463650015ABE6 /* DailyBudgetWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0AD723B72C3463630015ABE6 /* DailyBudgetWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0AE90CC32C41712700AE921C /* BudgetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CB92C416F0500AE921C /* BudgetEntity.swift */; };
+		0AE90CC42C41713500AE921C /* BudgetEntityQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CBB2C416FA700AE921C /* BudgetEntityQuery.swift */; };
+		0AE90CC52C41714000AE921C /* SelectBudgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CBD2C41709C00AE921C /* SelectBudgetIntent.swift */; };
+		0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CBF2C4170D300AE921C /* BudgetEntry.swift */; };
+		0AE90CC72C41714700AE921C /* DailyBudgetWidgetTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CC12C41710100AE921C /* DailyBudgetWidgetTimelineProvider.swift */; };
 		0AED67AF2C2944F700E5E941 /* CurrentDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AED67AE2C2944F700E5E941 /* CurrentDate.swift */; };
 		0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */; };
 		0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */; };
@@ -95,6 +106,7 @@
 		0A7B10A22C24356F00474F10 /* DailyBudgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyBudgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7B10C52C24390600474F10 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
+		0A9AE4EB2C4155C60093FAAE /* DailyBudgetWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudgetWidgetExtension.entitlements; sourceTree = "<group>"; };
 		0AB5FF0A2C247C2400499D30 /* EditExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpense.swift; sourceTree = "<group>"; };
 		0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtensions.swift; sourceTree = "<group>"; };
 		0AD723B72C3463630015ABE6 /* DailyBudgetWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyBudgetWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +116,11 @@
 		0AD723C02C3463630015ABE6 /* DailyBudgetWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBudgetWidget.swift; sourceTree = "<group>"; };
 		0AD723C22C3463650015ABE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AD723C42C3463650015ABE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AE90CB92C416F0500AE921C /* BudgetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetEntity.swift; sourceTree = "<group>"; };
+		0AE90CBB2C416FA700AE921C /* BudgetEntityQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetEntityQuery.swift; sourceTree = "<group>"; };
+		0AE90CBD2C41709C00AE921C /* SelectBudgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBudgetIntent.swift; sourceTree = "<group>"; };
+		0AE90CBF2C4170D300AE921C /* BudgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetEntry.swift; sourceTree = "<group>"; };
+		0AE90CC12C41710100AE921C /* DailyBudgetWidgetTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBudgetWidgetTimelineProvider.swift; sourceTree = "<group>"; };
 		0AED67AE2C2944F700E5E941 /* CurrentDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDate.swift; sourceTree = "<group>"; };
 		0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetModelTests.swift; sourceTree = "<group>"; };
 		0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetProgressInfoTests.swift; sourceTree = "<group>"; };
@@ -161,6 +178,7 @@
 		0A7B10892C24356D00474F10 = {
 			isa = PBXGroup;
 			children = (
+				0A9AE4EB2C4155C60093FAAE /* DailyBudgetWidgetExtension.entitlements */,
 				0A7B10942C24356D00474F10 /* DailyBudget */,
 				0A7B10A52C24356F00474F10 /* DailyBudgetTests */,
 				0AD723BD2C3463630015ABE6 /* DailyBudgetWidget */,
@@ -255,10 +273,15 @@
 		0AD723BD2C3463630015ABE6 /* DailyBudgetWidget */ = {
 			isa = PBXGroup;
 			children = (
-				0AD723BE2C3463630015ABE6 /* DailyBudgetWidgetBundle.swift */,
-				0AD723C02C3463630015ABE6 /* DailyBudgetWidget.swift */,
-				0AD723C22C3463650015ABE6 /* Assets.xcassets */,
 				0AD723C42C3463650015ABE6 /* Info.plist */,
+				0AE90CB92C416F0500AE921C /* BudgetEntity.swift */,
+				0AE90CBB2C416FA700AE921C /* BudgetEntityQuery.swift */,
+				0AE90CBF2C4170D300AE921C /* BudgetEntry.swift */,
+				0AD723C02C3463630015ABE6 /* DailyBudgetWidget.swift */,
+				0AD723BE2C3463630015ABE6 /* DailyBudgetWidgetBundle.swift */,
+				0AE90CC12C41710100AE921C /* DailyBudgetWidgetTimelineProvider.swift */,
+				0AE90CBD2C41709C00AE921C /* SelectBudgetIntent.swift */,
+				0AD723C22C3463650015ABE6 /* Assets.xcassets */,
 			);
 			path = DailyBudgetWidget;
 			sourceTree = "<group>";
@@ -436,7 +459,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AE90CC72C41714700AE921C /* DailyBudgetWidgetTimelineProvider.swift in Sources */,
+				0A9AE4F12C4156420093FAAE /* UnitProviding.swift in Sources */,
+				0A9AE4F02C4156360093FAAE /* DateExtensions.swift in Sources */,
+				0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */,
 				0AD723C12C3463630015ABE6 /* DailyBudgetWidget.swift in Sources */,
+				0AE90CC42C41713500AE921C /* BudgetEntityQuery.swift in Sources */,
+				0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */,
+				0A9AE4EF2C4156130093FAAE /* BudgetProgressInfo.swift in Sources */,
+				0A9AE4ED2C4155FC0093FAAE /* ExpenseModel.swift in Sources */,
+				0AE90CC32C41712700AE921C /* BudgetEntity.swift in Sources */,
+				0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */,
+				0AE90CC52C41714000AE921C /* SelectBudgetIntent.swift in Sources */,
 				0AD723BF2C3463630015ABE6 /* DailyBudgetWidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -690,6 +724,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DailyBudgetWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7YC4M6VD27;
@@ -718,6 +753,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DailyBudgetWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7YC4M6VD27;
