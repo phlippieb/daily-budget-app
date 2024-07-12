@@ -1,9 +1,6 @@
 import SwiftUI
 import SwiftData
 
-// TODO: WidgetCenter.shared.reloadAllTimelines()
-//       ^^ this goes somewhere
-
 struct Home: View {
   @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   

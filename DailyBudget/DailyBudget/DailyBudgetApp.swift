@@ -5,7 +5,6 @@ import WidgetKit
 struct DailyBudgetApp: App {
   private var currentDate = CurrentDate()
   @AppStorage("appearance_preference") private var appearancePreference: Int = 0
-  @Environment(\.modelContext) private var context
   
   var body: some Scene {
     WindowGroup {

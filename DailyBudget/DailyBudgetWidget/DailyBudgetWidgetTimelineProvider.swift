@@ -1,6 +1,7 @@
 import WidgetKit
 
 struct DailyBudgetWidgetTimelineProvider: AppIntentTimelineProvider {
+  /// Note: This is called in the gallery. Need a way to show a preview without a real backing budget!
   func placeholder(in context: Context) -> BudgetEntry {
     .init(date: .now)
   }
@@ -9,6 +10,7 @@ struct DailyBudgetWidgetTimelineProvider: AppIntentTimelineProvider {
     for configuration: SelectBudgetIntent, 
     in context: Context
   ) async -> BudgetEntry {
+    // Then this is called when actually viewing the gallery
     .init(date: .now, entity: configuration.budget)
   }
   

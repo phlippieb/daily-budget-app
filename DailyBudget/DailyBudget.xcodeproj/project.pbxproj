@@ -41,6 +41,8 @@
 		0AE90CC52C41714000AE921C /* SelectBudgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CBD2C41709C00AE921C /* SelectBudgetIntent.swift */; };
 		0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CBF2C4170D300AE921C /* BudgetEntry.swift */; };
 		0AE90CC72C41714700AE921C /* DailyBudgetWidgetTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CC12C41710100AE921C /* DailyBudgetWidgetTimelineProvider.swift */; };
+		0AE90CC92C41924C00AE921C /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */; };
+		0AE90CCA2C4192F900AE921C /* AmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFEEE82C32A586000D810F /* AmountText.swift */; };
 		0AED67AF2C2944F700E5E941 /* CurrentDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AED67AE2C2944F700E5E941 /* CurrentDate.swift */; };
 		0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */; };
 		0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */; };
@@ -465,9 +467,11 @@
 				0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */,
 				0AD723C12C3463630015ABE6 /* DailyBudgetWidget.swift in Sources */,
 				0AE90CC42C41713500AE921C /* BudgetEntityQuery.swift in Sources */,
+				0AE90CC92C41924C00AE921C /* DoubleExtensions.swift in Sources */,
 				0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */,
 				0A9AE4EF2C4156130093FAAE /* BudgetProgressInfo.swift in Sources */,
 				0A9AE4ED2C4155FC0093FAAE /* ExpenseModel.swift in Sources */,
+				0AE90CCA2C4192F900AE921C /* AmountText.swift in Sources */,
 				0AE90CC32C41712700AE921C /* BudgetEntity.swift in Sources */,
 				0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */,
 				0AE90CC52C41714000AE921C /* SelectBudgetIntent.swift in Sources */,

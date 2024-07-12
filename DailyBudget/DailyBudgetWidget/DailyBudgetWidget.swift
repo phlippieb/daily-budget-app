@@ -130,55 +130,6 @@ struct DailyBudgetWidgetView1: View {
 //  }
 //}
 
-// MARK: Entry -
-
-// MARK: Provider -
-
-// MARK: Double extension -
-// TODO: Refactor
-
-extension Double {
-  var wholePart: Int {
-    Int(self)
-  }
-  
-  var fractionPartInt: Int {
-    // Take first two decimal digits
-    abs(Int(self.truncatingRemainder(dividingBy: 1) * 100))
-  }
-  
-  var fractionPart: String {
-    String(
-      // Show 2 decimal places
-      format: "%02d",
-      fractionPartInt
-    )
-  }
-}
-
-// MARK: Amount label -
-// TODO: Refactor if not too different from main?
-
-struct AmountText: View {
-  let amount: Double
-  var wholePartFont: Font = .body
-  var fractionPartFont: Font = .body
-  
-  var body: some View {
-    HStack(alignment: .lastTextBaseline, spacing: 0) {
-      Text("\(amount.wholePart)")
-        .font(wholePartFont)
-        .contentTransition(.numericText(value: Double(amount.wholePart)))
-      
-      Text(".").font(fractionPartFont)
-      
-      Text(amount.fractionPart)
-        .font(fractionPartFont)
-        .contentTransition(.numericText(value: Double(amount.fractionPartInt)))
-    }
-  }
-}
-
 // TODO: Find a way to build a preview
 //#Preview(as: .systemMedium) {
 //  DailyBudgetWidget()

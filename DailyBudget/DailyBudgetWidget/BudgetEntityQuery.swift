@@ -10,9 +10,11 @@ struct BudgetEntityQuery: EntityQuery {
 
   /// Returns the initial results shown when a list of options backed by this query is presented.
   func suggestedEntities() async throws -> [BudgetEntity] {
-    try await fetchEntities().map { BudgetEntity(budget: $0) }
-      .prefix(3)
-      .map { $0 }
+    try await fetchEntities()
+      .filter {
+        BudgetProgressInfo(budget: $0, date: .today).isActive
+      }
+      .map { BudgetEntity(budget: $0) }
   }
 }
 

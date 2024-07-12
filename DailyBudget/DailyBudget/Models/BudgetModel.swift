@@ -80,8 +80,3 @@ extension BudgetModel {
 extension BudgetModel: UnitProviding {
   public static let unit = BudgetModel()
 }
-
-
-extension UUID: UnitProviding {
-  public static let unit = UUID()
-}

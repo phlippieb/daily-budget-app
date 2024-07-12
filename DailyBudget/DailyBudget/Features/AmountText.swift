@@ -7,9 +7,15 @@ struct AmountText: View {
   
   var body: some View {
     HStack(alignment: .lastTextBaseline, spacing: 0) {
-      Text("\(amount.wholePart)").font(wholePartFont)
+      Text("\(amount.wholePart)")
+        .font(wholePartFont)
+        .contentTransition(.numericText(value: Double(amount.wholePart)))
+      
       Text(".")
-      Text(amount.fractionPart).font(fractionPartFont)
+      
+      Text(amount.fractionPartString)
+        .font(fractionPartFont)
+        .contentTransition(.numericText(value: Double(amount.fractionPart)))
     }
   }
 }
