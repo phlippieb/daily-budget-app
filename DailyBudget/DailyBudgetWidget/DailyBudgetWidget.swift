@@ -24,21 +24,35 @@ struct DailyBudgetWidget: Widget {
       }
       .configurationDisplayName("Available amount")
       .description("Shows your daily available amount for a chosen budget.")
+      .supportedFamilies([.systemSmall, .systemMedium])
   }
 }
 
 struct DailyBudgetWidgetView1: View {
   var entry: BudgetEntry
   
-  @Query private var budgets: [BudgetModel]
+  @Query(sort: \BudgetModel.endDate, order: .reverse) private var budgets: [BudgetModel]
   
   private var info: BudgetProgressInfo? {
-    guard
-      let id = entry.entity?.id,
-      let budget = budgets.first(where: { $0.uuid == id })
-    else { return nil }
+    switch entry.budgetToDisplay {
+    case .noneSelected:
+      guard let budget = budgets.first else { return nil }
+      return BudgetProgressInfo(budget: budget, date: .today)
     
-    return BudgetProgressInfo(budget: budget, date: .today)
+    case .placeholder:
+      return BudgetProgressInfo(
+        budget: BudgetModel(
+          name: "My Budget",
+          amount: 99.99 * 31,
+          firstDay: .today,
+          lastDay: .today.adding(days: 30),
+          expenses: []),
+        date: .today)
+      
+    case .model(let id):
+      guard let budget = budgets.first(where: { $0.uuid == id }) else { return nil }
+      return BudgetProgressInfo(budget: budget, date: .today)
+    }
   }
   
   var body: some View {

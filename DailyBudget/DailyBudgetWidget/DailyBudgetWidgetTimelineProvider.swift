@@ -1,17 +1,15 @@
 import WidgetKit
 
 struct DailyBudgetWidgetTimelineProvider: AppIntentTimelineProvider {
-  // TODO: This is called in the gallery. Need a way to show a preview without a real backing budget
   func placeholder(in context: Context) -> BudgetEntry {
-    .init(date: .now)
+    .init(date: .now, budgetToDisplay: .placeholder)
   }
   
   func snapshot(
     for configuration: SelectBudgetIntent, 
     in context: Context
   ) async -> BudgetEntry {
-    // TODO: Then this is called when actually viewing the gallery
-    .init(date: .now, entity: configuration.budget)
+    .init(date: .now, budgetToDisplay: .placeholder)
   }
   
   func timeline(
@@ -19,7 +17,22 @@ struct DailyBudgetWidgetTimelineProvider: AppIntentTimelineProvider {
     in context: Context
   ) async -> Timeline<BudgetEntry> {
     Timeline(entries: [
-      .init(date: .now, entity: configuration.budget)
+      .forEntity(configuration.budget)
     ], policy: .never) // TODO: Use policy to refresh data tomorrow
+  }
+}
+
+private extension BudgetEntry {
+  static func forEntity(_ entityOrNil: BudgetEntity?) -> Self {
+    .init(date: .now, budgetToDisplay: .forEntity(entityOrNil))
+  }
+}
+
+private extension BudgetEntry.DisplayedBudget {
+  static func forEntity(_ entityOrNil: BudgetEntity?) -> Self {
+    switch entityOrNil {
+    case .some(let entity): return .model(id: entity.id)
+    case .none: return .noneSelected
+    }
   }
 }
