@@ -22,7 +22,6 @@ private extension BudgetEntityQuery {
   func fetchEntities() async throws -> [BudgetModel] {
     let configuration = ModelConfiguration()
     let fetchDescriptor = FetchDescriptor<BudgetModel>(
-      // TODO: Add predicate for active budgets only?
       sortBy: [.init(\BudgetModel.endDate, order: .reverse)]
     )
 

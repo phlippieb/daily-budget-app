@@ -144,26 +144,9 @@ struct DailyBudgetWidgetView1: View {
 //  }
 //}
 
-// TODO: Find a way to build a preview
-//#Preview(as: .systemMedium) {
-//  DailyBudgetWidget()
-//} timeline: {
-//  BudgetEntry(date: .now, details: nil)
-//  
-//  BudgetEntry(
-//    date: .now,
-//    details: .init(
-//      title: "July daily budget",
-//      dateText: "Day 1 of 30",
-//      available: 1288.99,
-//      spent: 300.88))
-//  
-//  BudgetEntry(
-//    date: .now,
-//    details: .init(
-//      title: "July daily budget",
-//      dateText: "Day 1 of 30",
-//      available: 4.22,
-//      spent: 555.88))
-//}
-//
+#Preview(as: .systemMedium) {
+  DailyBudgetWidget()
+} timeline: {
+  BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
+  BudgetEntry(date: .now, budgetToDisplay: .placeholder)
+}

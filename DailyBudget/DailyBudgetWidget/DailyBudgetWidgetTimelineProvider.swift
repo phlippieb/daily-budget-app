@@ -18,7 +18,7 @@ struct DailyBudgetWidgetTimelineProvider: AppIntentTimelineProvider {
   ) async -> Timeline<BudgetEntry> {
     Timeline(entries: [
       .forEntity(configuration.budget)
-    ], policy: .never) // TODO: Use policy to refresh data tomorrow
+    ], policy: .after(.startOfTomorrow))
   }
 }
 
@@ -34,5 +34,12 @@ private extension BudgetEntry.DisplayedBudget {
     case .some(let entity): return .model(id: entity.id)
     case .none: return .noneSelected
     }
+  }
+}
+
+private extension Date {
+  static var startOfTomorrow: Date {
+    Calendar.current.startOfDay(
+      for: CalendarDate.today.adding(days: 1).date)
   }
 }

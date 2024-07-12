@@ -10,7 +10,6 @@ struct BudgetEntity: AppEntity, Identifiable {
     DisplayRepresentation(title: LocalizedStringResource(stringLiteral: name))
   }
   
-  // TODO: Can we use this to pre-select the most recent budget?
   static var defaultQuery = BudgetEntityQuery()
   
   static var typeDisplayRepresentation: TypeDisplayRepresentation = "Budget"
