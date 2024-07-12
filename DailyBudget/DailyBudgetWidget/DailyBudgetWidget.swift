@@ -3,6 +3,9 @@ import SwiftUI
 import SwiftData
 import AppIntents
 
+// TODO: Fix initial view before selecting a budget
+// TODO: Ensure i didn't mess up the migration - install from app store, then from test flight
+
 // MARK: View -
 
 struct DailyBudgetWidget: Widget {
@@ -17,21 +20,28 @@ struct DailyBudgetWidget: Widget {
           .containerBackground(.fill.tertiary, for: .widget)
           .modelContainer(for: BudgetModel.self)
       }
-      .configurationDisplayName("My Widget")
-      .description("This is an example widget.")
+      .configurationDisplayName("Available amount")
+      .description("Shows your daily available amount for a chosen budget.")
   }
 }
 
 struct DailyBudgetWidgetView1: View {
-  var entry: BudgetEntry
+  var entry: BudgetEntity
   
-  @Query var budgets: [BudgetModel]
+  @Query private var budgets: [BudgetModel]
+  
+  private var info: BudgetProgressInfo? {
+    guard let budget = budgets.first(where: { $0.uuid == entry.id })
+    else { return nil }
+    
+    return BudgetProgressInfo(budget: budget, date: .today)
+  }
   
   var body: some View {
-    if let details = entry.details {
+    if let info {
       VStack(alignment: .center) {
         AmountText(
-          amount: details.available,
+          amount: info.currentAllowance,
           wholePartFont: .system(
             size: UIFont.preferredFont(
               forTextStyle: .largeTitle).pointSize * 2)
@@ -43,14 +53,14 @@ struct DailyBudgetWidgetView1: View {
         Text("Available today")
           .fontWeight(.light)
         
-        Text(details.title)
+        Text(info.budget.name)
           .font(.subheadline)
           .bold()
           .lineLimit(2)
           .multilineTextAlignment(.center)
       }
     } else {
-      Text("Long press and select a budget")
+      Text("...")
     }
   }
 }
@@ -152,25 +162,26 @@ struct AmountText: View {
   }
 }
 
-#Preview(as: .systemMedium) {
-  DailyBudgetWidget()
-} timeline: {
-  BudgetEntry(date: .now, details: nil)
-  
-  BudgetEntry(
-    date: .now,
-    details: .init(
-      title: "July daily budget",
-      dateText: "Day 1 of 30",
-      available: 1288.99,
-      spent: 300.88))
-  
-  BudgetEntry(
-    date: .now,
-    details: .init(
-      title: "July daily budget",
-      dateText: "Day 1 of 30",
-      available: 4.22,
-      spent: 555.88))
-}
-
+// TODO: Find a way to build a preview
+//#Preview(as: .systemMedium) {
+//  DailyBudgetWidget()
+//} timeline: {
+//  BudgetEntry(date: .now, details: nil)
+//  
+//  BudgetEntry(
+//    date: .now,
+//    details: .init(
+//      title: "July daily budget",
+//      dateText: "Day 1 of 30",
+//      available: 1288.99,
+//      spent: 300.88))
+//  
+//  BudgetEntry(
+//    date: .now,
+//    details: .init(
+//      title: "July daily budget",
+//      dateText: "Day 1 of 30",
+//      available: 4.22,
+//      spent: 555.88))
+//}
+//
