@@ -5,9 +5,9 @@ struct SelectBudgetIntent: WidgetConfigurationIntent {
   static var description = IntentDescription("Selects a budget to display information for.")
   
   @Parameter(title: "Budget")
-  var budget: BudgetEntity
+  var budget: BudgetEntity?
   
-  init(budget: BudgetEntity) {
+  init(budget: BudgetEntity?) {
       self.budget = budget
   }
   

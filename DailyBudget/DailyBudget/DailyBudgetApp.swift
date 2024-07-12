@@ -1,9 +1,11 @@
 import SwiftUI
+import WidgetKit
 
 @main
 struct DailyBudgetApp: App {
   private var currentDate = CurrentDate()
   @AppStorage("appearance_preference") private var appearancePreference: Int = 0
+  @Environment(\.modelContext) private var context
   
   var body: some Scene {
     WindowGroup {
@@ -22,6 +24,13 @@ struct DailyBudgetApp: App {
       
       // MARK: Appearance
         .preferredColorScheme(.init(appearancePreference: appearancePreference))
+      
+      // MARK: Update widgets when data changes
+        .onReceive(NotificationCenter.default.publisher(
+          for: Notification.Name.NSManagedObjectContextDidSave
+        ), perform: { _ in
+          WidgetCenter.shared.reloadAllTimelines()
+        })
     }
   }
 }

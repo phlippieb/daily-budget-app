@@ -3,8 +3,10 @@ import SwiftUI
 import SwiftData
 import AppIntents
 
-// TODO: Fix initial view before selecting a budget
 // TODO: Ensure i didn't mess up the migration - install from app store, then from test flight
+
+// TODO: Fix this warning:
+// The CFBundleVersion of an app extension ('1') must match that of its containing parent app ('0').
 
 // MARK: View -
 
@@ -26,12 +28,14 @@ struct DailyBudgetWidget: Widget {
 }
 
 struct DailyBudgetWidgetView1: View {
-  var entry: BudgetEntity
+  var entry: BudgetEntry
   
   @Query private var budgets: [BudgetModel]
   
   private var info: BudgetProgressInfo? {
-    guard let budget = budgets.first(where: { $0.uuid == entry.id })
+    guard
+      let id = entry.entity?.id,
+      let budget = budgets.first(where: { $0.uuid == id })
     else { return nil }
     
     return BudgetProgressInfo(budget: budget, date: .today)
@@ -59,8 +63,11 @@ struct DailyBudgetWidgetView1: View {
           .lineLimit(2)
           .multilineTextAlignment(.center)
       }
+      
     } else {
-      Text("...")
+      Text("No budget selected").foregroundStyle(.gray)
+      Text("Long-press to configure")
+        .font(.footnote)
     }
   }
 }
@@ -135,12 +142,16 @@ extension Double {
     Int(self)
   }
   
+  var fractionPartInt: Int {
+    // Take first two decimal digits
+    abs(Int(self.truncatingRemainder(dividingBy: 1) * 100))
+  }
+  
   var fractionPart: String {
     String(
       // Show 2 decimal places
       format: "%02d",
-      // Take first two decimal digits
-      abs(Int(self.truncatingRemainder(dividingBy: 1) * 100))
+      fractionPartInt
     )
   }
 }
@@ -155,9 +166,15 @@ struct AmountText: View {
   
   var body: some View {
     HStack(alignment: .lastTextBaseline, spacing: 0) {
-      Text("\(amount.wholePart)").font(wholePartFont)
-      Text(".")
-      Text(amount.fractionPart).font(fractionPartFont)
+      Text("\(amount.wholePart)")
+        .font(wholePartFont)
+        .contentTransition(.numericText(value: Double(amount.wholePart)))
+      
+      Text(".").font(fractionPartFont)
+      
+      Text(amount.fractionPart)
+        .font(fractionPartFont)
+        .contentTransition(.numericText(value: Double(amount.fractionPartInt)))
     }
   }
 }
