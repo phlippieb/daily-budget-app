@@ -4,11 +4,10 @@ A simple iOS budgeting app by [Phlippie Bosman](https://phlippieb.dev)
 
 **[Download on the AppStore](https://apps.apple.com/us/app/daily-budget/id6504949539)**
 
-<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/561b0ce5-fff7-437e-84d8-ca53c2962c20" />
-<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/96112056-6b97-4961-955b-c17c4a0f1c4a" />
-<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/245b8f74-a978-4a56-a789-efb3c2c267e3" />
-<img width="22%" src="https://github.com/phlippieb/daily-budget-app/assets/2232699/4a06a708-e265-421c-8293-10845ce4edde" />
-
+<img width="22%" src="https://github.com/user-attachments/assets/85c65fe5-5e5a-4c1c-bfd3-611772d2f5b8" />
+<img width="22%" src="https://github.com/user-attachments/assets/53a4565e-4d47-47cb-8ff8-66461243ba1b" />
+<img width="22%" src="https://github.com/user-attachments/assets/1371a1e0-1f45-43dc-b27b-c817da9eabb9" />
+<img width="22%" src="https://github.com/user-attachments/assets/551890c8-df99-4a89-baec-ab6121cb1a41" />
 
 ## 🔍 How it works
 
