@@ -5,7 +5,8 @@ import SwiftUI
 
 @main
 struct DailyBudgetWidgetBundle: WidgetBundle {
-    var body: some Widget {
-        DailyBudgetWidget()
-    }
+  var body: some Widget {
+    DailyBudgetWidget1()
+    DailyBudgetWidget2()
+  }
 }

@@ -5,8 +5,9 @@ import AppIntents
 
 // TODO: Ensure i didn't mess up the migration - install from app store, then from test flight
 
-struct DailyBudgetWidget: Widget {
-  let kind: String = "DailyBudgetWidget"
+/// A simple widget displaying the available amount for a chosen budget
+struct DailyBudgetWidget1: Widget {
+  let kind: String = "DailyBudgetWidget1"
   
   var body: some WidgetConfiguration {
     AppIntentConfiguration(
@@ -23,7 +24,7 @@ struct DailyBudgetWidget: Widget {
   }
 }
 
-struct DailyBudgetWidgetView1: View {
+private struct DailyBudgetWidgetView1: View {
   var entry: BudgetEntry
   
   @Query(sort: \BudgetModel.endDate, order: .reverse) private var budgets: [BudgetModel]
@@ -81,66 +82,8 @@ struct DailyBudgetWidgetView1: View {
   }
 }
 
-// TODO: Include
-//struct DailyBudgetWidgetView2: View {
-//  var entry: BudgetEntry
-//  
-//  var body: some View {
-//    VStack {
-//      HStack {
-//        Text(entry.title)
-//          .font(.subheadline)
-//          .bold()
-//          .lineLimit(2)
-//          .multilineTextAlignment(.center)
-//        Spacer()
-//        Image(systemName: "calendar")
-//        Text(entry.dateText)
-//      }
-//      .font(.footnote)
-//      
-//      Spacer()
-//      
-//      Grid {
-//        GridRow(alignment: .lastTextBaseline) {
-//          AmountText(
-//            amount: entry.available,
-//            wholePartFont: .system(
-//              size: UIFont.preferredFont(
-//                forTextStyle: .largeTitle).pointSize * 2)
-//          )
-//          .minimumScaleFactor(0.1)
-//          .bold()
-//          .foregroundStyle(.green)
-//          
-//          Text("")
-//          
-//          AmountText(
-//            amount: entry.spent,
-//            wholePartFont: .system(
-//              size: UIFont.preferredFont(
-//                forTextStyle: .largeTitle).pointSize)
-//          )
-//          .minimumScaleFactor(0.1)
-//          .bold()
-//        }
-//        
-//        GridRow(alignment: .lastTextBaseline) {
-//          Text("Available today")
-//            .fontWeight(.light)
-//          
-//          Text("")
-//          
-//          Text("Spent")
-//            .fontWeight(.light)
-//        }
-//      }
-//    }
-//  }
-//}
-
 #Preview(as: .systemMedium) {
-  DailyBudgetWidget()
+  DailyBudgetWidget1()
 } timeline: {
   BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
   BudgetEntry(date: .now, budgetToDisplay: .placeholder)
