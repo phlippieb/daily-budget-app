@@ -1,4 +1,5 @@
 import SwiftUI
+import WidgetKit
 
 @main
 struct DailyBudgetApp: App {
@@ -22,6 +23,13 @@ struct DailyBudgetApp: App {
       
       // MARK: Appearance
         .preferredColorScheme(.init(appearancePreference: appearancePreference))
+      
+      // MARK: Update widgets when data changes
+        .onReceive(NotificationCenter.default.publisher(
+          for: Notification.Name.NSManagedObjectContextDidSave
+        ), perform: { _ in
+          WidgetCenter.shared.reloadAllTimelines()
+        })
     }
   }
 }

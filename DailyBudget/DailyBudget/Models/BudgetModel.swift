@@ -7,13 +7,18 @@ import SwiftData
 /// An instance represents a purpose-specific, time-ranged budget and its associated expenses.
 /// This model is ignorant of the current date vis-a-vis the budget's date; see BudetAtDate
 @Model final class BudgetModel {
+  var uuid: UUID = UUID()
   @Attribute(.allowsCloudEncryption) var name: String = ""
   @Attribute(.allowsCloudEncryption) var amount: Double = 0
   @Attribute(.allowsCloudEncryption) var startDate: Date = Date()
   @Attribute(.allowsCloudEncryption) var endDate: Date = Date()
   @Attribute(.allowsCloudEncryption) var expenses: [ExpenseModel]? = []
   
-  init(name: String, amount: Double, startDate: Date, endDate: Date, expenses: [ExpenseModel]) {
+  init(
+    uuid: UUID = UUID(), name: String, amount: Double, startDate: Date,
+    endDate: Date, expenses: [ExpenseModel]
+  ) {
+    self.uuid = uuid
     self.name = name
     self.amount = amount
     self.startDate = startDate
@@ -23,6 +28,7 @@ import SwiftData
   
   convenience init() {
     self.init(
+      uuid: UUID(),
       name: "",
       amount: 0,
       startDate: .distantPast,
@@ -34,8 +40,13 @@ import SwiftData
 // MARK: Calendar days -
 
 extension BudgetModel {
-  convenience init(name: String, amount: Double, firstDay: CalendarDate, lastDay: CalendarDate, expenses: [ExpenseModel]) {
-    self.init(name: name, amount: amount, startDate: firstDay.date, endDate: lastDay.date, expenses: expenses)
+  convenience init(
+    uuid: UUID = UUID(), name: String, amount: Double, firstDay: CalendarDate,
+    lastDay: CalendarDate, expenses: [ExpenseModel]
+  ) {
+    self.init(
+      uuid: uuid, name: name, amount: amount, startDate: firstDay.date,
+      endDate: lastDay.date, expenses: expenses)
   }
   
   var firstDay: CalendarDate {
@@ -67,5 +78,5 @@ extension BudgetModel {
 }
 
 extension BudgetModel: UnitProviding {
-  static let unit = BudgetModel()
+  public static let unit = BudgetModel()
 }

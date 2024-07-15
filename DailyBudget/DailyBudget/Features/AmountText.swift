@@ -5,25 +5,19 @@ struct AmountText: View {
   var wholePartFont: Font = .body
   var fractionPartFont: Font = .body
   
-  private var wholePart: Int {
-    Int(amount)
-  }
-  
-  private var fractionPart: String {
-    String(
-      // Show 2 decimal places
-      format: "%02d",
-      // Take first two decimal digits
-      abs(Int(amount.truncatingRemainder(dividingBy: 1) * 100))
-    )
-  }
-  
   var body: some View {
     HStack(alignment: .lastTextBaseline, spacing: 0) {
-      Text("\(wholePart)").font(wholePartFont)
+      Text("\(amount.wholePart)")
+        .font(wholePartFont)
+        .contentTransition(.numericText(value: Double(amount.wholePart)))
+      
       Text(".")
-      Text(fractionPart).font(fractionPartFont)
+      
+      Text(amount.fractionPartString)
+        .font(fractionPartFont)
+        .contentTransition(.numericText(value: Double(amount.fractionPart)))
     }
+    .privacySensitive()
   }
 }
 
