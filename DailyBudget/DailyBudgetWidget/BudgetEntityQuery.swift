@@ -24,17 +24,11 @@ private extension BudgetEntityQuery {
     let fetchDescriptor = FetchDescriptor<BudgetModel>(
       sortBy: [.init(\BudgetModel.endDate, order: .reverse)]
     )
-
-    guard
-      let container = try? ModelContainer(
-        for: BudgetModel.self, configurations: configuration),
-      // TODO: Deal with this warning:
-      // Non-sendable type 'ModelContext' in implicitly asynchronous access to main actor-isolated property 'mainContext' cannot cross actor boundary
-      let budgetModels = try? await container.mainContext.fetch(fetchDescriptor)
-    else {
-      return []
-    }
     
-    return budgetModels
+    let container = try ModelContainer(
+        for: BudgetModel.self, configurations: configuration)
+    
+    let context = ModelContext(container)
+    return try context.fetch(fetchDescriptor)
   }
 }
