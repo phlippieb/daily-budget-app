@@ -4,7 +4,7 @@ import SwiftData
 import AppIntents
 
 /// A simple widget displaying the available amount for a chosen budget
-struct DailyBudgetWidget2: Widget {
+struct AvailableAndSpentTodayWidget: Widget {
   let kind: String = "DailyBudgetWidget2"
   
   var body: some WidgetConfiguration {
@@ -12,7 +12,7 @@ struct DailyBudgetWidget2: Widget {
       kind: kind,
       intent: SelectBudgetIntent.self,
       provider: DailyBudgetWidgetTimelineProvider()) { entry in
-        DailyBudgetWidgetView2(entry: entry)
+        AvailableAndSpentTodayWidgetView(entry: entry)
           .containerBackground(.fill.tertiary, for: .widget)
           .modelContainer(for: BudgetModel.self)
       }
@@ -22,7 +22,7 @@ struct DailyBudgetWidget2: Widget {
   }
 }
 
-private struct DailyBudgetWidgetView2: View {
+private struct AvailableAndSpentTodayWidgetView: View {
   var entry: BudgetEntry
   
   @Query(sort: \BudgetModel.endDate, order: .reverse) private var budgets: [BudgetModel]
@@ -80,7 +80,7 @@ private struct DailyBudgetWidgetView2: View {
             )
             .minimumScaleFactor(0.1)
             .bold()
-            .foregroundStyle(.green)
+            .foregroundStyle(viewModel.accentColor)
             
             if let secondaryAmount = viewModel.secondaryAmount {
               Text("")
@@ -117,7 +117,7 @@ private struct DailyBudgetWidgetView2: View {
 }
 
 #Preview(as: .systemMedium) {
-  DailyBudgetWidget2()
+  AvailableAndSpentTodayWidget()
 } timeline: {
   BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
   BudgetEntry(date: .now, budgetToDisplay: .placeholder)
