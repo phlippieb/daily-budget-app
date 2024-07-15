@@ -17,6 +17,7 @@ struct AmountText: View {
         .font(fractionPartFont)
         .contentTransition(.numericText(value: Double(amount.fractionPart)))
     }
+    .privacySensitive()
   }
 }
 

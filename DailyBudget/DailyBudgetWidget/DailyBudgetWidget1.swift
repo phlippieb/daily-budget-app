@@ -3,8 +3,6 @@ import SwiftUI
 import SwiftData
 import AppIntents
 
-// TODO: Ensure i didn't mess up the migration - install from app store, then from test flight
-
 /// A simple widget displaying the available amount for a chosen budget
 struct DailyBudgetWidget1: Widget {
   let kind: String = "DailyBudgetWidget1"
