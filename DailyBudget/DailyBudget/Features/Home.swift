@@ -2,13 +2,16 @@ import SwiftUI
 import SwiftData
 
 struct Home: View {
+  
   @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   
   @EnvironmentObject private var currentDate: CurrentDate
   
+  private var whatsNewService = WhatsNewService()
+  
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
-  @State private var showingWhatsNew = true
+  @State private var showingWhatsNew = false
   
   private var activeBudgets: [BudgetModel] {
     budgets.filter { budget in
@@ -40,6 +43,8 @@ struct Home: View {
     withAnimation {
       showingWhatsNew = false
     }
+    
+    whatsNewService.markMessageAsDisplayed()
   }
   
   var body: some View {
@@ -52,10 +57,10 @@ struct Home: View {
           }
         } else {
           List {
+            // TODO: Can we bind to whatsNewService.something?
             if showingWhatsNew {
               Section {
                 WhatsNew(onHide: hideWhatsNew)
-//                  .transition(.push(from: .leading))
               }
             }
             
@@ -146,12 +151,19 @@ struct Home: View {
       }
       
       // MARK: Show/hide app info
-//      .animation(.bouncy, value: showingAppInfo)
-//      .gesture(
-//        DragGesture().onChanged { value in
-//          showingAppInfo = (value.translation.height > 0)
-//        }
-//      )
+      .animation(.bouncy, value: showingAppInfo)
+      .gesture(
+        DragGesture().onChanged { value in
+          showingAppInfo = (value.translation.height > 0)
+        }
+      )
+      
+      // MARK: What's new
+      .onAppear {
+        withAnimation {
+          showingWhatsNew = (whatsNewService.messageToDisplay != nil)
+        }
+      }
     }
   }
   

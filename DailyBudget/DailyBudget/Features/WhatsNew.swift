@@ -20,7 +20,7 @@ struct WhatsNew: View {
 //        showingWhatsNew.toggle()
         onHide()
       } label: {
-        Text("Got it")
+        Text("Dismiss")
       }
       .padding()
     }
@@ -60,6 +60,8 @@ struct WhatsNew: View {
 //}
 
 class WhatsNewService: ObservableObject {
+  static let shared = WhatsNewService()
+  
   // TODO: create a solution that:
   // (1) only shows the message to returning users on a new version
   // (2) doesn't show the message every time the app is launched
