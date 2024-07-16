@@ -8,6 +8,7 @@ struct Home: View {
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
+  @State private var showingWhatsNew = true
   
   private var activeBudgets: [BudgetModel] {
     budgets.filter { budget in
@@ -35,6 +36,11 @@ struct Home: View {
     Bundle.main.infoDictionary?["CFBundleVersion"] as? String
   }
 
+  private func hideWhatsNew() {
+    withAnimation {
+      showingWhatsNew = false
+    }
+  }
   
   var body: some View {
     NavigationView {
@@ -46,6 +52,13 @@ struct Home: View {
           }
         } else {
           List {
+            if showingWhatsNew {
+              Section {
+                WhatsNew(onHide: hideWhatsNew)
+//                  .transition(.push(from: .leading))
+              }
+            }
+            
             if !activeBudgets.isEmpty {
               Section("Current budgets") {
                 ForEach(activeBudgets) { budget in
@@ -90,6 +103,7 @@ struct Home: View {
       .overlay(alignment: .bottom) {
           if showingAppInfo {
             Spacer()
+            // TODO: Factor out into feature
             VStack {
               Link(destination: URL(string: "https://phlippieb.github.io/daily-budget-app/")!) {
                 HStack {
@@ -132,12 +146,12 @@ struct Home: View {
       }
       
       // MARK: Show/hide app info
-      .animation(.bouncy, value: showingAppInfo)
-      .gesture(
-        DragGesture().onChanged { value in
-          showingAppInfo = (value.translation.height > 0)
-        }
-      )
+//      .animation(.bouncy, value: showingAppInfo)
+//      .gesture(
+//        DragGesture().onChanged { value in
+//          showingAppInfo = (value.translation.height > 0)
+//        }
+//      )
     }
   }
   
