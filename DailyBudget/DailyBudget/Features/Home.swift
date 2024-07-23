@@ -5,36 +5,22 @@ struct Home: View {
   @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   
   @EnvironmentObject private var currentDate: CurrentDate
+  @EnvironmentObject private var whatsNew: WhatsNewObservableObject
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
   
   private var activeBudgets: [BudgetModel] {
-    budgets.filter { budget in
-      (budget.firstDay ... budget.lastDay)
-        .contains(currentDate.value.calendarDate)
-    }
+    budgets.active(on: currentDate.value.calendarDate)
   }
   
   private var upcomingBudgets: [BudgetModel] {
-    budgets.filter { budget in
-      budget.firstDay > currentDate.value.calendarDate
-    }
+    budgets.upcoming(on: currentDate.value.calendarDate)
   }
   
   private var pastBudgets: [BudgetModel] {
-    budgets.filter { budget in
-      budget.lastDay < currentDate.value.calendarDate
-    }
+    budgets.past(on: currentDate.value.calendarDate)
   }
-  
-  private var appVersion: String? {
-    Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-  }
-  private var buildVersion: String? {
-    Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-  }
-
   
   var body: some View {
     NavigationView {
@@ -46,6 +32,10 @@ struct Home: View {
           }
         } else {
           List {
+            if whatsNew.shouldDisplay {
+              WhatsNew()
+            }
+            
             if !activeBudgets.isEmpty {
               Section("Current budgets") {
                 ForEach(activeBudgets) { budget in
@@ -86,37 +76,13 @@ struct Home: View {
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       
-      // MARK: App info
-      .overlay(alignment: .bottom) {
-          if showingAppInfo {
-            Spacer()
-            VStack {
-              Link(destination: URL(string: "https://phlippieb.github.io/daily-budget-app/")!) {
-                HStack {
-                  Text("Daily Budget")
-                  Image(systemName: "safari")
-                }
-              }
-              if let appVersion, let buildVersion {
-                Text("Version \(appVersion) (\(buildVersion))")
-                  .foregroundStyle(.gray)
-              }
-            }
-            .padding()
-            .background(Material.regular)
-            .transition(.offset(CGSize(width: 0, height: 150)))
-            .cornerRadius(20)
-            .padding()
-        }
-      }
-      
       // MARK: Title, toolbar, and adding a new budget
       .navigationTitle("Budgets")
       .navigationBarTitleDisplayMode(.inline)
       
       .toolbar {
         ToolbarItemGroup(placement: .topBarLeading) {
-          Button(action: onSettingsTapped) { 
+          Button(action: onSettingsTapped) {
             Image(systemName: "gearshape")
           }
         }
@@ -129,6 +95,13 @@ struct Home: View {
       
       .sheet(item: $editingBudget) { _ in
         EditBudget(budget: $editingBudget)
+      }
+      
+      // MARK: App info
+      .overlay(alignment: .bottom) {
+        if showingAppInfo {
+          AppInfo()
+        }
       }
       
       // MARK: Show/hide app info
@@ -146,12 +119,28 @@ struct Home: View {
   }
   
   private func onSettingsTapped() {
-    guard 
+    guard
       let url = URL(string: UIApplication.openSettingsURLString),
       UIApplication.shared.canOpenURL(url)
     else { return }
     
     UIApplication.shared.open(url)
+  }
+}
+
+// MARK: Filtering budgets -
+
+private extension Array where Element == BudgetModel {
+  func active(on today: CalendarDate) -> [BudgetModel] {
+    filter { ($0.firstDay ... $0.lastDay).contains(today) }
+  }
+  
+  func upcoming(on today: CalendarDate) -> [BudgetModel] {
+    filter { $0.firstDay > today }
+  }
+  
+  func past(on today: CalendarDate) -> [BudgetModel] {
+    filter { $0.lastDay < today }
   }
 }
 
@@ -202,8 +191,8 @@ struct Home: View {
     break
   }
   
-  
   return Home()
     .modelContainer(container)
     .environmentObject(CurrentDate())
+    .environmentObject(WhatsNewObservableObject())
 }
