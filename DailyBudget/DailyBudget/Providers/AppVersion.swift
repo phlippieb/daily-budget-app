@@ -30,20 +30,9 @@ struct AppVersion {
     self.build = build
   }
   
-  init?(intValue: Int?) {
-    guard let intValue = intValue else { return nil }
-    self.major = intValue / 1000000
-    self.minor = intValue / 1000 - (self.major * 1000)
-    self.build = intValue - (self.major * 1000000) - (self.minor * 1000)
-  }
-  
   let major: Int
   let minor: Int
   let build: Int
-  
-  var intValue: Int {
-    major * 1000000 + minor * 1000 + build
-  }
   
   var stringValue: String {
     "\(major).\(minor) (\(build))"

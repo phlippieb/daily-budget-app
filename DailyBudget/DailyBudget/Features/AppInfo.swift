@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AppInfo: View {
-  @EnvironmentObject private var whatsNew: WhatsNewObservableObject
+  @EnvironmentObject private var whatsNew: WhatsNewController
   
   var body: some View {
     VStack {
@@ -13,17 +13,15 @@ struct AppInfo: View {
           Image(systemName: "safari")
         }
       }
+      
       if let appVersion = AppVersion() {
         Text("Version \(appVersion.stringValue)")
           .foregroundStyle(.gray)
         
-        if
-          appVersion == whatsNew.latestVersionWithNewMessage,
-          !whatsNew.shouldDisplay
-        {
+        if !whatsNew.shouldDisplay {
           Button {
             withAnimation {
-              whatsNew.markAsSeen(false)
+              whatsNew.markAsSeen(false, for: .widgets)
             }
           } label: {
             Image(systemName: "sparkles").frame(height: 16)
@@ -41,5 +39,5 @@ struct AppInfo: View {
 
 #Preview {
   AppInfo()
-    .environmentObject(WhatsNewObservableObject())
+    .environmentObject(WhatsNewController())
 }

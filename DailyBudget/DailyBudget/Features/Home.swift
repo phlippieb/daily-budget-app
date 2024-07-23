@@ -5,7 +5,7 @@ struct Home: View {
   @Query(sort: \BudgetModel.startDate) private var budgets: [BudgetModel]
   
   @EnvironmentObject private var currentDate: CurrentDate
-  @EnvironmentObject private var whatsNew: WhatsNewObservableObject
+  @EnvironmentObject private var whatsNew: WhatsNewController
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
@@ -194,5 +194,5 @@ private extension Array where Element == BudgetModel {
   return Home()
     .modelContainer(container)
     .environmentObject(CurrentDate())
-    .environmentObject(WhatsNewObservableObject())
+    .environmentObject(WhatsNewController())
 }
