@@ -21,8 +21,8 @@ struct DailyBudgetApp: App {
           currentDate.value = .now
         }
       
-      // MARK: Provide What's New service
-        .environmentObject(WhatsNewObservableObject())
+      // MARK: Provide What's New controller
+        .environmentObject(WhatsNewController())
       
       // MARK: Appearance
         .preferredColorScheme(.init(appearancePreference: appearancePreference))

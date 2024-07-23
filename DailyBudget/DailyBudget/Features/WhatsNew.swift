@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WhatsNew: View {
-  @EnvironmentObject private var whatsNew: WhatsNewObservableObject
+  @EnvironmentObject private var whatsNew: WhatsNewController
   
   var body: some View {
     VStack(alignment: .leading) {
