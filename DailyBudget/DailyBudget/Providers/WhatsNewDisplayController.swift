@@ -4,7 +4,6 @@ import Foundation
 /// last-seen notable update, as indicated by the given persistence provider.
 /// Acts as an ObservableObject. This allows Views to show/hide What's New messages depending on
 /// `shouldDisplay`.
-/// TODO: Maybe rename to WhatsNewController
 class WhatsNewController: ObservableObject {
   typealias PersistenceProvider = LastSeenNotableUpdatePersistenceProvider
   
