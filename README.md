@@ -37,8 +37,9 @@ Rather than lumping all your available funds into one budget, and then logging a
 - See a running daily allowance based on your total budgeted amount and expenses
 - Manage multiple budgets
 - Fully offline
-- Lightweight, simple and fast
+- Widgets
 - iCloud backup and syncing
+- Lightweight, simple and fast
 
 ## 👷🏻 Upcoming features
 
