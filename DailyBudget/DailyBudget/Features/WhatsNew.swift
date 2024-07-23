@@ -5,33 +5,51 @@ struct WhatsNew: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-
-      
+      Spacer(minLength: 8)
       HStack(alignment: .lastTextBaseline) {
-//        Spacer()
-        
-        Group {
           Text("New in version 1.3")
           Image(systemName: "sparkles")
-        }
-          .foregroundStyle(LinearGradient(
-            stops: [
-              .init(color: .green, location: 0),
-              .init(color: .blue, location: 0.5),
-              .init(color: .purple, location: 1)
-            ], startPoint: .leading, endPoint: .trailing)
-          )
       }
       .font(.subheadline)
+      .foregroundStyle(LinearGradient(
+        stops: [
+          .init(color: .green, location: 0),
+          .init(color: .blue, location: 0.5),
+          .init(color: .purple, location: 1)
+        ], startPoint: .leading, endPoint: .trailing)
+      )
       
       Text("Widgets")
         .font(.headline)
       
-//      Text("")
-//      Text("Daily Budget now has widgets!")
-      
       Text("")
-      Text("You can now add a widget to your home screen to see your daily budgeted amount and expenditure at a glance.")
+      Text("You can now add widgets to your home screen to see your daily budgeted amount and expenditure at a glance.")
+      
+      ZStack {
+        AvailableAndSpentTodayWidgetView(
+          entry: .init(date: Date(), budgetToDisplay: .placeholder)
+        )
+        .padding()
+        .background()
+        .overlay(Color.systemBackground.opacity(0.4))
+        .cornerRadius(10)
+        .shadow(radius: 10)
+        .rotationEffect(.degrees(-10))
+        .offset(x: 45, y: 30)
+        .scaleEffect(0.6)
+        
+        AvailableTodayWidgetView(
+          entry: .init(date: Date(), budgetToDisplay: .placeholder)
+        )
+        .padding()
+        .background()
+        .overlay(Color.systemBackground.opacity(0.3))
+        .cornerRadius(10)
+        .shadow(radius: 10)
+        .rotationEffect(.degrees(10))
+        .offset(x: -130, y: -40)
+        .scaleEffect(0.6)
+      }
       
       HStack {
         Spacer()
@@ -40,7 +58,7 @@ struct WhatsNew: View {
             whatsNew.markAsSeen()
           }
         } label: {
-          Text("Dismiss")
+          Text("Got it")
         }
         Spacer()
       }
@@ -63,5 +81,6 @@ struct WhatsNew: View {
 #Preview {
   List {
     WhatsNew()
+      .modelContainer(for: BudgetModel.self)
   }
 }
