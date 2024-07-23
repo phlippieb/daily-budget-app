@@ -1,5 +1,7 @@
 import Foundation
 
+// TODO: Simplify
+
 // MARK: Persistence provider -
 
 protocol WhatsNewPersistenceProvider {

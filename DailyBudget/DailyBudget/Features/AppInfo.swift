@@ -5,7 +5,9 @@ struct AppInfo: View {
   
   var body: some View {
     VStack {
-      Link(destination: URL(string: "https://phlippieb.github.io/daily-budget-app/")!) {
+      Link(
+        destination: URL(string: "https://dailybudget.phlippieb.dev/")!
+      ) {
         HStack {
           Text("Daily Budget")
           Image(systemName: "safari")
@@ -21,7 +23,7 @@ struct AppInfo: View {
         {
           Button {
             withAnimation {
-              whatsNew.markAsSeen(false)              
+              whatsNew.markAsSeen(false)
             }
           } label: {
             Image(systemName: "sparkles").frame(height: 16)

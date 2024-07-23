@@ -34,7 +34,6 @@ struct Home: View {
           List {
             if whatsNew.shouldDisplay {
               WhatsNew()
-                .transition(.slide)
             }
             
             if !activeBudgets.isEmpty {
