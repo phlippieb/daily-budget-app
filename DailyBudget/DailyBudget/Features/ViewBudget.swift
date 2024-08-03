@@ -8,6 +8,7 @@ struct ViewBudget: View {
   
   @State private var editingBudget: BudgetModel??
   @State private var editingExpense: ExpenseModel??
+  @State private var showingTip = false
   
   private var info: BudgetProgressInfo {
     .init(budget: budget, date: currentDate.value.calendarDate)
@@ -21,7 +22,7 @@ struct ViewBudget: View {
         TodaySummary(viewModel: info.summaryViewModel)
       }
       
-      if let tip = info.summaryViewModel.tip {
+      if let tip = info.summaryViewModel.tip, showingTip {
         Tip(tip: tip)
       }
       
@@ -39,6 +40,16 @@ struct ViewBudget: View {
     
     .navigationTitle(info.budget.name)
     .navigationBarTitleDisplayMode(.inline)
+    
+    .onAppear {
+      DispatchQueue.main
+        .asyncAfter(deadline: .now() + 1) {
+          showingTip = true
+        }
+    }
+    .animation(
+      .bouncy, value: (info.summaryViewModel.tip != nil && showingTip)
+    )
     
     .sheet(item: $editingBudget, content: { _ in
       EditBudget(budget: $editingBudget)
@@ -115,22 +126,30 @@ private struct TodaySummary: View {
 }
 
 // MARK: Tip section -
-private struct Tip: View {
+struct Tip: View {
   let tip: BudgetSummaryTipViewModel
   
   var body: some View {
-    switch tip {
-    case .availableTomorrow(let amount):
-      HStack {
-        Image(systemName: "lightbulb.max")
-        AmountText(amount: amount, fractionPartFont: .footnote).bold()
-        Text("available tomorrow")
-      }
+    HStack {
+      Image(systemName: "lightbulb.max")
       
-    case .breakEven(let days):
-      HStack {
-        Image(systemName: "lightbulb.max")
-        Text("You can break even in \(days) days if you cut all spending")
+      Group {
+        switch tip {
+        case .availableTomorrow(let amount):
+          VStack(alignment: .leading) {
+            AmountText(amount: amount, fractionPartFont: .footnote).bold()
+              .foregroundStyle(tip.accentColor)
+            Text("available tomorrow")
+              .font(.footnote)
+          }
+          
+        case .breakEven(let days):
+          VStack(alignment: .leading) {
+            Text("\(days) days").bold().foregroundStyle(tip.accentColor)
+            Text("to break even")
+              .font(.footnote)
+          }
+        }
       }
     }
   }
@@ -243,7 +262,7 @@ private struct RecentExpenses: View {
   let expenses = [
     ExpenseModel(
       name: "Expense 1",
-      amount: 3500,
+      amount: 1500,
       day: CalendarDate.today),
 //    ExpenseModel(
 //      name: "Expense 2",

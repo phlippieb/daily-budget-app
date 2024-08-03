@@ -7,7 +7,7 @@ struct WhatsNew: View {
     VStack(alignment: .leading) {
       Spacer(minLength: 8)
       HStack(alignment: .lastTextBaseline) {
-          Text("New in version 1.3")
+          Text("New in version 1.4")
           Image(systemName: "sparkles")
       }
       .font(.subheadline)
@@ -19,38 +19,35 @@ struct WhatsNew: View {
         ], startPoint: .leading, endPoint: .trailing)
       )
       
-      Text("Widgets")
+      Text("Saving tips")
         .font(.headline)
       
       Text("")
-      Text("You can now add widgets to your home screen to see your daily budgeted amount and expenditure at a glance.")
+      Text("See saving tips for your active budgets! These tips are based on your current status — if you're under budget, they'll tell you how much you can save for tomorrow; and if you're over budget, they'll tell you how many days it'll take to get back on track.")
       
       ZStack {
-        AvailableAndSpentTodayWidgetView(
-          entry: .init(date: Date(), budgetToDisplay: .placeholder)
-        )
+        Tip(tip: .breakEven(days: 2))
         .padding()
         .background()
         .overlay(Color.systemBackground.opacity(0.4))
         .cornerRadius(10)
         .shadow(radius: 10)
         .rotationEffect(.degrees(-10))
-        .offset(x: 45, y: 30)
-        .scaleEffect(0.6)
+        .offset(x: 90, y: 70)
+        .scaleEffect(0.8)
         
-        AvailableTodayWidgetView(
-          entry: .init(date: Date(), budgetToDisplay: .placeholder)
-        )
+        Tip(tip: .availableTomorrow(amount: 255))
         .padding()
         .background()
         .overlay(Color.systemBackground.opacity(0.3))
         .cornerRadius(10)
         .shadow(radius: 10)
         .rotationEffect(.degrees(10))
-        .offset(x: -130, y: -40)
-        .scaleEffect(0.6)
+        .offset(x: -90, y: 20)
+        .scaleEffect(0.8)
       }
       
+      Spacer(minLength: 80)
       HStack {
         Spacer()
         Button {

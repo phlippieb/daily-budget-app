@@ -19,6 +19,13 @@ struct BudgetSummaryViewModel {
 enum BudgetSummaryTipViewModel {
   case availableTomorrow(amount: Double)
   case breakEven(days: Int)
+  
+  var accentColor: Color {
+    switch self {
+    case .availableTomorrow: return .green
+    case .breakEven: return .red
+    }
+  }
 }
 
 extension BudgetProgressInfo {
