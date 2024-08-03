@@ -13,20 +13,12 @@ struct BudgetSummaryViewModel {
   let secondaryAmountTitle: String?
   let secondaryAmount: Double?
   let secondaryAmountOf: Double?
-  let hint: BudgetSummaryHintViewModel
+  let tip: BudgetSummaryTipViewModel?
 }
 
-enum BudgetSummaryHintViewModel {
-  case none
+enum BudgetSummaryTipViewModel {
   case availableTomorrow(amount: Double)
-  
-  var isNone: Bool {
-    if case .none = self {
-      return true
-    } else {
-      return false
-    }
-  }
+  case breakEven(days: Int)
 }
 
 extension BudgetProgressInfo {
@@ -56,7 +48,7 @@ extension BudgetProgressInfo {
         .map(\.amount)
         .reduce(0, +),
       secondaryAmountOf: budget.dailyAmount,
-      hint: .init(self)
+      tip: .init(self)
     )
   }
   
@@ -73,7 +65,7 @@ extension BudgetProgressInfo {
       secondaryAmountTitle: "Total spent",
       secondaryAmount: budget.totalExpenses,
       secondaryAmountOf: budget.amount,
-      hint: .init(self)
+      tip: .init(self)
     )
   }
   
@@ -90,21 +82,30 @@ extension BudgetProgressInfo {
       secondaryAmountTitle: nil,
       secondaryAmount: nil,
       secondaryAmountOf: nil,
-      hint: .init(self)
+      tip: .init(self)
     )
   }
 }
 
-private extension BudgetSummaryHintViewModel {
-  init(_ info: BudgetProgressInfo) {
-    if info.isActive,
-       info.date < info.budget.lastDay,
-       info.currentAllowance + info.budget.dailyAmount >= 0 {
-      self = .availableTomorrow(
-        amount: info.currentAllowance + info.budget.dailyAmount)
+private extension BudgetSummaryTipViewModel {
+  init?(_ info: BudgetProgressInfo) {
+    let amountAvailableTomorrow = info.currentAllowance + info.budget.dailyAmount
+    let daysToBreakEven = -Int(info.currentAllowance / info.budget.dailyAmount) + 1
+    
+    if
+      info.isActive,
+      info.date < info.budget.lastDay,
+      amountAvailableTomorrow >= 0 {
+      self = .availableTomorrow(amount: amountAvailableTomorrow)
+      
+    } else if
+      info.isActive,
+      daysToBreakEven > 0,
+      info.date.adding(days: daysToBreakEven) <= info.budget.lastDay {
+      self = .breakEven(days: daysToBreakEven)
       
     } else {
-      self = .none
+      return nil
     }
   }
 }

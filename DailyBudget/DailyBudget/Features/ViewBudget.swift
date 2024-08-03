@@ -21,8 +21,8 @@ struct ViewBudget: View {
         TodaySummary(viewModel: info.summaryViewModel)
       }
       
-      if !info.summaryViewModel.hint.isNone {
-        Hint(hint: info.summaryViewModel.hint)
+      if let tip = info.summaryViewModel.tip {
+        Tip(tip: tip)
       }
       
       Section("Recent expenses") {
@@ -114,22 +114,23 @@ private struct TodaySummary: View {
   }
 }
 
-// MARK: Hint section -
-private struct Hint: View {
-  let hint: BudgetSummaryHintViewModel
+// MARK: Tip section -
+private struct Tip: View {
+  let tip: BudgetSummaryTipViewModel
   
   var body: some View {
-    switch hint {
-    case .none:
-      // TODO: Consider refactoring so enum doesn't have `none` case, but property is optional
-      EmptyView()
-    
+    switch tip {
     case .availableTomorrow(let amount):
       HStack {
         Image(systemName: "lightbulb.max")
         AmountText(amount: amount, fractionPartFont: .footnote).bold()
         Text("available tomorrow")
-        
+      }
+      
+    case .breakEven(let days):
+      HStack {
+        Image(systemName: "lightbulb.max")
+        Text("You can break even in \(days) days if you cut all spending")
       }
     }
   }
@@ -234,32 +235,32 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: -20),
-    lastDay: .today.adding(days: 1),
+    firstDay: .today.adding(days: 0),
+    lastDay: .today.adding(days: 9),
     expenses: [])
   container.mainContext.insert(budget)
   
   let expenses = [
+    ExpenseModel(
+      name: "Expense 1",
+      amount: 3500,
+      day: CalendarDate.today),
 //    ExpenseModel(
-//      name: "Expense 1",
-//      amount: 10000,
-//      day: CalendarDate.today),
-    ExpenseModel(
-      name: "Expense 2",
-      amount: 10,
-      day: CalendarDate.today.adding(days: -10)),
-    ExpenseModel(
-      name: "Expense 3",
-      amount: 10,
-      day: CalendarDate.today.adding(days: -1)),
-    ExpenseModel(
-      name: "Expense 4",
-      amount: 10,
-      day: CalendarDate.today.adding(days: -2)),
-    ExpenseModel(
-      name: "Expense 5",
-      amount: 10,
-      day: CalendarDate.today.adding(days: -10)),
+//      name: "Expense 2",
+//      amount: 1000,
+//      day: CalendarDate.today.adding(days: -10)),
+//    ExpenseModel(
+//      name: "Expense 3",
+//      amount: 10,
+//      day: CalendarDate.today.adding(days: -1)),
+//    ExpenseModel(
+//      name: "Expense 4",
+//      amount: 10,
+//      day: CalendarDate.today.adding(days: -2)),
+//    ExpenseModel(
+//      name: "Expense 5",
+//      amount: 10,
+//      day: CalendarDate.today.adding(days: -10)),
   ]
   expenses.forEach {
     container.mainContext.insert($0)
