@@ -13,6 +13,12 @@ struct BudgetSummaryViewModel {
   let secondaryAmountTitle: String?
   let secondaryAmount: Double?
   let secondaryAmountOf: Double?
+  let tip: BudgetSummaryTipViewModel?
+}
+
+enum BudgetSummaryTipViewModel {
+  case availableTomorrow(amount: Double)
+  case breakEven(days: Int)
 }
 
 extension BudgetProgressInfo {
@@ -41,7 +47,9 @@ extension BudgetProgressInfo {
         .filter { $0.day == date }
         .map(\.amount)
         .reduce(0, +),
-      secondaryAmountOf: budget.dailyAmount)
+      secondaryAmountOf: budget.dailyAmount,
+      tip: .init(self)
+    )
   }
   
   private var pastBudgetSummaryViewModel: BudgetSummaryViewModel {
@@ -56,7 +64,9 @@ extension BudgetProgressInfo {
       primaryAmount: abs(budget.amount - budget.totalExpenses),
       secondaryAmountTitle: "Total spent",
       secondaryAmount: budget.totalExpenses,
-      secondaryAmountOf: budget.amount)
+      secondaryAmountOf: budget.amount,
+      tip: .init(self)
+    )
   }
   
   private var futureBudgetSummaryViewModel: BudgetSummaryViewModel {
@@ -71,6 +81,31 @@ extension BudgetProgressInfo {
       primaryAmount: budget.amount,
       secondaryAmountTitle: nil,
       secondaryAmount: nil,
-      secondaryAmountOf: nil)
+      secondaryAmountOf: nil,
+      tip: .init(self)
+    )
+  }
+}
+
+private extension BudgetSummaryTipViewModel {
+  init?(_ info: BudgetProgressInfo) {
+    let amountAvailableTomorrow = info.currentAllowance + info.budget.dailyAmount
+    let daysToBreakEven = -Int(info.currentAllowance / info.budget.dailyAmount) + 1
+    
+    if
+      info.isActive,
+      info.date < info.budget.lastDay,
+      amountAvailableTomorrow >= 0 {
+      self = .availableTomorrow(amount: amountAvailableTomorrow)
+      
+    } else if
+      info.isActive,
+      daysToBreakEven > 0,
+      info.date.adding(days: daysToBreakEven) <= info.budget.lastDay {
+      self = .breakEven(days: daysToBreakEven)
+      
+    } else {
+      return nil
+    }
   }
 }
