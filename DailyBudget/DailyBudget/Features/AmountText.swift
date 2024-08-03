@@ -10,12 +10,14 @@ struct AmountText: View {
       Text("\(amount.wholePart)")
         .font(wholePartFont)
         .contentTransition(.numericText(value: Double(amount.wholePart)))
+        .transaction { $0.animation = .default }
       
       Text(".")
       
       Text(amount.fractionPartString)
         .font(fractionPartFont)
         .contentTransition(.numericText(value: Double(amount.fractionPart)))
+        .transaction { $0.animation = .default }
     }
     .privacySensitive()
   }
