@@ -13,6 +13,20 @@ struct BudgetSummaryViewModel {
   let secondaryAmountTitle: String?
   let secondaryAmount: Double?
   let secondaryAmountOf: Double?
+  let hint: BudgetSummaryHintViewModel
+}
+
+enum BudgetSummaryHintViewModel {
+  case none
+  case availableTomorrow(amount: Double)
+  
+  var isNone: Bool {
+    if case .none = self {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 extension BudgetProgressInfo {
@@ -41,7 +55,9 @@ extension BudgetProgressInfo {
         .filter { $0.day == date }
         .map(\.amount)
         .reduce(0, +),
-      secondaryAmountOf: budget.dailyAmount)
+      secondaryAmountOf: budget.dailyAmount,
+      hint: .init(self)
+    )
   }
   
   private var pastBudgetSummaryViewModel: BudgetSummaryViewModel {
@@ -56,7 +72,9 @@ extension BudgetProgressInfo {
       primaryAmount: abs(budget.amount - budget.totalExpenses),
       secondaryAmountTitle: "Total spent",
       secondaryAmount: budget.totalExpenses,
-      secondaryAmountOf: budget.amount)
+      secondaryAmountOf: budget.amount,
+      hint: .init(self)
+    )
   }
   
   private var futureBudgetSummaryViewModel: BudgetSummaryViewModel {
@@ -71,6 +89,22 @@ extension BudgetProgressInfo {
       primaryAmount: budget.amount,
       secondaryAmountTitle: nil,
       secondaryAmount: nil,
-      secondaryAmountOf: nil)
+      secondaryAmountOf: nil,
+      hint: .init(self)
+    )
+  }
+}
+
+private extension BudgetSummaryHintViewModel {
+  init(_ info: BudgetProgressInfo) {
+    if info.isActive,
+       info.date < info.budget.lastDay,
+       info.currentAllowance + info.budget.dailyAmount >= 0 {
+      self = .availableTomorrow(
+        amount: info.currentAllowance + info.budget.dailyAmount)
+      
+    } else {
+      self = .none
+    }
   }
 }

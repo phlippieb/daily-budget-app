@@ -15,11 +15,28 @@ struct ViewBudget: View {
   
   var body: some View {
     List {
-      ForEach(sections, id: \.0) { (title, content) in
-        Section(title) { content }
-          .headerProminence(.increased)
+      Section(
+        info.isActive ? "Today" : "Summary"
+      ) {
+        TodaySummary(viewModel: info.summaryViewModel)
+      }
+      
+      if !info.summaryViewModel.hint.isNone {
+        Hint(hint: info.summaryViewModel.hint)
+      }
+      
+      Section("Recent expenses") {
+        RecentExpenses(
+          budget: $budget,
+          editingExpense: $editingExpense)
+      }
+      
+      Section("Budget info") {
+        BudgetInfo(budget: budget, editingBudget: $editingBudget)
       }
     }
+    .headerProminence(.increased)
+    
     .navigationTitle(info.budget.name)
     .navigationBarTitleDisplayMode(.inline)
     
@@ -33,24 +50,6 @@ struct ViewBudget: View {
         associatedBudget: info.budget)
     }
   }
-  
-  private typealias ViewBudgetSection = (
-    title: String, body: AnyView)
-  
-  private var sections: [ViewBudgetSection] { [
-    (
-      title: info.isActive ? "Today" : "Summary",
-      body: .init(TodaySummary(viewModel: info.summaryViewModel))
-    ), (
-      title: "Budget info",
-      body: .init(BudgetInfo(budget: budget, editingBudget: $editingBudget))
-    ), (
-      title: "Recent expenses",
-      body: .init(RecentExpenses(
-        budget: $budget,
-        editingExpense: $editingExpense))
-    )
-  ] }
 }
 
 // MARK: Summary section -
@@ -112,6 +111,27 @@ private struct TodaySummary: View {
       )
       .background(Color.secondarySystemGroupedBackground)
     )
+  }
+}
+
+// MARK: Hint section -
+private struct Hint: View {
+  let hint: BudgetSummaryHintViewModel
+  
+  var body: some View {
+    switch hint {
+    case .none:
+      // TODO: Consider refactoring so enum doesn't have `none` case, but property is optional
+      EmptyView()
+    
+    case .availableTomorrow(let amount):
+      HStack {
+        Image(systemName: "lightbulb.max")
+        AmountText(amount: amount, fractionPartFont: .footnote).bold()
+        Text("available tomorrow")
+        
+      }
+    }
   }
 }
 
@@ -214,16 +234,16 @@ private struct RecentExpenses: View {
   let budget = BudgetModel(
     name: "My budget",
     amount: 10000,
-    firstDay: .today.adding(days: -3),
-    lastDay: .today.adding(days: -1),
+    firstDay: .today.adding(days: -20),
+    lastDay: .today.adding(days: 1),
     expenses: [])
   container.mainContext.insert(budget)
   
   let expenses = [
-    ExpenseModel(
-      name: "Expense 1",
-      amount: 10000,
-      day: CalendarDate.today),
+//    ExpenseModel(
+//      name: "Expense 1",
+//      amount: 10000,
+//      day: CalendarDate.today),
     ExpenseModel(
       name: "Expense 2",
       amount: 10,
