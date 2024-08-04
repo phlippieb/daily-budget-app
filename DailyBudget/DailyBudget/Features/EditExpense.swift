@@ -13,6 +13,9 @@ struct EditExpense: View {
   @State private var isConfirmDeleteShown = false
   @State private var isChanged = false
   
+  @State private var addAnother = false
+  @State private var showingSaveConfirmationForAddAnotherMode = false
+  
   private enum FocusField {
     case name, amount
   }
@@ -77,8 +80,29 @@ struct EditExpense: View {
               displayedComponents: [.date]
             )
             .datePickerStyle(.graphical)
-            
-            if expense != nil {
+          } footer: {
+            if isDateInvalid {
+              Text(invalidDateMessage)
+                .foregroundStyle(.red)
+            }
+          }
+          
+          if expense == nil {
+            Section {
+              Toggle("Add another", isOn: $addAnother)
+            } header: {
+              Text("Quick entry")
+            } footer: {
+              if addAnother {
+                Text("Add another expense item after saving this one")
+              } else {
+                Text("Only add this expense item")
+              }
+            }
+          }
+          
+          if expense != nil {
+            Section {
               Button(role: .destructive, action: onDeleteTapped) {
                 HStack {
                   Image(systemName: "trash")
@@ -86,12 +110,6 @@ struct EditExpense: View {
                 }
               }
               .frame(maxWidth: .infinity)
-            }
-            
-          } footer: {
-            if isDateInvalid {
-              Text(invalidDateMessage)
-                .foregroundStyle(.red)
             }
           }
         }
@@ -122,8 +140,15 @@ struct EditExpense: View {
         
         .toolbar {
           ToolbarItem {
-            Button(action: onSaveTapped) { Text("Save") }
-              .disabled(isInvalid)
+            if showingSaveConfirmationForAddAnotherMode {
+              HStack {
+                Text("Saved")
+                Image(systemName: "checkmark")
+              }.foregroundStyle(.secondary)
+            } else {
+              Button(action: onSaveTapped) { Text("Save") }
+                .disabled(isInvalid)
+            }
           }
           
           if isChanged {
@@ -205,7 +230,23 @@ private extension EditExpense {
       break
     }
     
-    expense = nil
+    if addAnother {
+      name = ""
+      amount = nil
+      date = .now
+      isChanged = false
+      expense = .some(nil)
+      focusedField = .name
+      
+      // Display a confirmation
+      showingSaveConfirmationForAddAnotherMode = true
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        showingSaveConfirmationForAddAnotherMode = false
+      }
+      
+    } else {
+      expense = nil
+    }
   }
   
   func onCancelTapped() {
