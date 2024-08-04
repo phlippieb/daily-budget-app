@@ -50,6 +50,7 @@ struct EditBudget: View {
           HStack {
             TextField("Name (required)", text: $name)
               .focused($focusedField, equals: .name)
+              .submitLabel(.next)
             
             if name.isEmpty {
               Button(action: onAutoFillName) {
@@ -68,10 +69,8 @@ struct EditBudget: View {
               .foregroundColor(
                 notes == notesPlaceholder ? .placeholder : .primary
               )
-              .onTapGesture {
-                notes == notesPlaceholder ? notes = "" : ()
-              }
               .focused($focusedField, equals: .notes)
+              .submitLabel(.next)
             
             if !notes.isEmpty && notes != notesPlaceholder {
               Button(action: { notes = "" }) {
@@ -168,39 +167,47 @@ struct EditBudget: View {
           })
         }
         
-        // TODO: Restore
-//        if let focusedField {
-//          ToolbarItemGroup(placement: .keyboard) {
-//            Spacer()
-//            
-//            switch focusedField {
-//            case .name:
-//              Button(action: { self.focusedField = .notes }) {
-//                Image(systemName: "arrow.forward")
-//              }
-//            case .notes: {
-//              Button(action: { self.focusedField = .name }) {
-//                Image(systemName: "arrow.backward")
-//              }
-//              Button(action: { self.focusedField = .amount }) {
-//                Image(systemName: "arrow.forward")
-//              }
-//            }
-//            case .amount:
-//              Button(action: { self.focusedField = .notes }) {
-//                Image(systemName: "arrow.backward")
-//              }
-//            }
-//            
-//            Button(action: { self.focusedField = nil }) {
-//              Image(systemName: "checkmark")
-//            }
-//          }
-//        }
+        if let focusedField {
+          ToolbarItemGroup(placement: .keyboard) {
+            Spacer()
+            
+            switch focusedField {
+            case .name:
+              Button(action: { self.focusedField = .notes }) {
+                Image(systemName: "arrow.forward")
+              }
+            case .notes:
+              Button(action: { self.focusedField = .name }) {
+                Image(systemName: "arrow.backward")
+              }
+              Button(action: { self.focusedField = .amount }) {
+                Image(systemName: "arrow.forward")
+              }
+            case .amount:
+              Button(action: { self.focusedField = .notes }) {
+                Image(systemName: "arrow.backward")
+              }
+            }
+            
+            Button(action: { self.focusedField = nil }) {
+              Image(systemName: "checkmark")
+            }
+          }
+        }
+      }
+      
+      .onSubmit {
+        switch focusedField {
+        case .name: focusedField = .notes
+        case .notes: focusedField = .amount
+        default: focusedField = nil
+        }
       }
       
       .onChange(of: focusedField) { _, newValue in
-        if newValue != .notes, notes == "" {
+        if newValue == .notes, notes == notesPlaceholder {
+          notes = ""
+        } else if newValue != .notes, notes == "" {
           notes = notesPlaceholder
         }
       }

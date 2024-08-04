@@ -27,6 +27,7 @@ final class BudgetModelTests: XCTestCase {
     // Given a budget model with start and end dates one day apart
     let model = BudgetModel(
       name: "",
+      notes: "",
       amount: 0,
       firstDay: .init(year: 2000, month: 1, day: 1),
       lastDay: .init(year: 2000, month: 1, day: 2),
@@ -41,6 +42,7 @@ final class BudgetModelTests: XCTestCase {
     // Given a budget model with 10 total days and a budget of 10
     let model = BudgetModel(
       name: "",
+      notes: "",
       amount: 10,
       firstDay: .init(year: 2000, month: 1, day: 1),
       lastDay: .init(year: 2000, month: 1, day: 10),

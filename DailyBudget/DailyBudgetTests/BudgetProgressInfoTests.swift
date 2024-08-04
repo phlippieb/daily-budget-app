@@ -143,6 +143,7 @@ private extension BudgetProgressInfoTests {
     
     let budget = BudgetModel(
       name: "",
+      notes: "",
       amount: budgetAmount,
       startDate: startDate.date,
       endDate: budgetEndDate.date,
