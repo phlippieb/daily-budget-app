@@ -39,11 +39,12 @@ struct Home: View {
             if !activeBudgets.isEmpty {
               Section("Current budgets") {
                 ForEach(activeBudgets) { budget in
-                  NavigationLink {
-                    ViewBudget(budget: budget)
-                  } label: {
-                    BudgetListItem(item: budget)
-                  }
+                  BudgetListItem(item: budget)
+                    .overlay {
+                      NavigationLink(
+                        destination: ViewBudget(budget: budget)) {}
+                        .opacity(0)
+                    }
                 }
               }
             }
@@ -51,11 +52,12 @@ struct Home: View {
             if !upcomingBudgets.isEmpty {
               Section("Upcoming budgets") {
                 ForEach(upcomingBudgets) { budget in
-                  NavigationLink {
-                    ViewBudget(budget: budget)
-                  } label: {
-                    BudgetListItem(item: budget)
-                  }
+                  BudgetListItem(item: budget)
+                    .overlay {
+                      NavigationLink(
+                        destination: ViewBudget(budget: budget)) {}
+                        .opacity(0)
+                    }
                 }
               }
             }
@@ -63,11 +65,12 @@ struct Home: View {
             if !pastBudgets.isEmpty {
               Section("Past budgets") {
                 ForEach(pastBudgets) { budget in
-                  NavigationLink {
-                    ViewBudget(budget: budget)
-                  } label: {
-                    BudgetListItem(item: budget)
-                  }
+                  BudgetListItem(item: budget)
+                    .overlay {
+                      NavigationLink(
+                        destination: ViewBudget(budget: budget)) {}
+                        .opacity(0)
+                    }
                 }
               }
             }
