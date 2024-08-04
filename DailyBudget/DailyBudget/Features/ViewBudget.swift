@@ -253,6 +253,7 @@ private struct RecentExpenses: View {
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
   let budget = BudgetModel(
     name: "My budget",
+    notes: "",
     amount: 10000,
     firstDay: .today.adding(days: 0),
     lastDay: .today.adding(days: 9),

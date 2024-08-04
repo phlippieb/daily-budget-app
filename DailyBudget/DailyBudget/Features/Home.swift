@@ -159,6 +159,7 @@ private extension Array where Element == BudgetModel {
   case .singleBudget:
     container.mainContext.insert(BudgetModel(
       name: "Current",
+      notes: "",
       amount: 100,
       startDate: Date.now.addingTimeInterval(300).calendarDate.adding(days: -1).date,
       endDate: Date.now.addingTimeInterval(300),
@@ -166,12 +167,14 @@ private extension Array where Element == BudgetModel {
   case .multipleBudgets:
     container.mainContext.insert(BudgetModel(
       name: "Current",
+      notes: "",
       amount: 100,
       firstDay: .today,
       lastDay: .today.adding(days: 30),
       expenses: []))
     container.mainContext.insert(BudgetModel(
       name: "Upcoming",
+      notes: "",
       amount: 100,
       firstDay: .today.adding(days: 31),
       lastDay: .today.adding(days: 61),
@@ -180,6 +183,7 @@ private extension Array where Element == BudgetModel {
     for _ in 0 ... 5 {
       container.mainContext.insert(BudgetModel(
         name: "Past",
+        notes: "",
         amount: 100,
         firstDay: .today.adding(days: -61),
         lastDay: .today.adding(days: -31),

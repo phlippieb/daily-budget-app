@@ -76,6 +76,7 @@ struct BudgetListItem: View {
   let items: [BudgetModel] = [
     BudgetModel(
       name: "Current under budget",
+      notes: "",
       amount: 100,
       firstDay: .today,
       lastDay: .today.adding(days: 1),
@@ -83,6 +84,7 @@ struct BudgetListItem: View {
     
     BudgetModel(
       name: "Current over budget",
+      notes: "",
       amount: 100,
       firstDay: .today,
       lastDay: .today.adding(days: 1),
@@ -92,6 +94,7 @@ struct BudgetListItem: View {
     
     BudgetModel(
       name: "Past under budget",
+      notes: "",
       amount: 100,
       firstDay: .today.adding(days: -1),
       lastDay: .today.adding(days: -1),
@@ -101,6 +104,7 @@ struct BudgetListItem: View {
     
     BudgetModel(
       name: "Past over budget",
+      notes: "",
       amount: 100,
       firstDay: .today.adding(days: -1),
       lastDay: .today.adding(days: -1),
@@ -110,6 +114,7 @@ struct BudgetListItem: View {
     
     BudgetModel(
       name: "Future under budget",
+      notes: "",
       amount: 100,
       firstDay: .today.adding(days: 1),
       lastDay: .today.adding(days: 1),
@@ -119,6 +124,7 @@ struct BudgetListItem: View {
     
     BudgetModel(
       name: "Future over budget",
+      notes: "",
       amount: 100,
       firstDay: .today.adding(days: 1),
       lastDay: .today.adding(days: 1),

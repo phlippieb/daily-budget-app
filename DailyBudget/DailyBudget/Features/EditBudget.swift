@@ -37,8 +37,7 @@ struct EditBudget: View {
   
   private var isChanged: Bool {
     name != (budget??.name ?? "")
-    // TODO: When adding notes to model
-//    || notes != (budget??.notes ?? "")
+    || notes != (budget??.notes ?? notesPlaceholder)
     || (amount ?? 0) != (budget??.amount ?? 0)
     || startDate != (budget??.startDate ?? CalendarDate.today.date)
     || endDate != (budget??.endDate ?? CalendarDate.today.adding(days: 30).date)
@@ -80,7 +79,7 @@ struct EditBudget: View {
               }
             }
           }
-          .padding(.horizontal, -4)
+          .padding(.leading, -4)
           
           HStack {
             TextField("Total amount (required)", value: $amount, format: .number)
@@ -140,6 +139,8 @@ struct EditBudget: View {
       .onAppear {
         if case .some(.some(let budget)) = budget {
           name = budget.name
+          notes = (budget.notes.isEmpty)
+            ? notesPlaceholder : budget.notes
           amount = budget.amount
           startDate = budget.startDate
           endDate = budget.endDate
@@ -167,6 +168,7 @@ struct EditBudget: View {
           })
         }
         
+        // TODO: Restore
 //        if let focusedField {
 //          ToolbarItemGroup(placement: .keyboard) {
 //            Spacer()
@@ -219,13 +221,19 @@ private extension EditBudget {
   func onSaveTapped() {
     switch budget {
     case .some(.some(let budget)):
+      // Edit existing:
       budget.name = name
+      if notes != notesPlaceholder {
+        budget.notes = notes
+      }
       budget.amount = amount ?? 0
       budget.startDate = startDate
       budget.endDate = endDate
     case .some(.none):
+      // Create new
       let newBudget = BudgetModel(
-        name: name, 
+        name: name,
+        notes: (notes == notesPlaceholder) ? "" : notes,
         amount: amount ?? 0,
         startDate: startDate,
         endDate: endDate,
