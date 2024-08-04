@@ -6,13 +6,14 @@ struct EditBudget: View {
   var currentDate: CalendarDate { .today }
   
   @State private var name: String = ""
+  @State private var notes: String = "Notes"
   @State private var amount: Double?
   @State private var startDate: Date = CalendarDate.today.date
   @State private var endDate: Date = CalendarDate.today.adding(days: 30).date
   @State private var isShowingDeleteAlert = false
   
   private enum FocusField {
-    case name, amount
+    case name, notes, amount
   }
   
   @FocusState private var focusedField: FocusField?
@@ -27,6 +28,8 @@ struct EditBudget: View {
     }
   }
   
+  private let notesPlaceholder = "Notes"
+  
   private var dailyAmount: Double {
     let totalDays = (endDate.calendarDate - startDate.calendarDate) + 1
     return (amount ?? 0) / Double(totalDays)
@@ -34,6 +37,8 @@ struct EditBudget: View {
   
   private var isChanged: Bool {
     name != (budget??.name ?? "")
+    // TODO: When adding notes to model
+//    || notes != (budget??.notes ?? "")
     || (amount ?? 0) != (budget??.amount ?? 0)
     || startDate != (budget??.startDate ?? CalendarDate.today.date)
     || endDate != (budget??.endDate ?? CalendarDate.today.adding(days: 30).date)
@@ -58,6 +63,24 @@ struct EditBudget: View {
               }
             }
           }
+          
+          HStack {
+            TextEditor(text: $notes)
+              .foregroundColor(
+                notes == notesPlaceholder ? .placeholder : .primary
+              )
+              .onTapGesture {
+                notes == notesPlaceholder ? notes = "" : ()
+              }
+              .focused($focusedField, equals: .notes)
+            
+            if !notes.isEmpty && notes != notesPlaceholder {
+              Button(action: { notes = "" }) {
+                Image(systemName: "xmark.circle")
+              }
+            }
+          }
+          .padding(.horizontal, -4)
           
           HStack {
             TextField("Total amount (required)", value: $amount, format: .number)
@@ -144,25 +167,39 @@ struct EditBudget: View {
           })
         }
         
-        if let focusedField {
-          ToolbarItemGroup(placement: .keyboard) {
-            Spacer()
-            
-            switch focusedField {
-            case .name:
-              Button(action: { self.focusedField = .amount }) {
-                Image(systemName: "arrow.forward")
-              }
-            case .amount:
-              Button(action: { self.focusedField = .name }) {
-                Image(systemName: "arrow.backward")
-              }
-            }
-            
-            Button(action: { self.focusedField = nil }) {
-              Image(systemName: "checkmark")
-            }
-          }
+//        if let focusedField {
+//          ToolbarItemGroup(placement: .keyboard) {
+//            Spacer()
+//            
+//            switch focusedField {
+//            case .name:
+//              Button(action: { self.focusedField = .notes }) {
+//                Image(systemName: "arrow.forward")
+//              }
+//            case .notes: {
+//              Button(action: { self.focusedField = .name }) {
+//                Image(systemName: "arrow.backward")
+//              }
+//              Button(action: { self.focusedField = .amount }) {
+//                Image(systemName: "arrow.forward")
+//              }
+//            }
+//            case .amount:
+//              Button(action: { self.focusedField = .notes }) {
+//                Image(systemName: "arrow.backward")
+//              }
+//            }
+//            
+//            Button(action: { self.focusedField = nil }) {
+//              Image(systemName: "checkmark")
+//            }
+//          }
+//        }
+      }
+      
+      .onChange(of: focusedField) { _, newValue in
+        if newValue != .notes, notes == "" {
+          notes = notesPlaceholder
         }
       }
       
