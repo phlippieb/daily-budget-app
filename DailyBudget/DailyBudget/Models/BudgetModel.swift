@@ -9,17 +9,19 @@ import SwiftData
 @Model final class BudgetModel {
   var uuid: UUID = UUID()
   @Attribute(.allowsCloudEncryption) var name: String = ""
+  @Attribute(.allowsCloudEncryption) var notes: String = ""
   @Attribute(.allowsCloudEncryption) var amount: Double = 0
   @Attribute(.allowsCloudEncryption) var startDate: Date = Date()
   @Attribute(.allowsCloudEncryption) var endDate: Date = Date()
   @Attribute(.allowsCloudEncryption) var expenses: [ExpenseModel]? = []
   
   init(
-    uuid: UUID = UUID(), name: String, amount: Double, startDate: Date,
-    endDate: Date, expenses: [ExpenseModel]
+    uuid: UUID = UUID(), name: String, notes: String,
+    amount: Double, startDate: Date, endDate: Date, expenses: [ExpenseModel]
   ) {
     self.uuid = uuid
     self.name = name
+    self.notes = notes
     self.amount = amount
     self.startDate = startDate
     self.endDate = endDate
@@ -30,6 +32,7 @@ import SwiftData
     self.init(
       uuid: UUID(),
       name: "",
+      notes: "",
       amount: 0,
       startDate: .distantPast,
       endDate: .distantPast,
@@ -41,12 +44,13 @@ import SwiftData
 
 extension BudgetModel {
   convenience init(
-    uuid: UUID = UUID(), name: String, amount: Double, firstDay: CalendarDate,
-    lastDay: CalendarDate, expenses: [ExpenseModel]
+    uuid: UUID = UUID(), name: String, notes: String, amount: Double,
+    firstDay: CalendarDate, lastDay: CalendarDate, expenses: [ExpenseModel]
   ) {
     self.init(
-      uuid: uuid, name: name, amount: amount, startDate: firstDay.date,
-      endDate: lastDay.date, expenses: expenses)
+      uuid: uuid, name: name, notes: notes,
+      amount: amount, startDate: firstDay.date, endDate: lastDay.date,
+      expenses: expenses)
   }
   
   var firstDay: CalendarDate {

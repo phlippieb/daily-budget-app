@@ -16,6 +16,7 @@ struct AvailableTodayWidgetView: View {
       return BudgetProgressInfo(
         budget: BudgetModel(
           name: "My Budget",
+          notes: "",
           amount: 99.99 * 31,
           firstDay: .today,
           lastDay: .today.adding(days: 30),

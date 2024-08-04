@@ -8,6 +8,7 @@ struct BudgetSummaryViewModel {
   let isActive: Bool
   let status: String?
   let name: String
+  let notes: String
   let primaryAmountTitle: String
   let primaryAmount: Double
   let secondaryAmountTitle: String?
@@ -47,6 +48,7 @@ extension BudgetProgressInfo {
       ? "Total budget exceeded"
       : currentAllowance < 0 ? "Daily amount exceeded" : nil, 
       name: budget.name,
+      notes: budget.notes,
       primaryAmountTitle: "Available today",
       primaryAmount: currentAllowance,
       secondaryAmountTitle: "Spent today",
@@ -67,6 +69,7 @@ extension BudgetProgressInfo {
       isActive: isActive,
       status: budget.totalExpenses > budget.amount ? "Total budget exceeded" : nil,
       name: budget.name,
+      notes: budget.notes,
       primaryAmountTitle: budget.totalExpenses > budget.amount ? "Over budget by" : "Under budget by",
       primaryAmount: abs(budget.amount - budget.totalExpenses),
       secondaryAmountTitle: "Total spent",
@@ -84,6 +87,7 @@ extension BudgetProgressInfo {
       isActive: isActive,
       status: budget.totalExpenses > budget.amount ? "Total budget exceeded" : nil,
       name: budget.name,
+      notes: budget.notes,
       primaryAmountTitle: "Amount",
       primaryAmount: budget.amount,
       secondaryAmountTitle: nil,

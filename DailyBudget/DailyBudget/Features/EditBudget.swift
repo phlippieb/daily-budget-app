@@ -6,13 +6,14 @@ struct EditBudget: View {
   var currentDate: CalendarDate { .today }
   
   @State private var name: String = ""
+  @State private var notes: String = "Notes"
   @State private var amount: Double?
   @State private var startDate: Date = CalendarDate.today.date
   @State private var endDate: Date = CalendarDate.today.adding(days: 30).date
   @State private var isShowingDeleteAlert = false
   
   private enum FocusField {
-    case name, amount
+    case name, notes, amount
   }
   
   @FocusState private var focusedField: FocusField?
@@ -27,6 +28,8 @@ struct EditBudget: View {
     }
   }
   
+  private let notesPlaceholder = "Notes"
+  
   private var dailyAmount: Double {
     let totalDays = (endDate.calendarDate - startDate.calendarDate) + 1
     return (amount ?? 0) / Double(totalDays)
@@ -34,6 +37,7 @@ struct EditBudget: View {
   
   private var isChanged: Bool {
     name != (budget??.name ?? "")
+    || notes != (budget??.notes ?? notesPlaceholder)
     || (amount ?? 0) != (budget??.amount ?? 0)
     || startDate != (budget??.startDate ?? CalendarDate.today.date)
     || endDate != (budget??.endDate ?? CalendarDate.today.adding(days: 30).date)
@@ -46,6 +50,7 @@ struct EditBudget: View {
           HStack {
             TextField("Name (required)", text: $name)
               .focused($focusedField, equals: .name)
+              .submitLabel(.next)
             
             if name.isEmpty {
               Button(action: onAutoFillName) {
@@ -58,6 +63,22 @@ struct EditBudget: View {
               }
             }
           }
+          
+          HStack {
+            TextEditor(text: $notes)
+              .foregroundColor(
+                notes == notesPlaceholder ? .placeholder : .primary
+              )
+              .focused($focusedField, equals: .notes)
+              .submitLabel(.next)
+            
+            if !notes.isEmpty && notes != notesPlaceholder {
+              Button(action: { notes = "" }) {
+                Image(systemName: "xmark.circle")
+              }
+            }
+          }
+          .padding(.leading, -4)
           
           HStack {
             TextField("Total amount (required)", value: $amount, format: .number)
@@ -117,6 +138,8 @@ struct EditBudget: View {
       .onAppear {
         if case .some(.some(let budget)) = budget {
           name = budget.name
+          notes = (budget.notes.isEmpty)
+            ? notesPlaceholder : budget.notes
           amount = budget.amount
           startDate = budget.startDate
           endDate = budget.endDate
@@ -150,11 +173,18 @@ struct EditBudget: View {
             
             switch focusedField {
             case .name:
+              Button(action: { self.focusedField = .notes }) {
+                Image(systemName: "arrow.forward")
+              }
+            case .notes:
+              Button(action: { self.focusedField = .name }) {
+                Image(systemName: "arrow.backward")
+              }
               Button(action: { self.focusedField = .amount }) {
                 Image(systemName: "arrow.forward")
               }
             case .amount:
-              Button(action: { self.focusedField = .name }) {
+              Button(action: { self.focusedField = .notes }) {
                 Image(systemName: "arrow.backward")
               }
             }
@@ -163,6 +193,22 @@ struct EditBudget: View {
               Image(systemName: "checkmark")
             }
           }
+        }
+      }
+      
+      .onSubmit {
+        switch focusedField {
+        case .name: focusedField = .notes
+        case .notes: focusedField = .amount
+        default: focusedField = nil
+        }
+      }
+      
+      .onChange(of: focusedField) { _, newValue in
+        if newValue == .notes, notes == notesPlaceholder {
+          notes = ""
+        } else if newValue != .notes, notes == "" {
+          notes = notesPlaceholder
         }
       }
       
@@ -182,13 +228,19 @@ private extension EditBudget {
   func onSaveTapped() {
     switch budget {
     case .some(.some(let budget)):
+      // Edit existing:
       budget.name = name
+      if notes != notesPlaceholder {
+        budget.notes = notes
+      }
       budget.amount = amount ?? 0
       budget.startDate = startDate
       budget.endDate = endDate
     case .some(.none):
+      // Create new
       let newBudget = BudgetModel(
-        name: name, 
+        name: name,
+        notes: (notes == notesPlaceholder) ? "" : notes,
         amount: amount ?? 0,
         startDate: startDate,
         endDate: endDate,

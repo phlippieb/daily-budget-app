@@ -170,6 +170,10 @@ private struct BudgetInfo: View {
       }
     }
     
+    if !budget.notes.isEmpty {
+      Text(budget.notes).foregroundStyle(.secondary)
+    }
+    
     ForEach(items, id: \.0) { (title, content) in
       LabeledContent(title, content: { content })
     }
@@ -253,6 +257,7 @@ private struct RecentExpenses: View {
   let container = try! ModelContainer(for: BudgetModel.self, configurations: config)
   let budget = BudgetModel(
     name: "My budget",
+    notes: "Simple day-to-day budget tracker for my daily expenses",
     amount: 10000,
     firstDay: .today.adding(days: 0),
     lastDay: .today.adding(days: 9),
