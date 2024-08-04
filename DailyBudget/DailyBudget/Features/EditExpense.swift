@@ -1,6 +1,9 @@
 import SwiftUI
 import SwiftData
 
+// TODO: -
+// - 2. disable or confirm pull down if content was edited
+
 struct EditExpense: View {
   @Binding var expense: ExpenseModel??
   var associatedBudget: BudgetModel = .init()
@@ -8,79 +11,84 @@ struct EditExpense: View {
   /// false indicates this is an income
   @State private var isExpense = true
   @State private var name: String = ""
-  @State private var amount: Double = 0
+  @State private var amount: Double?
   @State private var date: Date = .now
   @State private var isConfirmDeleteShown = false
+  @State private var isChanged = false
+  
+  private enum FocusField {
+    case name, amount
+  }
+  
+  @FocusState private var focusedField: FocusField?
   
   @Environment(\.modelContext) private var modelContext: ModelContext
+  
+  private var navigationTitle: String {
+    switch (expense, isExpense) {
+    case (.some(nil), true): return "Add expense"
+    case (.some(nil), false): return "Add income"
+    case (.some(.some), true): return "Edit expense"
+    case (.some(.some), false): return "Edit income"
+    case (nil, _): return ""
+    }
+  }
+  
+  private var nameTitle: String {
+    isExpense ? "Expense name (required)" : "Income name (required)"
+  }
   
   private var dateRange: ClosedRange<Date> {
     associatedBudget.startDate ... associatedBudget.endDate
   }
+  
   
   var body: some View {
     NavigationView {
       if let expense = expense {
         Form {
           Section {
-            TextField("Expense name", text: $name)
-          } header: {
-            Text("Name")
-          } footer: {
-            if isNameInvalid {
-              Text("Budget name is required")
-                .foregroundStyle(.red)
+            Picker("Type", selection: $isExpense) {
+              Text("Expense").tag(true)
+              Text("Income").tag(false)
             }
-          }
-          
-          Section {
+            .pickerStyle(.segmented)
+            
+            TextField(nameTitle, text: $name)
+              .submitLabel(.next)
+              .focused($focusedField, equals: .name)
+            
             HStack {
-              Picker("Type", selection: $isExpense) {
-                Text("Expense").tag(true)
-                Text("Income").tag(false)
-              }
-              .pickerStyle(.segmented)
-              
-              TextField("Amount", value: $amount, format: .number)
-                .keyboardType(.numberPad)
+              TextField("Amount (required)", value: $amount, format: .number)
                 .foregroundColor(isExpense ? .none : .green)
-                .multilineTextAlignment(.trailing)
+                .keyboardType(.numberPad)
+                .submitLabel(.done)
+                .focused($focusedField, equals: .amount)
+              
+              Stepper {
+              } onIncrement: {
+                amount = (amount ?? 0) + 1
+              } onDecrement: {
+                amount = max(0, (amount ?? 1) - 1)
+              }
             }
             
-          } header: {
-            Text("Amount")
-          } footer: {
-            if isAmountInvalid {
-              Text("Amount is required")
-                .foregroundStyle(.red)
-            }
-          }
-          
-          Section {
             DatePicker(
               "Date",
               selection: $date,
               in: dateRange,
-              displayedComponents: [.date])
-          } header: {
-            Text("Date")
+              displayedComponents: [.date]
+            )
+            .datePickerStyle(.graphical)
+            
           } footer: {
             if isDateInvalid {
               Text(invalidDateMessage)
                 .foregroundStyle(.red)
             }
           }
-          
-          if expense != nil {
-            Button(role: .destructive, action: onDeleteTapped) {
-              HStack {
-                Image(systemName: "trash")
-                Text("Delete expense")
-              }
-            }
-            .frame(maxWidth: .infinity)
-          }
         }
+        
         .onAppear {
           if let expense {
             // TODO: This fixes edits not propogating to the Home view,
@@ -97,16 +105,63 @@ struct EditExpense: View {
               amount = expense.amount
             }
           }
+          
+          focusedField = .name
         }
         
-        .navigationTitle(
-          (expense == nil) ? "Create expense" : "Edit expense"
-        )
+        .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
         
         .toolbar {
-          Button(action: onSaveTapped) { Text("Save") }
-            .disabled(isInvalid)
+          ToolbarItem {
+            Button(action: onSaveTapped) { Text("Save") }
+              .disabled(isInvalid)
+          }
+          
+          if isChanged {
+            ToolbarItem(placement: .navigation, content: {
+              Button(action: onCancelTapped) { Text("Cancel") }
+            })
+          }
+          
+          if focusedField == .name {
+            ToolbarItemGroup(placement: .keyboard) {
+              Spacer()
+              
+              Button(action: { focusedField = .amount }) {
+                Image(systemName: "arrow.forward")
+              }
+              
+              Button(action:  { focusedField = nil }) {
+                Image(systemName: "checkmark")
+              }
+            }
+          }
+          
+          if focusedField == .amount {
+            ToolbarItemGroup(placement: .keyboard) {
+              Spacer()
+              
+              Button(action:  { focusedField = .name }) {
+                Image(systemName: "arrow.backward")
+              }
+              
+              Button(action:  { focusedField = nil }) {
+                Image(systemName: "checkmark")
+              }
+            }
+          }
+        }
+        
+        .onChange(of: name, { isChanged = true })
+        .onChange(of: amount, { isChanged = true })
+        .onChange(of: date, { isChanged = true })
+        
+        .onSubmit {
+          switch focusedField {
+          case .name: focusedField = .amount
+          case .amount, nil: focusedField = nil
+          }
         }
         
         .alert(isPresented: $isConfirmDeleteShown) {
@@ -116,6 +171,8 @@ struct EditExpense: View {
               Text("Delete"), action: onConfirmDelete),
             secondaryButton: .cancel())
         }
+        
+        .interactiveDismissDisabled(isChanged)
       }
     }
   }
@@ -127,12 +184,12 @@ private extension EditExpense {
     switch expense {
     case .some(.some(let expense)):
       expense.name = name
-      expense.amount = isExpense ? amount : -amount
+      expense.amount = (isExpense ? amount : -(amount ?? 0)) ?? 0
       expense.date = date
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
-        amount: isExpense ? amount : -amount,
+        amount: (isExpense ? amount : -(amount ?? 0)) ?? 0,
         date: date)
       modelContext.insert(newExpense)
       associatedBudget.expenses?.append(newExpense)
@@ -140,6 +197,11 @@ private extension EditExpense {
       break
     }
     
+    expense = nil
+  }
+  
+  func onCancelTapped() {
+    // Setting the binding to nil dismisses the sheet
     expense = nil
   }
   
@@ -168,7 +230,7 @@ private extension EditExpense {
   }
   
   var isAmountInvalid: Bool {
-    amount <= 0
+    (amount ?? 0) <= 0
   }
   
   var isDateInvalid: Bool {

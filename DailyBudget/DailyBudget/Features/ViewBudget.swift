@@ -43,7 +43,7 @@ struct ViewBudget: View {
     
     .onAppear {
       DispatchQueue.main
-        .asyncAfter(deadline: .now() + 1) {
+        .asyncAfter(deadline: .now() + 0.3) {
           showingTip = true
         }
     }
