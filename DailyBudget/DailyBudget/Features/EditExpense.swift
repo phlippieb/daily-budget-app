@@ -1,9 +1,6 @@
 import SwiftUI
 import SwiftData
 
-// TODO: -
-// - 2. disable or confirm pull down if content was edited
-
 struct EditExpense: View {
   @Binding var expense: ExpenseModel??
   var associatedBudget: BudgetModel = .init()
