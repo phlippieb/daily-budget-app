@@ -96,7 +96,7 @@ struct BudgetListItem: View {
       firstDay: .today,
       lastDay: .today.adding(days: 1),
       expenses: [
-        ExpenseModel(name: "", amount: 200, date: .now)
+        ExpenseModel(name: "", notes: "", amount: 200, date: .now)
       ]),
     
     BudgetModel(
@@ -106,7 +106,7 @@ struct BudgetListItem: View {
       firstDay: .today.adding(days: -1),
       lastDay: .today.adding(days: -1),
       expenses: [
-        ExpenseModel(name: "", amount: 50, date: .now)
+        ExpenseModel(name: "", notes: "", amount: 50, date: .now)
       ]),
     
     BudgetModel(
@@ -116,7 +116,7 @@ struct BudgetListItem: View {
       firstDay: .today.adding(days: -1),
       lastDay: .today.adding(days: -1),
       expenses: [
-        ExpenseModel(name: "", amount: 150, date: .now)
+        ExpenseModel(name: "", notes: "", amount: 150, date: .now)
       ]),
     
     BudgetModel(
@@ -126,7 +126,7 @@ struct BudgetListItem: View {
       firstDay: .today.adding(days: 1),
       lastDay: .today.adding(days: 1),
       expenses: [
-        ExpenseModel(name: "", amount: 50, date: .now)
+        ExpenseModel(name: "", notes: "", amount: 50, date: .now)
       ]),
     
     BudgetModel(
@@ -136,7 +136,7 @@ struct BudgetListItem: View {
       firstDay: .today.adding(days: 1),
       lastDay: .today.adding(days: 1),
       expenses: [
-        ExpenseModel(name: "", amount: 150, date: .now)
+        ExpenseModel(name: "", notes: "", amount: 150, date: .now)
       ]),
   ]
   

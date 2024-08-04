@@ -267,16 +267,19 @@ private struct RecentExpenses: View {
   let expenses = [
     ExpenseModel(
       name: "Expense 1",
+      notes: "Some notes about this expense that exceed one line or so",
       amount: 1500,
       day: CalendarDate.today),
-//    ExpenseModel(
-//      name: "Expense 2",
-//      amount: 1000,
-//      day: CalendarDate.today.adding(days: -10)),
-//    ExpenseModel(
-//      name: "Expense 3",
-//      amount: 10,
-//      day: CalendarDate.today.adding(days: -1)),
+    ExpenseModel(
+      name: "Expense 2",
+      notes: "Shorter notes",
+      amount: 1000,
+      day: CalendarDate.today.adding(days: -10)),
+    ExpenseModel(
+      name: "Expense 3 (no notes)",
+      notes: "",
+      amount: 10,
+      day: CalendarDate.today.adding(days: -1)),
 //    ExpenseModel(
 //      name: "Expense 4",
 //      amount: 10,

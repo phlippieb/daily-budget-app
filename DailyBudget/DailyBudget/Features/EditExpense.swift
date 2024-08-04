@@ -8,14 +8,17 @@ struct EditExpense: View {
   /// false indicates this is an income
   @State private var isExpense = true
   @State private var name: String = ""
+  @State private var notes: String = "Notes"
   @State private var amount: Double?
   @State private var date: Date = .now
   @State private var isConfirmDeleteShown = false
   @State private var addAnother = false
   @State private var showingSaveConfirmationForAddAnotherMode = false
   
+  private let notesPlaceholder = "Notes"
+  
   private enum FocusField {
-    case name, amount
+    case name, notes, amount
   }
   
   @FocusState private var focusedField: FocusField?
@@ -42,6 +45,7 @@ struct EditExpense: View {
   
   private var isChanged: Bool {
     name != (expense??.name ?? "")
+    || notes != (expense??.notes ?? notesPlaceholder)
     || (amount ?? 0) != (expense??.amount ?? 0)
     || date != (expense??.date ?? .now)
   }
@@ -57,9 +61,33 @@ struct EditExpense: View {
             }
             .pickerStyle(.segmented)
             
-            TextField(nameTitle, text: $name)
-              .submitLabel(.next)
-              .focused($focusedField, equals: .name)
+            HStack {
+              TextField(nameTitle, text: $name)
+                .submitLabel(.next)
+                .focused($focusedField, equals: .name)
+              
+              if !name.isEmpty {
+                Button(action: { name = "" }) {
+                  Image(systemName: "xmark.circle")
+                }
+              }
+            }
+            
+            HStack {
+              TextEditor(text: $notes)
+                .foregroundColor(
+                  notes == notesPlaceholder ? .placeholder : .primary
+                )
+                .focused($focusedField, equals: .notes)
+                .submitLabel(.next)
+              
+              if !notes.isEmpty && notes != notesPlaceholder {
+                Button(action: { notes = "" }) {
+                  Image(systemName: "xmark.circle")
+                }
+              }
+            }
+            .padding(.leading, -4)
             
             HStack {
               TextField("Amount (required)", value: $amount, format: .number)
@@ -124,6 +152,8 @@ struct EditExpense: View {
             associatedBudget.expenses?.append(expense)
             
             name = expense.name
+            notes = (expense.notes.isEmpty)
+              ? notesPlaceholder : expense.notes
             date = expense.date
             
             if expense.amount < 0 {
@@ -161,29 +191,29 @@ struct EditExpense: View {
             })
           }
           
-          if focusedField == .name {
+          if let focusedField {
             ToolbarItemGroup(placement: .keyboard) {
               Spacer()
               
-              Button(action: { focusedField = .amount }) {
-                Image(systemName: "arrow.forward")
+              switch focusedField {
+              case .name:
+                Button(action: { self.focusedField = .notes }) {
+                  Image(systemName: "arrow.forward")
+                }
+              case .notes:
+                Button(action:  { self.focusedField = .name }) {
+                  Image(systemName: "arrow.backward")
+                }
+                Button(action: { self.focusedField = .amount }) {
+                  Image(systemName: "arrow.forward")
+                }
+              case .amount:
+                Button(action:  { self.focusedField = .notes }) {
+                  Image(systemName: "arrow.backward")
+                }
               }
               
-              Button(action:  { focusedField = nil }) {
-                Image(systemName: "checkmark")
-              }
-            }
-          }
-          
-          if focusedField == .amount {
-            ToolbarItemGroup(placement: .keyboard) {
-              Spacer()
-              
-              Button(action:  { focusedField = .name }) {
-                Image(systemName: "arrow.backward")
-              }
-              
-              Button(action:  { focusedField = nil }) {
+              Button(action:  { self.focusedField = nil }) {
                 Image(systemName: "checkmark")
               }
             }
@@ -192,8 +222,17 @@ struct EditExpense: View {
         
         .onSubmit {
           switch focusedField {
-          case .name: focusedField = .amount
-          case .amount, nil: focusedField = nil
+          case .name: focusedField = .notes
+          case .notes: focusedField = .amount
+          default: focusedField = nil
+          }
+        }
+        
+        .onChange(of: focusedField) { _, newValue in
+          if newValue == .notes, notes == notesPlaceholder {
+            notes = ""
+          } else if newValue != .notes, notes == "" {
+            notes = notesPlaceholder
           }
         }
         
@@ -215,11 +254,15 @@ private extension EditExpense {
     switch expense {
     case .some(.some(let expense)):
       expense.name = name
+      if notes != notesPlaceholder {
+        expense.notes = notes
+      }
       expense.amount = (isExpense ? amount : -(amount ?? 0)) ?? 0
       expense.date = date
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
+        notes: (notes == notesPlaceholder) ? "" : notes,
         amount: (isExpense ? amount : -(amount ?? 0)) ?? 0,
         date: date)
       modelContext.insert(newExpense)

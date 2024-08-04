@@ -7,18 +7,20 @@ import SwiftData
 /// An instance represents a single expense associated with a budget.
 @Model final class ExpenseModel {
   
-  var name: String = ""
-  var amount: Double = 0
-  var date: Date = Date()
+  @Attribute(.allowsCloudEncryption) var name: String = ""
+  @Attribute(.allowsCloudEncryption) var notes: String = ""
+  @Attribute(.allowsCloudEncryption) var amount: Double = 0
+  @Attribute(.allowsCloudEncryption) var date: Date = Date()
   
   @Relationship var budget: BudgetModel? = nil
   
   convenience init() {
-    self.init(name: "", amount: 0, day: .today)
+    self.init(name: "", notes: "", amount: 0, day: .today)
   }
   
-  init(name: String, amount: Double, date: Date) {
+  init(name: String, notes: String, amount: Double, date: Date) {
     self.name = name
+    self.notes = notes
     self.amount = amount
     self.date = date
   }
@@ -27,8 +29,8 @@ import SwiftData
 // MARK: Calendar days -
 
 extension ExpenseModel {
-  convenience init(name: String, amount: Double, day: CalendarDate) {
-    self.init(name: name, amount: amount, date: day.date)
+  convenience init(name: String, notes: String, amount: Double, day: CalendarDate) {
+    self.init(name: name, notes: notes, amount: amount, date: day.date)
   }
   
   var day: CalendarDate {
