@@ -28,6 +28,13 @@ struct BudgetListItem: View {
         .font(.title2)
         .padding(.vertical, 1)
       
+      // MARK: Notes
+      if !viewModel.notes.isEmpty {
+        Text(viewModel.notes)
+          .foregroundStyle(.secondary)
+          .padding(.vertical, 1)
+      }
+      
       // MARK: Amount
       Grid(alignment: .topLeading) {
         GridRow {
@@ -76,7 +83,7 @@ struct BudgetListItem: View {
   let items: [BudgetModel] = [
     BudgetModel(
       name: "Current under budget",
-      notes: "",
+      notes: "Example of a budget that is active and under budget",
       amount: 100,
       firstDay: .today,
       lastDay: .today.adding(days: 1),
@@ -84,7 +91,7 @@ struct BudgetListItem: View {
     
     BudgetModel(
       name: "Current over budget",
-      notes: "",
+      notes: "Example of an active budget where the daily amount has been exceeded",
       amount: 100,
       firstDay: .today,
       lastDay: .today.adding(days: 1),
