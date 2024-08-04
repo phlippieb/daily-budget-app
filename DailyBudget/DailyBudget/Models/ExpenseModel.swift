@@ -7,10 +7,10 @@ import SwiftData
 /// An instance represents a single expense associated with a budget.
 @Model final class ExpenseModel {
   
-  @Attribute(.allowsCloudEncryption) var name: String = ""
-  @Attribute(.allowsCloudEncryption) var notes: String = ""
-  @Attribute(.allowsCloudEncryption) var amount: Double = 0
-  @Attribute(.allowsCloudEncryption) var date: Date = Date()
+  var name: String = ""
+  var notes: String = ""
+  var amount: Double = 0
+  var date: Date = Date()
   
   @Relationship var budget: BudgetModel? = nil
   
