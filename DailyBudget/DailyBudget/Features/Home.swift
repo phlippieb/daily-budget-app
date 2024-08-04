@@ -188,7 +188,7 @@ private extension Array where Element == BudgetModel {
         firstDay: .today.adding(days: -61),
         lastDay: .today.adding(days: -31),
         expenses: [
-          ExpenseModel(name: "", amount: 400, date: .now)
+          ExpenseModel(name: "", notes: "", amount: 400, date: .now)
         ]))
     }
   case .empty:

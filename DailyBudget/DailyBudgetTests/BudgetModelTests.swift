@@ -56,8 +56,8 @@ final class BudgetModelTests: XCTestCase {
   
   @MainActor func testTotalExpense() {
     // Given a budget model with some expenses
-    let expense1 = ExpenseModel(name: "", amount: 1, day: .today)
-    let expense2 = ExpenseModel(name: "", amount: 2, day: .today)
+    let expense1 = ExpenseModel(name: "", notes: "", amount: 1, day: .today)
+    let expense2 = ExpenseModel(name: "", notes: "", amount: 2, day: .today)
     container.mainContext.insert(expense1)
     container.mainContext.insert(expense2)
     

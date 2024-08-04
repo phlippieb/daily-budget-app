@@ -24,7 +24,7 @@ struct ExpenseListItem: View {
 
 #Preview {
   ExpenseListItem(item: .init(
-    name: "Food", amount: 100, day: .today)
+    name: "Food", notes: "", amount: 100, day: .today)
   )
   .modelContainer(for: ExpenseModel.self, inMemory: true)
 }

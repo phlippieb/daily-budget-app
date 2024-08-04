@@ -215,11 +215,13 @@ private extension EditExpense {
     switch expense {
     case .some(.some(let expense)):
       expense.name = name
+      expense.notes = "TODO"
       expense.amount = (isExpense ? amount : -(amount ?? 0)) ?? 0
       expense.date = date
     case .some(.none):
       let newExpense = ExpenseModel(
         name: name,
+        notes: "TODO",
         amount: (isExpense ? amount : -(amount ?? 0)) ?? 0,
         date: date)
       modelContext.insert(newExpense)

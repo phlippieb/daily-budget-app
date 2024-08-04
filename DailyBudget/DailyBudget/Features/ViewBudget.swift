@@ -267,6 +267,7 @@ private struct RecentExpenses: View {
   let expenses = [
     ExpenseModel(
       name: "Expense 1",
+      notes: "",
       amount: 1500,
       day: CalendarDate.today),
 //    ExpenseModel(
