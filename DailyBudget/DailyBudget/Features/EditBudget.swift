@@ -32,6 +32,13 @@ struct EditBudget: View {
     return (amount ?? 0) / Double(totalDays)
   }
   
+  private var isChanged: Bool {
+    name != (budget??.name ?? "")
+    || (amount ?? 0) != (budget??.amount ?? 0)
+    || startDate != (budget??.startDate ?? CalendarDate.today.date)
+    || endDate != (budget??.endDate ?? CalendarDate.today.adding(days: 30).date)
+  }
+  
   var body: some View {
     NavigationView {
       Form {
@@ -121,6 +128,7 @@ struct EditBudget: View {
       
       .navigationTitle(title)
       .navigationBarTitleDisplayMode(.inline)
+      .interactiveDismissDisabled(isChanged)
       
       .toolbar {
         ToolbarItem {
@@ -128,6 +136,12 @@ struct EditBudget: View {
             Text("Save")
           })
           .disabled(isSaveDisabled)
+        }
+        
+        if isChanged {
+          ToolbarItem(placement: .navigation, content: {
+            Button(action: onCancelTapped) { Text("Cancel") }
+          })
         }
         
         if let focusedField {
@@ -196,6 +210,11 @@ private extension EditBudget {
       modelContext.delete(budget)
     }
     
+    budget = nil
+  }
+  
+  func onCancelTapped() {
+    // Setting the binding to nil dismisses the sheet
     budget = nil
   }
   
