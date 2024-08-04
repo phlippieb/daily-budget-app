@@ -113,6 +113,9 @@ struct EditBudget: View {
           amount = budget.amount
           startDate = budget.startDate
           endDate = budget.endDate
+          
+        } else {
+          focusedField = .name
         }
       }
       
