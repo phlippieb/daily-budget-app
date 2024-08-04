@@ -81,6 +81,16 @@ struct EditExpense: View {
             )
             .datePickerStyle(.graphical)
             
+            if expense != nil {
+              Button(role: .destructive, action: onDeleteTapped) {
+                HStack {
+                  Image(systemName: "trash")
+                  Text("Delete expense")
+                }
+              }
+              .frame(maxWidth: .infinity)
+            }
+            
           } footer: {
             if isDateInvalid {
               Text(invalidDateMessage)
@@ -97,16 +107,17 @@ struct EditExpense: View {
             
             name = expense.name
             date = expense.date
-
+            
             if expense.amount < 0 {
               isExpense = false
               amount = -expense.amount
             } else {
               amount = expense.amount
             }
+            
+          } else {
+            focusedField = .name
           }
-          
-          focusedField = .name
         }
         
         .navigationTitle(navigationTitle)
