@@ -6,10 +6,16 @@ struct EditBudget: View {
   var currentDate: CalendarDate { .today }
   
   @State private var name: String = ""
-  @State private var amount: Double = 0
+  @State private var amount: Double?
   @State private var startDate: Date = CalendarDate.today.date
   @State private var endDate: Date = CalendarDate.today.adding(days: 30).date
   @State private var isShowingDeleteAlert = false
+  
+  private enum FocusField {
+    case name, amount
+  }
+  
+  @FocusState private var focusedField: FocusField?
   
   @Environment(\.modelContext) private var modelContext: ModelContext
   
@@ -23,7 +29,7 @@ struct EditBudget: View {
   
   private var dailyAmount: Double {
     let totalDays = (endDate.calendarDate - startDate.calendarDate) + 1
-    return amount / Double(totalDays)
+    return (amount ?? 0) / Double(totalDays)
   }
   
   var body: some View {
@@ -31,7 +37,8 @@ struct EditBudget: View {
       Form {
         Section {
           HStack {
-            TextField(getDefaultName(), text: $name)
+            TextField("Name (required)", text: $name)
+              .focused($focusedField, equals: .name)
             
             if name.isEmpty {
               Button(action: onAutoFillName) {
@@ -39,18 +46,39 @@ struct EditBudget: View {
               }
               
             } else {
-              Button(action: onClearName) {
+              Button(action: { name = "" }) {
                 Image(systemName: "xmark.circle")
               }
             }
           }
-        } header: {
-          Text("Name")
-        } footer: {
-          if isNameInvalid {
-            Text("Budget name is required")
-              .foregroundStyle(.red)
+          
+          HStack {
+            TextField("Total amount (required)", value: $amount, format: .number)
+              .keyboardType(.numberPad)
+              .focused($focusedField, equals: .amount)
+            
+            if amount != nil {
+              Button(action: { amount = nil }) {
+                Image(systemName: "xmark.circle")
+              }
+            }
           }
+          
+          if !isAmountInvalid {
+            LabeledContent {
+              Text("\(dailyAmount, specifier: "%.2f")")
+            } label: {
+              HStack {
+                Image(systemName: "info.circle")
+                Text("Daily budget")
+              }
+            }
+            .foregroundStyle(.gray)
+          }
+        } header: {
+          Text("Info")
+        } footer: {
+          Text("Provide a total amount available for the entire budget period. A daily budget is allocated based on this total amount.")
         }
         
         Section {
@@ -65,32 +93,6 @@ struct EditBudget: View {
           } else if isBudgetInactive {
             Text("Budget period is not currently active")
               .foregroundStyle(.orange)
-          }
-        }
-        
-        Section {
-          TextField("Amount", value: $amount, format: .number)
-            .keyboardType(.numberPad)
-          
-          if !isAmountInvalid {
-            LabeledContent {
-              Text("\(dailyAmount, specifier: "%.2f")")
-            } label: {
-              HStack {
-                Image(systemName: "info.circle")
-                Text("Daily budget")
-              }
-            }
-            .foregroundStyle(.gray)
-          }
-        } header: {
-          Text("Amount")
-        } footer: {
-          if isAmountInvalid {
-            Text("Amount is required")
-              .foregroundStyle(.red)
-          } else {
-            Text("Total amount available for entire budget period")
           }
         }
         
@@ -111,6 +113,9 @@ struct EditBudget: View {
           amount = budget.amount
           startDate = budget.startDate
           endDate = budget.endDate
+          
+        } else {
+          focusedField = .name
         }
       }
       
@@ -118,10 +123,33 @@ struct EditBudget: View {
       .navigationBarTitleDisplayMode(.inline)
       
       .toolbar {
-        Button(action: onSaveTapped, label: {
-          Text("Save")
-        })
-        .disabled(isSaveDisabled)
+        ToolbarItem {
+          Button(action: onSaveTapped, label: {
+            Text("Save")
+          })
+          .disabled(isSaveDisabled)
+        }
+        
+        if let focusedField {
+          ToolbarItemGroup(placement: .keyboard) {
+            Spacer()
+            
+            switch focusedField {
+            case .name:
+              Button(action: { self.focusedField = .amount }) {
+                Image(systemName: "arrow.forward")
+              }
+            case .amount:
+              Button(action: { self.focusedField = .name }) {
+                Image(systemName: "arrow.backward")
+              }
+            }
+            
+            Button(action: { self.focusedField = nil }) {
+              Image(systemName: "checkmark")
+            }
+          }
+        }
       }
       
       .alert(isPresented: $isShowingDeleteAlert) {
@@ -141,13 +169,13 @@ private extension EditBudget {
     switch budget {
     case .some(.some(let budget)):
       budget.name = name
-      budget.amount = amount
+      budget.amount = amount ?? 0
       budget.startDate = startDate
       budget.endDate = endDate
     case .some(.none):
       let newBudget = BudgetModel(
         name: name, 
-        amount: amount,
+        amount: amount ?? 0,
         startDate: startDate,
         endDate: endDate,
         expenses: [])
@@ -179,10 +207,6 @@ private extension EditBudget {
     currentDate.date.formatted(.dateTime.month(.wide).year(.twoDigits))
     + " Daily Budget"
   }
-  
-  func onClearName() {
-    name = ""
-  }
 }
 
 // MARK: Validation
@@ -206,7 +230,7 @@ private extension EditBudget {
   }
   
   var isAmountInvalid: Bool {
-    amount <= 0
+    (amount ?? 0) <= 0
   }
 }
 
