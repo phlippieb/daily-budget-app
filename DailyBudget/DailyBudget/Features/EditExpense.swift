@@ -11,8 +11,6 @@ struct EditExpense: View {
   @State private var amount: Double?
   @State private var date: Date = .now
   @State private var isConfirmDeleteShown = false
-  @State private var isChanged = false
-  
   @State private var addAnother = false
   @State private var showingSaveConfirmationForAddAnotherMode = false
   
@@ -42,6 +40,11 @@ struct EditExpense: View {
     associatedBudget.startDate ... associatedBudget.endDate
   }
   
+  private var isChanged: Bool {
+    name != (expense??.name ?? "")
+    || (amount ?? 0) != (expense??.amount ?? 0)
+    || date != (expense??.date ?? .now)
+  }
   
   var body: some View {
     NavigationView {
@@ -137,6 +140,7 @@ struct EditExpense: View {
         
         .navigationTitle(navigationTitle)
         .navigationBarTitleDisplayMode(.inline)
+        .interactiveDismissDisabled(isChanged)
         
         .toolbar {
           ToolbarItem {
@@ -186,10 +190,6 @@ struct EditExpense: View {
           }
         }
         
-        .onChange(of: name, { isChanged = true })
-        .onChange(of: amount, { isChanged = true })
-        .onChange(of: date, { isChanged = true })
-        
         .onSubmit {
           switch focusedField {
           case .name: focusedField = .amount
@@ -204,8 +204,6 @@ struct EditExpense: View {
               Text("Delete"), action: onConfirmDelete),
             secondaryButton: .cancel())
         }
-        
-        .interactiveDismissDisabled(isChanged)
       }
     }
   }
@@ -234,7 +232,6 @@ private extension EditExpense {
       name = ""
       amount = nil
       date = .now
-      isChanged = false
       expense = .some(nil)
       focusedField = .name
       
