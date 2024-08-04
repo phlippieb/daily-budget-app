@@ -70,7 +70,6 @@ struct EditBudget: View {
                 notes == notesPlaceholder ? .placeholder : .primary
               )
               .focused($focusedField, equals: .notes)
-              .submitLabel(.next)
             
             if !notes.isEmpty && notes != notesPlaceholder {
               Button(action: { notes = "" }) {
