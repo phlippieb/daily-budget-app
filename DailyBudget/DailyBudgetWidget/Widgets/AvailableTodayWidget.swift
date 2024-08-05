@@ -13,6 +13,7 @@ struct AvailableTodayWidget: Widget {
         AvailableTodayWidgetView(entry: entry)
           .containerBackground(.fill.tertiary, for: .widget)
           .modelContainer(for: BudgetModel.self)
+          .widgetURL(NavigationObject.viewingBudgetUrl(uuid: entry.id))
       }
       .configurationDisplayName("Available today")
       .description("Shows your daily available amount for a chosen budget.")
