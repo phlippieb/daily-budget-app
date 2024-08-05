@@ -7,6 +7,8 @@ struct Home: View {
   @EnvironmentObject private var currentDate: CurrentDate
   @EnvironmentObject private var whatsNew: WhatsNewController
   
+  @State var viewingBudget: [BudgetModel] = []
+  
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
   
@@ -23,7 +25,7 @@ struct Home: View {
   }
   
   var body: some View {
-    NavigationView {
+    NavigationStack(path: $viewingBudget) {
       // MARK: Budgets list
       Group {
         if budgets.isEmpty {
@@ -36,44 +38,9 @@ struct Home: View {
               WhatsNew()
             }
             
-            if !activeBudgets.isEmpty {
-              Section("Current budgets") {
-                ForEach(activeBudgets) { budget in
-                  BudgetListItem(item: budget)
-                    .overlay {
-                      NavigationLink(
-                        destination: ViewBudget(budget: budget)) {}
-                        .opacity(0)
-                    }
-                }
-              }
-            }
-            
-            if !upcomingBudgets.isEmpty {
-              Section("Upcoming budgets") {
-                ForEach(upcomingBudgets) { budget in
-                  BudgetListItem(item: budget)
-                    .overlay {
-                      NavigationLink(
-                        destination: ViewBudget(budget: budget)) {}
-                        .opacity(0)
-                    }
-                }
-              }
-            }
-            
-            if !pastBudgets.isEmpty {
-              Section("Past budgets") {
-                ForEach(pastBudgets) { budget in
-                  BudgetListItem(item: budget)
-                    .overlay {
-                      NavigationLink(
-                        destination: ViewBudget(budget: budget)) {}
-                        .opacity(0)
-                    }
-                }
-              }
-            }
+            budgetsSection("Current budgets", activeBudgets)
+            budgetsSection("Upcoming budgets", upcomingBudgets)
+            budgetsSection("Past budgets", pastBudgets)
           }
         }
       }
@@ -114,14 +81,46 @@ struct Home: View {
           showingAppInfo = (value.translation.height > 0)
         }
       )
+      
+      // MARK: Navigation
+      .navigationDestination(for: BudgetModel.self) {
+        ViewBudget(budget: $0)
+      }
+      
+      // MARK: Auto-nav if there is only one budget
+      .onAppear {
+        if viewingBudget.isEmpty, activeBudgets.count == 1 {
+          viewingBudget = [activeBudgets[0]]
+        }
+      }
     }
   }
   
-  private func onAddBudget() {
+  private func budgetsSection(
+    _ title: String, _ budgets: [BudgetModel]
+  ) -> some View {
+    guard !budgets.isEmpty else { return AnyView(EmptyView()) }
+    
+    return AnyView(
+      Section(title) {
+        ForEach(budgets) { budget in
+          BudgetListItem(item: budget)
+            .overlay {
+              NavigationLink(value: budget, label: {}).opacity(0)
+            }
+        }
+      }
+    )
+  }
+}
+
+// MARK: Actions -
+private extension Home {
+  func onAddBudget() {
     editingBudget = .some(nil)
   }
   
-  private func onSettingsTapped() {
+  func onSettingsTapped() {
     guard
       let url = URL(string: UIApplication.openSettingsURLString),
       UIApplication.shared.canOpenURL(url)
