@@ -27,6 +27,8 @@
 		0A2F5F002C4FC297008BB369 /* NotableUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F5EFF2C4FC297008BB369 /* NotableUpdate.swift */; };
 		0A2F5F022C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2F5F012C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift */; };
 		0A3381382C32FF3B00FC378F /* BudgetSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */; };
+		0A3A16632C5FDD9700B2068B /* SpentTodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A16622C5FDD9700B2068B /* SpentTodayWidgetView.swift */; };
+		0A3A16652C60AAD800B2068B /* SpentTodayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A16642C60AAD800B2068B /* SpentTodayWidget.swift */; };
 		0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */; };
 		0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */; };
 		0A3CABB42C31BE7400ECD1F1 /* ViewBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */; };
@@ -124,6 +126,8 @@
 		0A2F5EFF2C4FC297008BB369 /* NotableUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotableUpdate.swift; sourceTree = "<group>"; };
 		0A2F5F012C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotableUpdatePersistenceProvider.swift; sourceTree = "<group>"; };
 		0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryViewModel.swift; sourceTree = "<group>"; };
+		0A3A16622C5FDD9700B2068B /* SpentTodayWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpentTodayWidgetView.swift; sourceTree = "<group>"; };
+		0A3A16642C60AAD800B2068B /* SpentTodayWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpentTodayWidget.swift; sourceTree = "<group>"; };
 		0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitProvidingTests.swift; sourceTree = "<group>"; };
 		0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBudget.swift; sourceTree = "<group>"; };
@@ -336,6 +340,8 @@
 				0AE90CC12C41710100AE921C /* DailyBudgetWidgetTimelineProvider.swift */,
 				0AD723C42C3463650015ABE6 /* Info.plist */,
 				0AE90CBD2C41709C00AE921C /* SelectBudgetIntent.swift */,
+				0A3A16622C5FDD9700B2068B /* SpentTodayWidgetView.swift */,
+				0A3A16642C60AAD800B2068B /* SpentTodayWidget.swift */,
 			);
 			path = DailyBudgetWidget;
 			sourceTree = "<group>";
@@ -538,6 +544,7 @@
 				0A2F5EF72C4FA1F5008BB369 /* AvailableTodayWidgetView.swift in Sources */,
 				0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */,
 				0A9AE4EF2C4156130093FAAE /* BudgetProgressInfo.swift in Sources */,
+				0A3A16652C60AAD800B2068B /* SpentTodayWidget.swift in Sources */,
 				0A9AE4ED2C4155FC0093FAAE /* ExpenseModel.swift in Sources */,
 				0A2F5EFA2C4FA21B008BB369 /* AvailableAndSpentTodayWidgetView.swift in Sources */,
 				0AE90CCA2C4192F900AE921C /* AmountText.swift in Sources */,
@@ -545,6 +552,7 @@
 				0AE90CC32C41712700AE921C /* BudgetEntity.swift in Sources */,
 				0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */,
 				0AE90CC52C41714000AE921C /* SelectBudgetIntent.swift in Sources */,
+				0A3A16632C5FDD9700B2068B /* SpentTodayWidgetView.swift in Sources */,
 				0AD723BF2C3463630015ABE6 /* DailyBudgetWidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

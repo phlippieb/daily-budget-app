@@ -7,6 +7,7 @@ import SwiftUI
 struct DailyBudgetWidgetBundle: WidgetBundle {
   var body: some Widget {
     AvailableTodayWidget()
+    SpentTodayWidget()
     AvailableAndSpentTodayWidget()
   }
 }
