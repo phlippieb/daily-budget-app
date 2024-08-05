@@ -12,6 +12,7 @@ struct SpentTodayWidget: Widget {
         SpentTodayWidgetView(entry: entry)
           .containerBackground(.fill.tertiary, for: .widget)
           .modelContainer(for: [BudgetModel.self, ExpenseModel.self])
+          .widgetURL(NavigationObject.viewingBudgetUrl(uuid: entry.id))
       }
       .configurationDisplayName("Spent today")
       .description("Shows the amount spent for a chosen budget.")

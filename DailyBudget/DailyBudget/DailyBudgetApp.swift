@@ -42,9 +42,9 @@ struct DailyBudgetApp: App {
         })
       
       // MARK: Respond to opening a URL
-        .onOpenURL(perform: { url in
+        .onOpenURL { url in
           navigation.handle(url: url, in: container.mainContext)
-        })
+        }
     }
   }
 }
