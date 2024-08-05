@@ -6,8 +6,7 @@ struct Home: View {
   
   @EnvironmentObject private var currentDate: CurrentDate
   @EnvironmentObject private var whatsNew: WhatsNewController
-  
-  @State var viewingBudget: [BudgetModel] = []
+  @EnvironmentObject private var navigation: NavigationObject
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
@@ -25,7 +24,7 @@ struct Home: View {
   }
   
   var body: some View {
-    NavigationStack(path: $viewingBudget) {
+    NavigationStack(path: $navigation.viewingBudget) {
       // MARK: Budgets list
       Group {
         if budgets.isEmpty {
@@ -89,8 +88,10 @@ struct Home: View {
       
       // MARK: Auto-nav if there is only one budget
       .onAppear {
-        if viewingBudget.isEmpty, activeBudgets.count == 1 {
-          viewingBudget = [activeBudgets[0]]
+        if
+          navigation.viewingBudget.isEmpty,
+          activeBudgets.count == 1 {
+          navigation.viewingBudget = [activeBudgets[0]]
         }
       }
     }
@@ -201,4 +202,5 @@ private extension Array where Element == BudgetModel {
     .modelContainer(container)
     .environmentObject(CurrentDate())
     .environmentObject(WhatsNewController())
+    .environmentObject(NavigationObject())
 }

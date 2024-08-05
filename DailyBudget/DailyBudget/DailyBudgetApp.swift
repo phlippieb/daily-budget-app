@@ -5,6 +5,7 @@ import WidgetKit
 struct DailyBudgetApp: App {
   private var currentDate = CurrentDate()
   @AppStorage("appearance_preference") private var appearancePreference: Int = 0
+  @StateObject var navigation = NavigationObject()
   
   var body: some Scene {
     WindowGroup {
@@ -23,6 +24,9 @@ struct DailyBudgetApp: App {
       
       // MARK: Provide What's New controller
         .environmentObject(WhatsNewController())
+      
+      // MARK: Provide navigation
+        .environmentObject(navigation)
       
       // MARK: Appearance
         .preferredColorScheme(.init(appearancePreference: appearancePreference))
