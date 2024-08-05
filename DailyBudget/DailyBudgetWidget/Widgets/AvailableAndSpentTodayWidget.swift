@@ -16,7 +16,7 @@ struct AvailableAndSpentTodayWidget: Widget {
           .containerBackground(.fill.tertiary, for: .widget)
           .modelContainer(for: BudgetModel.self)
       }
-      .configurationDisplayName("Available and spent amount")
+      .configurationDisplayName("Available and spent today")
       .description("Shows your daily available amount for a chosen budget, along with the amount spent.")
       .supportedFamilies([.systemMedium])
   }

@@ -6,31 +6,10 @@ struct AvailableAndSpentTodayWidgetView: View {
   
   @Query(sort: \BudgetModel.endDate, order: .reverse) private var budgets: [BudgetModel]
   
-  private var info: BudgetProgressInfo? {
-    switch entry.budgetToDisplay {
-    case .noneSelected:
-      guard let budget = budgets.first else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today)
-      
-    case .placeholder:
-      return BudgetProgressInfo(
-        budget: BudgetModel(
-          name: "My Budget",
-          notes: "",
-          amount: 99.99 * 31,
-          firstDay: .today,
-          lastDay: .today.adding(days: 30),
-          expenses: []),
-        date: .today)
-      
-    case .model(let id):
-      guard let budget = budgets.first(where: { $0.uuid == id }) else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today)
-    }
-  }
-  
   private var viewModel: BudgetSummaryViewModel? {
-    info?.summaryViewModel
+    ViewModelProvider(
+      displayedBudget: entry.budgetToDisplay, budgets: { budgets }
+    ).viewModel
   }
   
   var body: some View {
