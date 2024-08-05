@@ -9,17 +9,9 @@ struct SpentTodayWidgetView: View {
   @Environment(\.modelContext) private var context
   
   private var viewModel: BudgetSummaryViewModel? {
-    switch entry.budgetToDisplay {
-    case .noneSelected:
-      guard let budget = budgets.first else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
-    case .placeholder:
-      return .placeholder
-    case .model(let id):
-      guard let budget = budgets.first(where: { $0.uuid == id }) else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
-    }
-    
+    ViewModelProvider(
+      displayedBudget: entry.budgetToDisplay, budgets: { budgets }
+    ).viewModel
   }
   
   var body: some View {

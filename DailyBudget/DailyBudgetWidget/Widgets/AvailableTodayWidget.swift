@@ -1,26 +1,27 @@
 import WidgetKit
 import SwiftUI
 
-struct SpentTodayWidget: Widget {
-  let kind: String = "SpentTodayWidget"
+/// A simple widget displaying the available amount for a chosen budget
+struct AvailableTodayWidget: Widget {
+  let kind: String = "DailyBudgetWidget1"
   
   var body: some WidgetConfiguration {
     AppIntentConfiguration(
       kind: kind,
       intent: SelectBudgetIntent.self,
       provider: DailyBudgetWidgetTimelineProvider()) { entry in
-        SpentTodayWidgetView(entry: entry)
+        AvailableTodayWidgetView(entry: entry)
           .containerBackground(.fill.tertiary, for: .widget)
-          .modelContainer(for: [BudgetModel.self, ExpenseModel.self])
+          .modelContainer(for: BudgetModel.self)
       }
-      .configurationDisplayName("Spent today")
-      .description("Shows the amount spent today for a chosen budget.")
+      .configurationDisplayName("Available today")
+      .description("Shows your daily available amount for a chosen budget.")
       .supportedFamilies([.systemSmall, .systemMedium])
   }
 }
 
 #Preview(as: .systemMedium) {
-  SpentTodayWidget()
+  AvailableTodayWidget()
 } timeline: {
   BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
   BudgetEntry(date: .now, budgetToDisplay: .placeholder)
