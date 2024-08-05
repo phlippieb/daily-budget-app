@@ -11,4 +11,9 @@ struct BudgetEntry: TimelineEntry {
   
   /// The selected budget's entity representation, if one is selected
   var budgetToDisplay: DisplayedBudget
+  
+  var id: UUID? {
+    guard case .model(let id) = budgetToDisplay else { return nil }
+    return id
+  }
 }

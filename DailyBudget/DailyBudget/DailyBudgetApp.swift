@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import WidgetKit
 
 @main
@@ -7,12 +8,14 @@ struct DailyBudgetApp: App {
   @AppStorage("appearance_preference") private var appearancePreference: Int = 0
   @StateObject var navigation = NavigationObject()
   
+  private let container = try! ModelContainer(for: BudgetModel.self)
+  
   var body: some Scene {
     WindowGroup {
       Home()
       
       // MARK: Provide persistent model container
-        .modelContainer(for: BudgetModel.self)
+        .modelContainer(container)
         
       // MARK: Provide and update current date
         .environmentObject(currentDate)
@@ -36,6 +39,11 @@ struct DailyBudgetApp: App {
           for: Notification.Name.NSManagedObjectContextDidSave
         ), perform: { _ in
           WidgetCenter.shared.reloadAllTimelines()
+        })
+      
+      // MARK: Respond to opening a URL
+        .onOpenURL(perform: { url in
+          navigation.handle(url: url, in: container.mainContext)
         })
     }
   }
