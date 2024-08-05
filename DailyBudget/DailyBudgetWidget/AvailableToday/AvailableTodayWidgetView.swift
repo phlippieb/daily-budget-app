@@ -6,46 +6,36 @@ struct AvailableTodayWidgetView: View {
   
   @Query(sort: \BudgetModel.endDate, order: .reverse) private var budgets: [BudgetModel]
   
-  private var info: BudgetProgressInfo? {
+  private var viewModel: BudgetSummaryViewModel? {
     switch entry.budgetToDisplay {
     case .noneSelected:
       guard let budget = budgets.first else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today)
-      
+      return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
     case .placeholder:
-      return BudgetProgressInfo(
-        budget: BudgetModel(
-          name: "My Budget",
-          notes: "",
-          amount: 99.99 * 31,
-          firstDay: .today,
-          lastDay: .today.adding(days: 30),
-          expenses: []),
-        date: .today)
-      
+      return .placeholder
     case .model(let id):
       guard let budget = budgets.first(where: { $0.uuid == id }) else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today)
+      return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
     }
   }
   
   var body: some View {
-    if let info {
+    if let viewModel {
       VStack(alignment: .center) {
         AmountText(
-          amount: info.currentAllowance,
+          amount: viewModel.primaryAmount,
           wholePartFont: .system(
             size: UIFont.preferredFont(
               forTextStyle: .largeTitle).pointSize * 2)
         )
         .minimumScaleFactor(0.1)
         .bold()
-        .foregroundStyle(info.currentAllowance < 0 ? .red : .green)
+        .foregroundStyle(viewModel.accentColor)
         
-        Text("Available today")
+        Text(viewModel.primaryAmountTitle)
           .fontWeight(.light)
         
-        Text(info.budget.name)
+        Text(viewModel.name)
           .font(.subheadline)
           .bold()
           .lineLimit(2)

@@ -25,5 +25,3 @@ struct SpentTodayWidget: Widget {
   BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
   BudgetEntry(date: .now, budgetToDisplay: .placeholder)
 }
-
-// TODO: Fix preview for adding widget

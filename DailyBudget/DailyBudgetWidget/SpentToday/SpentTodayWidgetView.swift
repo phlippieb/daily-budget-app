@@ -8,40 +8,13 @@ struct SpentTodayWidgetView: View {
   
   @Environment(\.modelContext) private var context
   
-//  private var info: BudgetProgressInfo? {
-//    switch entry.budgetToDisplay {
-//    case .noneSelected:
-//      guard let budget = budgets.first else { return nil }
-//      return BudgetProgressInfo(budget: budget, date: .today)
-//      
-//    case .placeholder:
-//      return BudgetProgressInfo(
-//        budget: BudgetModel(
-//          name: "My Budget",
-//          notes: "",
-//          amount: 99.99 * 31,
-//          firstDay: .today,
-//          lastDay: .today.adding(days: 30),
-//          expenses: [
-//            ExpenseModel(name: "", notes: "", amount: 42, date: .now)
-//          ]),
-//        date: .today)
-//      
-//    case .model(let id):
-//      guard let budget = budgets.first(where: { $0.uuid == id }) else { return nil }
-//      return BudgetProgressInfo(budget: budget, date: .today)
-//    }
-//  }
-  
   private var viewModel: BudgetSummaryViewModel? {
     switch entry.budgetToDisplay {
     case .noneSelected:
       guard let budget = budgets.first else { return nil }
       return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
-    
     case .placeholder:
       return .placeholder
-    
     case .model(let id):
       guard let budget = budgets.first(where: { $0.uuid == id }) else { return nil }
       return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
