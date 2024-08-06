@@ -12,7 +12,11 @@ struct SpentTodayWidget: Widget {
         SpentTodayWidgetView(entry: entry)
           .containerBackground(.fill.tertiary, for: .widget)
           .modelContainer(for: [BudgetModel.self, ExpenseModel.self])
-          .widgetURL(NavigationObject.viewingBudgetUrl(uuid: entry.id))
+          .widgetURL(
+            entry.id.unwrapped { id in
+              AppUrl.viewBudget(uuid: id.uuidString).url
+            }
+          )
       }
       .configurationDisplayName("Spent today")
       .description("Shows the amount spent for a chosen budget.")
@@ -25,4 +29,15 @@ struct SpentTodayWidget: Widget {
 } timeline: {
   BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
   BudgetEntry(date: .now, budgetToDisplay: .placeholder)
+}
+
+// TODO: Move to extension
+
+extension Optional {
+  func unwrapped<T>(in closure: (Wrapped) -> T?) -> T? {
+    switch self {
+    case .some(let wrapped): return closure(wrapped)
+    case .none: return nil
+    }
+  }
 }

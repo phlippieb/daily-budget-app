@@ -26,6 +26,8 @@
 		0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */; };
 		0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */; };
 		0A3CABB42C31BE7400ECD1F1 /* ViewBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */; };
+		0A451D0D2C62619200583173 /* AppUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A451D0C2C62619200583173 /* AppUrl.swift */; };
+		0A451D0E2C6264FF00583173 /* AppUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A451D0C2C62619200583173 /* AppUrl.swift */; };
 		0A5946DF2C4555F000724E32 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5946DE2C4555F000724E32 /* WhatsNew.swift */; };
 		0A70641F2C4A659F00D95DE7 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */; };
 		0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */; };
@@ -33,7 +35,6 @@
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
 		0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */; };
-		0A8202492C6110D800C4B089 /* NavigationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD291EB2C610D3B000836F9 /* NavigationObject.swift */; };
 		0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB622C258CBC004847AE /* BudgetModel.swift */; };
 		0A9AE4ED2C4155FC0093FAAE /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB642C258D3E004847AE /* ExpenseModel.swift */; };
 		0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
@@ -138,6 +139,7 @@
 		0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBudget.swift; sourceTree = "<group>"; };
 		0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudget.entitlements; sourceTree = "<group>"; };
 		0A3D31D32C2EC2AB00E17CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0A451D0C2C62619200583173 /* AppUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrl.swift; sourceTree = "<group>"; };
 		0A5946DE2C4555F000724E32 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
 		0A7B10922C24356D00474F10 /* DailyBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +228,7 @@
 				0A2F5F012C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift */,
 				0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */,
 				0A2F5EFD2C4FC269008BB369 /* WhatsNewController.swift */,
+				0A451D0C2C62619200583173 /* AppUrl.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */,
 				0A20A3D92C243AB20028E5C2 /* BudgetProgressInfo.swift in Sources */,
 				0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */,
+				0A451D0D2C62619200583173 /* AppUrl.swift in Sources */,
 				0AD723952C33E8220015ABE6 /* UIFontExtensions.swift in Sources */,
 				0A3381382C32FF3B00FC378F /* BudgetSummaryViewModel.swift in Sources */,
 				0A7B10C62C24390600474F10 /* Home.swift in Sources */,
@@ -555,12 +559,12 @@
 				0AE90CC72C41714700AE921C /* DailyBudgetWidgetTimelineProvider.swift in Sources */,
 				0A9AE4F12C4156420093FAAE /* UnitProviding.swift in Sources */,
 				0A9AE4F02C4156360093FAAE /* DateExtensions.swift in Sources */,
+				0A451D0E2C6264FF00583173 /* AppUrl.swift in Sources */,
 				0AD291E52C60F9BE000836F9 /* SpentTodayWidget.swift in Sources */,
 				0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */,
 				0AE90CCE2C42B3C400AE921C /* ColorExtensions.swift in Sources */,
 				0AE90CC42C41713500AE921C /* BudgetEntityQuery.swift in Sources */,
 				0AE90CC92C41924C00AE921C /* DoubleExtensions.swift in Sources */,
-				0A8202492C6110D800C4B089 /* NavigationObject.swift in Sources */,
 				0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */,
 				0A9AE4EF2C4156130093FAAE /* BudgetProgressInfo.swift in Sources */,
 				0AD291E82C60F9DB000836F9 /* AvailableAndSpentTodayWidget.swift in Sources */,
@@ -724,6 +728,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				APP_URL_SCHEME = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
@@ -755,6 +760,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				APP_URL_SCHEME = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
