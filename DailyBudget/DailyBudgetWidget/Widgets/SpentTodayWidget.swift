@@ -30,14 +30,3 @@ struct SpentTodayWidget: Widget {
   BudgetEntry(date: .now, budgetToDisplay: .noneSelected)
   BudgetEntry(date: .now, budgetToDisplay: .placeholder)
 }
-
-// TODO: Move to extension
-
-extension Optional {
-  func unwrapped<T>(in closure: (Wrapped) -> T?) -> T? {
-    switch self {
-    case .some(let wrapped): return closure(wrapped)
-    case .none: return nil
-    }
-  }
-}
