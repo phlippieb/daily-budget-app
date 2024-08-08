@@ -28,6 +28,7 @@
 		0A3CABB42C31BE7400ECD1F1 /* ViewBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */; };
 		0A451D0D2C62619200583173 /* AppUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A451D0C2C62619200583173 /* AppUrl.swift */; };
 		0A451D0E2C6264FF00583173 /* AppUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A451D0C2C62619200583173 /* AppUrl.swift */; };
+		0A4621ED2C64AB5F00E4AD97 /* AppUrlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */; };
 		0A5946DF2C4555F000724E32 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5946DE2C4555F000724E32 /* WhatsNew.swift */; };
 		0A70641F2C4A659F00D95DE7 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */; };
 		0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */; };
@@ -140,6 +141,7 @@
 		0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudget.entitlements; sourceTree = "<group>"; };
 		0A3D31D32C2EC2AB00E17CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0A451D0C2C62619200583173 /* AppUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrl.swift; sourceTree = "<group>"; };
+		0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrlTests.swift; sourceTree = "<group>"; };
 		0A5946DE2C4555F000724E32 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
 		0A7B10922C24356D00474F10 /* DailyBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -291,6 +293,7 @@
 				0A2F5EE82C4EADA5008BB369 /* AppVersionTests.swift */,
 				0A2F5EEA2C4EB34F008BB369 /* DoubleExtensionsTests.swift */,
 				0A2F5EFB2C4FB5C1008BB369 /* WhatsNewControllerTests.swift */,
+				0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */,
 			);
 			path = DailyBudgetTests;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */,
 				0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */,
 				0A2F5EEB2C4EB34F008BB369 /* DoubleExtensionsTests.swift in Sources */,
+				0A4621ED2C64AB5F00E4AD97 /* AppUrlTests.swift in Sources */,
 				0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */,
 				0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */,
 				0A2F5EFC2C4FB5C1008BB369 /* WhatsNewControllerTests.swift in Sources */,

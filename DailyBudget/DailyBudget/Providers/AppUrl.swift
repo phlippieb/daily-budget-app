@@ -1,7 +1,5 @@
 import Foundation
 
-// TODO: Test
-
 /// Safe types representing valid in-app URL destinations
 enum AppUrl {
   case viewBudget(uuid: String)
