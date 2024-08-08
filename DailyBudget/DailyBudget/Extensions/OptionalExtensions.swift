@@ -63,3 +63,13 @@ extension Optional: Identifiable where Wrapped: Identifiable, Wrapped: UnitProvi
     return self?.id ?? Wrapped.unit.id
   }
 }
+
+/// Provides monad-like syntax for mapping the safely unwrapped value of an optional, if it exists
+extension Optional {
+  func unwrapped<T>(in closure: (Wrapped) -> T?) -> T? {
+    switch self {
+    case .some(let wrapped): return closure(wrapped)
+    case .none: return nil
+    }
+  }
+}

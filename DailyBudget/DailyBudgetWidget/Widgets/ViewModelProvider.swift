@@ -5,8 +5,9 @@ struct ViewModelProvider {
   var viewModel: BudgetSummaryViewModel? {
     switch displayedBudget {
     case .noneSelected:
-      guard let budget = budgets().first else { return nil }
-      return BudgetProgressInfo(budget: budget, date: .today).summaryViewModel
+      // NOTE: User *has* to choose a budget, otherwise tap action has
+      // unexpected consequences.
+      return nil
     case .placeholder:
       return .placeholder
     case .model(let id):

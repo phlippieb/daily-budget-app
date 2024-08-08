@@ -6,7 +6,7 @@ struct Home: View {
   
   @EnvironmentObject private var currentDate: CurrentDate
   @EnvironmentObject private var whatsNew: WhatsNewController
-  @EnvironmentObject private var navigation: NavigationObject
+  @EnvironmentObject private var navigation: NavigationState
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
@@ -202,5 +202,5 @@ private extension Array where Element == BudgetModel {
     .modelContainer(container)
     .environmentObject(CurrentDate())
     .environmentObject(WhatsNewController())
-    .environmentObject(NavigationObject())
+    .environmentObject(NavigationState())
 }

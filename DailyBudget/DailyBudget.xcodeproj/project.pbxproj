@@ -26,6 +26,10 @@
 		0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */; };
 		0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */; };
 		0A3CABB42C31BE7400ECD1F1 /* ViewBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */; };
+		0A451D0D2C62619200583173 /* AppUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A451D0C2C62619200583173 /* AppUrl.swift */; };
+		0A451D0E2C6264FF00583173 /* AppUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A451D0C2C62619200583173 /* AppUrl.swift */; };
+		0A4621ED2C64AB5F00E4AD97 /* AppUrlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */; };
+		0A4621EE2C64AE0A00E4AD97 /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB672C259C46004847AE /* OptionalExtensions.swift */; };
 		0A5946DF2C4555F000724E32 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5946DE2C4555F000724E32 /* WhatsNew.swift */; };
 		0A70641F2C4A659F00D95DE7 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */; };
 		0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */; };
@@ -33,7 +37,6 @@
 		0A7B109D2C24356F00474F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7B109C2C24356F00474F10 /* Preview Assets.xcassets */; };
 		0A7B10C62C24390600474F10 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B10C52C24390600474F10 /* Home.swift */; };
 		0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7EFA942C3DA10600641E34 /* DoubleExtensions.swift */; };
-		0A8202492C6110D800C4B089 /* NavigationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD291EB2C610D3B000836F9 /* NavigationObject.swift */; };
 		0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB622C258CBC004847AE /* BudgetModel.swift */; };
 		0A9AE4ED2C4155FC0093FAAE /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB642C258D3E004847AE /* ExpenseModel.swift */; };
 		0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
@@ -52,7 +55,7 @@
 		0AD291E82C60F9DB000836F9 /* AvailableAndSpentTodayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE90CCB2C42B2C200AE921C /* AvailableAndSpentTodayWidget.swift */; };
 		0AD291E92C60FA21000836F9 /* ViewModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD291DB2C60F94F000836F9 /* ViewModelProvider.swift */; };
 		0AD291EA2C60FA34000836F9 /* ViewModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD291DB2C60F94F000836F9 /* ViewModelProvider.swift */; };
-		0AD291EC2C610D3B000836F9 /* NavigationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD291EB2C610D3B000836F9 /* NavigationObject.swift */; };
+		0AD291EC2C610D3B000836F9 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD291EB2C610D3B000836F9 /* NavigationState.swift */; };
 		0AD723952C33E8220015ABE6 /* UIFontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */; };
 		0AD723BA2C3463630015ABE6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD723B92C3463630015ABE6 /* WidgetKit.framework */; };
 		0AD723BC2C3463630015ABE6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD723BB2C3463630015ABE6 /* SwiftUI.framework */; };
@@ -138,6 +141,8 @@
 		0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBudget.swift; sourceTree = "<group>"; };
 		0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudget.entitlements; sourceTree = "<group>"; };
 		0A3D31D32C2EC2AB00E17CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0A451D0C2C62619200583173 /* AppUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrl.swift; sourceTree = "<group>"; };
+		0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrlTests.swift; sourceTree = "<group>"; };
 		0A5946DE2C4555F000724E32 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
 		0A7B10922C24356D00474F10 /* DailyBudget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyBudget.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,7 +155,7 @@
 		0A9AE4EB2C4155C60093FAAE /* DailyBudgetWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyBudgetWidgetExtension.entitlements; sourceTree = "<group>"; };
 		0AB5FF0A2C247C2400499D30 /* EditExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpense.swift; sourceTree = "<group>"; };
 		0AD291DB2C60F94F000836F9 /* ViewModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProvider.swift; sourceTree = "<group>"; };
-		0AD291EB2C610D3B000836F9 /* NavigationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationObject.swift; sourceTree = "<group>"; };
+		0AD291EB2C610D3B000836F9 /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationState.swift; sourceTree = "<group>"; };
 		0AD723942C33E8220015ABE6 /* UIFontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtensions.swift; sourceTree = "<group>"; };
 		0AD723B72C3463630015ABE6 /* DailyBudgetWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyBudgetWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD723B92C3463630015ABE6 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -226,6 +231,7 @@
 				0A2F5F012C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift */,
 				0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */,
 				0A2F5EFD2C4FC269008BB369 /* WhatsNewController.swift */,
+				0A451D0C2C62619200583173 /* AppUrl.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -288,6 +294,7 @@
 				0A2F5EE82C4EADA5008BB369 /* AppVersionTests.swift */,
 				0A2F5EEA2C4EB34F008BB369 /* DoubleExtensionsTests.swift */,
 				0A2F5EFB2C4FB5C1008BB369 /* WhatsNewControllerTests.swift */,
+				0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */,
 			);
 			path = DailyBudgetTests;
 			sourceTree = "<group>";
@@ -305,7 +312,7 @@
 				0AFFEEE82C32A586000D810F /* AmountText.swift */,
 				0A5946DE2C4555F000724E32 /* WhatsNew.swift */,
 				0A2F5EEE2C4EE202008BB369 /* AppInfo.swift */,
-				0AD291EB2C610D3B000836F9 /* NavigationObject.swift */,
+				0AD291EB2C610D3B000836F9 /* NavigationState.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -499,6 +506,7 @@
 				0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */,
 				0A20A3D92C243AB20028E5C2 /* BudgetProgressInfo.swift in Sources */,
 				0A20B1232C29731D00A26FBD /* ViewExpenses.swift in Sources */,
+				0A451D0D2C62619200583173 /* AppUrl.swift in Sources */,
 				0AD723952C33E8220015ABE6 /* UIFontExtensions.swift in Sources */,
 				0A3381382C32FF3B00FC378F /* BudgetSummaryViewModel.swift in Sources */,
 				0A7B10C62C24390600474F10 /* Home.swift in Sources */,
@@ -516,7 +524,7 @@
 				0AFEFB682C259C46004847AE /* OptionalExtensions.swift in Sources */,
 				0A5946DF2C4555F000724E32 /* WhatsNew.swift in Sources */,
 				0AFEFB612C258570004847AE /* EditBudget.swift in Sources */,
-				0AD291EC2C610D3B000836F9 /* NavigationObject.swift in Sources */,
+				0AD291EC2C610D3B000836F9 /* NavigationState.swift in Sources */,
 				0AD291E02C60F968000836F9 /* AvailableTodayWidgetView.swift in Sources */,
 				0AFEFB6C2C25D128004847AE /* ArrayExtensions.swift in Sources */,
 				0AD291E22C60F975000836F9 /* SpentTodayWidgetView.swift in Sources */,
@@ -541,6 +549,7 @@
 				0AFD72322C26AFF200FF89D7 /* BudgetModelTests.swift in Sources */,
 				0AFD72342C26B9A600FF89D7 /* BudgetProgressInfoTests.swift in Sources */,
 				0A2F5EEB2C4EB34F008BB369 /* DoubleExtensionsTests.swift in Sources */,
+				0A4621ED2C64AB5F00E4AD97 /* AppUrlTests.swift in Sources */,
 				0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */,
 				0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */,
 				0A2F5EFC2C4FB5C1008BB369 /* WhatsNewControllerTests.swift in Sources */,
@@ -555,12 +564,12 @@
 				0AE90CC72C41714700AE921C /* DailyBudgetWidgetTimelineProvider.swift in Sources */,
 				0A9AE4F12C4156420093FAAE /* UnitProviding.swift in Sources */,
 				0A9AE4F02C4156360093FAAE /* DateExtensions.swift in Sources */,
+				0A451D0E2C6264FF00583173 /* AppUrl.swift in Sources */,
 				0AD291E52C60F9BE000836F9 /* SpentTodayWidget.swift in Sources */,
 				0A9AE4EC2C4155F00093FAAE /* BudgetModel.swift in Sources */,
 				0AE90CCE2C42B3C400AE921C /* ColorExtensions.swift in Sources */,
 				0AE90CC42C41713500AE921C /* BudgetEntityQuery.swift in Sources */,
 				0AE90CC92C41924C00AE921C /* DoubleExtensions.swift in Sources */,
-				0A8202492C6110D800C4B089 /* NavigationObject.swift in Sources */,
 				0A9AE4EE2C41560C0093FAAE /* CalendarDate.swift in Sources */,
 				0A9AE4EF2C4156130093FAAE /* BudgetProgressInfo.swift in Sources */,
 				0AD291E82C60F9DB000836F9 /* AvailableAndSpentTodayWidget.swift in Sources */,
@@ -570,6 +579,7 @@
 				0AE90CC32C41712700AE921C /* BudgetEntity.swift in Sources */,
 				0AD291E92C60FA21000836F9 /* ViewModelProvider.swift in Sources */,
 				0AD291E72C60F9D8000836F9 /* AvailableAndSpentTodayWidgetView.swift in Sources */,
+				0A4621EE2C64AE0A00E4AD97 /* OptionalExtensions.swift in Sources */,
 				0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */,
 				0AD291E62C60F9CA000836F9 /* SpentTodayWidgetView.swift in Sources */,
 				0AD291E32C60F9A9000836F9 /* AvailableTodayWidget.swift in Sources */,
@@ -650,7 +660,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -710,7 +720,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -724,6 +734,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				APP_URL_SCHEME = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
@@ -755,6 +766,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				APP_URL_SCHEME = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DailyBudget/DailyBudget.entitlements;
@@ -789,7 +801,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = W5W94B876N;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -810,7 +822,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "";
 				DEVELOPMENT_TEAM = W5W94B876N;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
