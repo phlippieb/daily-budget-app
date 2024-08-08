@@ -1,13 +1,13 @@
 import Foundation
 import SwiftData
 
-class NavigationObject: ObservableObject {
+class NavigationState: ObservableObject {
   @Published var viewingBudget: [BudgetModel] = []
 }
 
 // MARK: Handle URL -
 
-extension NavigationObject {
+extension NavigationState {
   func handle(url: URL, in modelContext: ModelContext) {
     switch AppUrl(url) {
     case .viewBudget(let uuid):

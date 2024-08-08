@@ -6,7 +6,7 @@ import WidgetKit
 struct DailyBudgetApp: App {
   private var currentDate = CurrentDate()
   @AppStorage("appearance_preference") private var appearancePreference: Int = 0
-  @StateObject var navigation = NavigationObject()
+  @StateObject var navigation = NavigationState()
   
   private let container = try! ModelContainer(for: BudgetModel.self)
   
