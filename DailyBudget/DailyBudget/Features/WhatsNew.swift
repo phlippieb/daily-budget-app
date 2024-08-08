@@ -21,10 +21,7 @@ struct WhatsNew: View {
       
       Text("")
       Text("New widget").font(.headline)
-      Text("")
-      Text("Designed to complement the \"Available Today\" widget, the new \"Spent Today\" widget shows you your total expenses for the day.")
-      Text("")
-      Text("Pro tip: combine these widgets in a stack!")
+      Text("Designed to complement the \"Available Today\" widget, the new \"Spent Today\" widget shows you your total expenses for the day. Pro tip: combine these widgets in a stack!")
       
       SpentTodayWidgetView(entry: .init(date: .now, budgetToDisplay: .placeholder))
         .padding()
@@ -37,7 +34,6 @@ struct WhatsNew: View {
       
       Text("")
       Text("Saving tips").font(.headline)
-      Text("")
       Text("See saving tips for your active budgets! These tips are based on your current status — if you're under budget, they'll tell you how much you can save for tomorrow; and if you're over budget, they'll tell you how many days it'll take to get back on track.")
       
       Tip(tip: .availableTomorrow(amount: 99))
@@ -58,21 +54,18 @@ struct WhatsNew: View {
       
       Text("")
       Text("Improved editing screens").font(.headline)
-      Text("")
-      Text("Creating and editing your budgets and expenses is just a little nicer now.")
-      Text("\nEasily move between text fields with the arrows in the keyboard toolbar.")
-      Text("\nToggle the quick entry setting while adding an expense to add another one immediately after saving.")
-      Text("\nYou can no longer pull down to dismiss if you have unsaved changes, meaning you won't accidentally delete your hard work!")
+      Text("Creating and editing your budgets and expenses is just a little nicer now")
+      Text("- Easily move between text fields with the arrows in the keyboard toolbar")
+      Text("- Toggle the quick entry setting while adding an expense to add another one immediately after saving")
+      Text("- You can no longer pull down to dismiss if you have unsaved changes, meaning you won't accidentally delete your hard work!")
       
       Text("")
       Text("Tapping on a widget now takes you to the corresponding budget")
         .font(.headline)
-      Text("")
       Text("A small but important update. If you're viewing one budget, and then tap on a widget for another budget, the app will now show you the budget you tapped.")
       
       Text("")
       Text("Start app on only active budget").font(.headline)
-      Text("")
       Text("Another small but nice update. If you only have one active budget, the app will open to that budget. You can always navigate back to the list of all budgets from there.")
       
       HStack {
