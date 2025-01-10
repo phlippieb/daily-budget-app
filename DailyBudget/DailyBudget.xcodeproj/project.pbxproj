@@ -83,6 +83,10 @@
 		0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
 		0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */; };
 		0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFEEE82C32A586000D810F /* AmountText.swift */; };
+		9FBC09C42D3170FD006F4FB5 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBC09C32D3170FA006F4FB5 /* CollectionExtensions.swift */; };
+		9FBC09C52D3170FD006F4FB5 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBC09C32D3170FA006F4FB5 /* CollectionExtensions.swift */; };
+		9FBC09C72D317167006F4FB5 /* CsvDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBC09C62D317166006F4FB5 /* CsvDecoder.swift */; };
+		9FBC09C92D3171A9006F4FB5 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 9FBC09C82D3171A9006F4FB5 /* SwiftCSV */; };
 		9FD5DEEC2D13078400001AA5 /* ImportExportCsvTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5DEEB2D13077B00001AA5 /* ImportExportCsvTests.swift */; };
 		9FD5DEEF2D13105A00001AA5 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD5DEEE2D13105A00001AA5 /* SwiftCSV */; };
 /* End PBXBuildFile section */
@@ -184,6 +188,8 @@
 		0AFEFB6D2C26A424004847AE /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateTests.swift; sourceTree = "<group>"; };
 		0AFFEEE82C32A586000D810F /* AmountText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountText.swift; sourceTree = "<group>"; };
+		9FBC09C32D3170FA006F4FB5 /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
+		9FBC09C62D317166006F4FB5 /* CsvDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvDecoder.swift; sourceTree = "<group>"; };
 		9FD5DEEB2D13077B00001AA5 /* ImportExportCsvTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportCsvTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FBC09C92D3171A9006F4FB5 /* SwiftCSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +225,7 @@
 		0A20A3DA2C243C9A0028E5C2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9FBC09C32D3170FA006F4FB5 /* CollectionExtensions.swift */,
 				0AFEFB6B2C25D128004847AE /* ArrayExtensions.swift */,
 				0A3CABAF2C300DD300ECD1F1 /* ColorExtensions.swift */,
 				0A20A3DB2C243CAA0028E5C2 /* DateExtensions.swift */,
@@ -231,6 +239,7 @@
 		0A70641B2C4A655100D95DE7 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				9FBC09C62D317166006F4FB5 /* CsvDecoder.swift */,
 				0A2F5EEC2C4EB86B008BB369 /* AppVersion.swift */,
 				0A2F5F012C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift */,
 				0A70641E2C4A659F00D95DE7 /* SharedUserDefaults.swift */,
@@ -265,8 +274,8 @@
 		0A7B10942C24356D00474F10 /* DailyBudget */ = {
 			isa = PBXGroup;
 			children = (
-				0A70641B2C4A655100D95DE7 /* Providers */,
 				0A7B10992C24356F00474F10 /* Assets.xcassets */,
+				0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */,
 				0A3D31D22C2EC21000E17CB4 /* DailyBudget.entitlements */,
 				0A7B10952C24356D00474F10 /* DailyBudgetApp.swift */,
 				0A20A3DA2C243C9A0028E5C2 /* Extensions */,
@@ -274,8 +283,8 @@
 				0A3D31D32C2EC2AB00E17CB4 /* Info.plist */,
 				0A7B10C02C24377000474F10 /* Models */,
 				0A7B109B2C24356F00474F10 /* Preview Content */,
+				0A70641B2C4A655100D95DE7 /* Providers */,
 				0A20B1242C2993CE00A26FBD /* Settings.bundle */,
-				0A3381372C32FF3B00FC378F /* BudgetSummaryViewModel.swift */,
 			);
 			path = DailyBudget;
 			sourceTree = "<group>";
@@ -524,6 +533,7 @@
 				0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */,
 				0A20A3D72C243A780028E5C2 /* BudgetListItem.swift in Sources */,
 				0AD291EA2C60FA34000836F9 /* ViewModelProvider.swift in Sources */,
+				9FBC09C72D317167006F4FB5 /* CsvDecoder.swift in Sources */,
 				0A20A3DC2C243CAA0028E5C2 /* DateExtensions.swift in Sources */,
 				0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */,
 				0AFEFB652C258D3E004847AE /* ExpenseModel.swift in Sources */,
@@ -544,6 +554,7 @@
 				0AED67AF2C2944F700E5E941 /* CurrentDate.swift in Sources */,
 				0A7B10962C24356D00474F10 /* DailyBudgetApp.swift in Sources */,
 				0A20A3E62C2471290028E5C2 /* ExpenseListItem.swift in Sources */,
+				9FBC09C42D3170FD006F4FB5 /* CollectionExtensions.swift in Sources */,
 				0A2F5EFE2C4FC269008BB369 /* WhatsNewController.swift in Sources */,
 				0A70641F2C4A659F00D95DE7 /* SharedUserDefaults.swift in Sources */,
 				0AD291DD2C60F960000836F9 /* AvailableAndSpentTodayWidgetView.swift in Sources */,
@@ -589,6 +600,7 @@
 				0AD291E92C60FA21000836F9 /* ViewModelProvider.swift in Sources */,
 				0AD291E72C60F9D8000836F9 /* AvailableAndSpentTodayWidgetView.swift in Sources */,
 				0A4621EE2C64AE0A00E4AD97 /* OptionalExtensions.swift in Sources */,
+				9FBC09C52D3170FD006F4FB5 /* CollectionExtensions.swift in Sources */,
 				0AE90CC62C41714400AE921C /* BudgetEntry.swift in Sources */,
 				0AD291E62C60F9CA000836F9 /* SpentTodayWidgetView.swift in Sources */,
 				0AD291E32C60F9A9000836F9 /* AvailableTodayWidget.swift in Sources */,
@@ -951,6 +963,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9FBC09C82D3171A9006F4FB5 /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD5DEED2D13105A00001AA5 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
+		};
 		9FD5DEEE2D13105A00001AA5 /* SwiftCSV */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9FD5DEED2D13105A00001AA5 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
