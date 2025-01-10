@@ -89,6 +89,7 @@
 		9FBC09C92D3171A9006F4FB5 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 9FBC09C82D3171A9006F4FB5 /* SwiftCSV */; };
 		9FBC09CB2D319A09006F4FB5 /* CsvEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBC09CA2D319A06006F4FB5 /* CsvEncoder.swift */; };
 		9FBC09CD2D319AE4006F4FB5 /* CsvExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBC09CC2D319ADE006F4FB5 /* CsvExportTests.swift */; };
+		9FBC09CF2D31A10A006F4FB5 /* ExportCsv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBC09CE2D31A106006F4FB5 /* ExportCsv.swift */; };
 		9FD5DEEC2D13078400001AA5 /* CsvImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5DEEB2D13077B00001AA5 /* CsvImportTests.swift */; };
 		9FD5DEEF2D13105A00001AA5 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD5DEEE2D13105A00001AA5 /* SwiftCSV */; };
 /* End PBXBuildFile section */
@@ -194,6 +195,7 @@
 		9FBC09C62D317166006F4FB5 /* CsvDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvDecoder.swift; sourceTree = "<group>"; };
 		9FBC09CA2D319A06006F4FB5 /* CsvEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvEncoder.swift; sourceTree = "<group>"; };
 		9FBC09CC2D319ADE006F4FB5 /* CsvExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvExportTests.swift; sourceTree = "<group>"; };
+		9FBC09CE2D31A106006F4FB5 /* ExportCsv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportCsv.swift; sourceTree = "<group>"; };
 		9FD5DEEB2D13077B00001AA5 /* CsvImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvImportTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -322,6 +324,7 @@
 		0A7B10BF2C24376A00474F10 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				9FBC09CE2D31A106006F4FB5 /* ExportCsv.swift */,
 				0A20A3D62C243A780028E5C2 /* BudgetListItem.swift */,
 				0AB5FF0A2C247C2400499D30 /* EditExpense.swift */,
 				0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */,
@@ -534,6 +537,7 @@
 				0A3381382C32FF3B00FC378F /* BudgetSummaryViewModel.swift in Sources */,
 				0A7B10C62C24390600474F10 /* Home.swift in Sources */,
 				0AB5FF0B2C247C2400499D30 /* EditExpense.swift in Sources */,
+				9FBC09CF2D31A10A006F4FB5 /* ExportCsv.swift in Sources */,
 				0A2F5F022C4FC2F9008BB369 /* NotableUpdatePersistenceProvider.swift in Sources */,
 				0A2F5EEF2C4EE202008BB369 /* AppInfo.swift in Sources */,
 				0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */,

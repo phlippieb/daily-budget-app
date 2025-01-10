@@ -10,6 +10,7 @@ struct Home: View {
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
+  @State private var showingExport = false
   
   private var activeBudgets: [BudgetModel] {
     budgets.active(on: currentDate.value.calendarDate)
@@ -51,7 +52,12 @@ struct Home: View {
       
       .toolbar {
         ToolbarItemGroup(placement: .topBarLeading) {
-          Button(action: onSettingsTapped) {
+          Menu {
+            if !budgets.isEmpty {
+              Button("Export") { showingExport = true }
+            }
+            Button("App settings...", action: onSettingsTapped)
+          } label: {
             Image(systemName: "gearshape")
           }
         }
@@ -64,6 +70,10 @@ struct Home: View {
       
       .sheet(item: $editingBudget) { _ in
         EditBudget(budget: $editingBudget)
+      }
+      
+      .sheet(isPresented: $showingExport) {
+        ExportCsv(showingExport: $showingExport)
       }
       
       // MARK: App info

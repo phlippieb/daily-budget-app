@@ -33,7 +33,7 @@ import Testing
   let budgets: [BudgetModel] = [budgetWithoutExpenses, budgetWithExpenses]
   
   // When I encode to CSV
-  let csv = try CsvEncoder.encode(budgets)
+  let csv = CsvEncoder.encode(budgets)
   let rows = csv.components(separatedBy: .newlines)
   
   // Then the CSV has the correct header row

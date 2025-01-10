@@ -1,5 +1,5 @@
 enum CsvEncoder {
-  static func encode(_ budgets: [BudgetModel]) throws -> String {
+  static func encode(_ budgets: [BudgetModel]) -> String {
     "budgetUUID,budgetName,budgetNotes,budgetAmount,budgetFirstDay,budgetLastDay,expenseName,expenseNotes,expenseAmount,expenseDate\n"
     + budgets.flatMap { budget in
       (budget.expenses?.nonEmpty ?? [.empty])
