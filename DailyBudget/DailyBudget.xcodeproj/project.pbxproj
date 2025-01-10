@@ -83,6 +83,8 @@
 		0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
 		0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */; };
 		0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFEEE82C32A586000D810F /* AmountText.swift */; };
+		9FD5DEEC2D13078400001AA5 /* ImportExportCsvTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5DEEB2D13077B00001AA5 /* ImportExportCsvTests.swift */; };
+		9FD5DEEF2D13105A00001AA5 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 9FD5DEEE2D13105A00001AA5 /* SwiftCSV */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +184,7 @@
 		0AFEFB6D2C26A424004847AE /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateTests.swift; sourceTree = "<group>"; };
 		0AFFEEE82C32A586000D810F /* AmountText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountText.swift; sourceTree = "<group>"; };
+		9FD5DEEB2D13077B00001AA5 /* ImportExportCsvTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportCsvTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD5DEEF2D13105A00001AA5 /* SwiftCSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,14 +291,15 @@
 		0A7B10A52C24356F00474F10 /* DailyBudgetTests */ = {
 			isa = PBXGroup;
 			children = (
+				0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */,
+				0A2F5EE82C4EADA5008BB369 /* AppVersionTests.swift */,
 				0AFD72312C26AFF200FF89D7 /* BudgetModelTests.swift */,
 				0AFD72332C26B9A600FF89D7 /* BudgetProgressInfoTests.swift */,
 				0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */,
-				0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */,
-				0A2F5EE82C4EADA5008BB369 /* AppVersionTests.swift */,
 				0A2F5EEA2C4EB34F008BB369 /* DoubleExtensionsTests.swift */,
+				9FD5DEEB2D13077B00001AA5 /* ImportExportCsvTests.swift */,
+				0A3CABB12C31700900ECD1F1 /* UnitProvidingTests.swift */,
 				0A2F5EFB2C4FB5C1008BB369 /* WhatsNewControllerTests.swift */,
-				0A4621EC2C64AB5F00E4AD97 /* AppUrlTests.swift */,
 			);
 			path = DailyBudgetTests;
 			sourceTree = "<group>";
@@ -459,6 +464,9 @@
 				Base,
 			);
 			mainGroup = 0A7B10892C24356D00474F10;
+			packageReferences = (
+				9FD5DEED2D13105A00001AA5 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
+			);
 			productRefGroup = 0A7B10932C24356D00474F10 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -551,6 +559,7 @@
 				0A2F5EEB2C4EB34F008BB369 /* DoubleExtensionsTests.swift in Sources */,
 				0A4621ED2C64AB5F00E4AD97 /* AppUrlTests.swift in Sources */,
 				0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */,
+				9FD5DEEC2D13078400001AA5 /* ImportExportCsvTests.swift in Sources */,
 				0A3CABB22C31700900ECD1F1 /* UnitProvidingTests.swift in Sources */,
 				0A2F5EFC2C4FB5C1008BB369 /* WhatsNewControllerTests.swift in Sources */,
 				0A2F5EE92C4EADA5008BB369 /* AppVersionTests.swift in Sources */,
@@ -929,6 +938,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9FD5DEED2D13105A00001AA5 /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9FD5DEEE2D13105A00001AA5 /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FD5DEED2D13105A00001AA5 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0A7B108A2C24356D00474F10 /* Project object */;
 }

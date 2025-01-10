@@ -6,7 +6,6 @@ import SwiftData
 /// SwiftData-backed model for an expense.
 /// An instance represents a single expense associated with a budget.
 @Model final class ExpenseModel {
-  
   var name: String = ""
   var notes: String = ""
   var amount: Double = 0

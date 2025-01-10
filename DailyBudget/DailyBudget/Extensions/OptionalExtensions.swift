@@ -58,7 +58,7 @@ import Foundation
 ///
 /// Using a double optional as an item binding requires that the inner optional must conform to Identifiable.
 /// This extension provides this conformance.
-extension Optional: Identifiable where Wrapped: Identifiable, Wrapped: UnitProviding {
+extension Optional: @retroactive Identifiable where Wrapped: Identifiable, Wrapped: UnitProviding {
   public var id: Wrapped.ID {
     return self?.id ?? Wrapped.unit.id
   }
