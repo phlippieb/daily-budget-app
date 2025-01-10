@@ -1,6 +1,12 @@
 // TODO: We also have array extensions; move those here?
 extension Collection {
   var nonEmpty: Self? {
-    self.count == 0 ? nil : self
+    count == 0 ? nil : self
+  }
+}
+
+extension Collection where Self.Index == Int {
+  func item(at index: Int) -> Element? {
+    index < count ? self[index] : nil
   }
 }
