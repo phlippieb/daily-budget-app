@@ -10,14 +10,7 @@ enum CsvDecoder {
     case incompleteTransactionData(row: [String: String])
     
     /// Data is formatted incorrectly for the indicated key
-    case invalidData(_: String, for: Keys, comment: String)
-  }
-  
-  // TODO: Make private. Exposed by error below, but clients don't need to know key type; names should suffice.
-  /// - NOTE: Case names correspond to expected values in the raw CSV Strings. Do not edit them.
-  enum Keys: String {
-    case budgetUUID, budgetName, budgetNotes, budgetAmount, budgetFirstDay,
-         budgetLastDay, expenseName, expenseNotes, expenseAmount, expenseDate
+    case invalidData(_: String, forKey: String, comment: String)
   }
   
   static func decode(_ string: String) throws -> [BudgetModel] {
@@ -47,14 +40,14 @@ enum CsvDecoder {
       guard let budgetUuid = UUID(uuidString: budgetUuidString) else {
         throw DecodingError.invalidData(
           budgetUuidString,
-          for: .budgetUUID,
+          forKey: CsvKey.budgetUUID.rawValue,
           comment: "budgetUUID should be a valid UUID")
       }
       
       guard let budgetAmount = Double(budgetAmountString) else {
         throw DecodingError.invalidData(
           budgetAmountString,
-          for: .budgetAmount,
+          forKey: CsvKey.budgetAmount.rawValue,
           comment: "budgetAmount should be a valid Double-representable number"
         )
       }
@@ -108,7 +101,7 @@ enum CsvDecoder {
     else {
       throw DecodingError.invalidData(
         string,
-        for: .budgetLastDay,
+        forKey: CsvKey.budgetLastDay.rawValue,
         comment: "Date should be formatted as yyyy/mm/dd"
       )
     }
@@ -118,7 +111,13 @@ enum CsvDecoder {
 }
 
 private extension Dictionary<String, String> {
-  subscript(key: CsvDecoder.Keys) -> String? {
+  subscript(key: CsvKey) -> String? {
     self[key.rawValue]
   }
+}
+
+/// - NOTE: Case names correspond to expected values in the raw CSV Strings. Do not edit them.
+private enum CsvKey: String {
+  case budgetUUID, budgetName, budgetNotes, budgetAmount, budgetFirstDay,
+       budgetLastDay, expenseName, expenseNotes, expenseAmount, expenseDate
 }

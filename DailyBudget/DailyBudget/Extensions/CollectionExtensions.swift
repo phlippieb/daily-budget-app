@@ -1,4 +1,3 @@
-// TODO: We also have array extensions; move those here?
 extension Collection {
   var nonEmpty: Self? {
     count == 0 ? nil : self

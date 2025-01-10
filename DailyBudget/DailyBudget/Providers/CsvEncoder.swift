@@ -1,8 +1,4 @@
 enum CsvEncoder {
-  enum EncodingError: Error {
-    case notImplemented
-  }
-  
   static func encode(_ budgets: [BudgetModel]) throws -> String {
     "budgetUUID,budgetName,budgetNotes,budgetAmount,budgetFirstDay,budgetLastDay,expenseName,expenseNotes,expenseAmount,expenseDate\n"
     + budgets.flatMap { budget in
@@ -30,6 +26,7 @@ private extension ExpenseModel {
 }
 
 private extension CalendarDate {
+  /// - Returns: e.g. "2000/1/31"
   var csvFormat: String {
     self.date.formatted(.dateTime.year(.defaultDigits).month(.twoDigits).day(.twoDigits))
   }
