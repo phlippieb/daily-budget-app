@@ -30,7 +30,7 @@ final class WhatsNewControllerTests: XCTestCase {
   
   func testReturningUserWhoHasSeenCurrentNotableUpdateMessageDoesNotSeeMessage() {
     // Given the user has PREVIOUSLY seen the What's New message for the current notable update
-    let sut = WhatsNewController(persistenceProvider: mock(.widgets))
+    let sut = WhatsNewController(persistenceProvider: mock(.allCases.last))
     
     // Then the user does not see the update message
     XCTAssertFalse(sut.shouldDisplay)
@@ -58,7 +58,7 @@ final class WhatsNewControllerTests: XCTestCase {
     XCTAssertTrue(previous.shouldDisplay)
     
     // When I mark the current version as seen during the previous run
-    previous.markAsSeen(for: .widgets)
+    previous.markAsSeen(for: .allCases.last!)
     XCTAssertFalse(previous.shouldDisplay)
     
     // Then the next run should also indicate that the message should not display
@@ -68,14 +68,14 @@ final class WhatsNewControllerTests: XCTestCase {
   
   func testMarkingMessageUnseenAffectsNextRun() {
     // Given a shared persistence provider for a user who HAS seen any notable updates
-    let persistenceProvider = mock(.widgets)
+    let persistenceProvider = mock(.allCases.last)
     
     // Given a "previous run" instance of a display controller
     let previous = WhatsNewController(persistenceProvider: persistenceProvider)
     XCTAssertFalse(previous.shouldDisplay)
     
     // When I mark the current version as unseen during the previous run
-    previous.markAsSeen(false, for: .widgets)
+    previous.markAsSeen(false, for: .allCases.last!)
     XCTAssertTrue(previous.shouldDisplay)
     
     // Then the next run should also indicate that the message should not display
