@@ -65,6 +65,22 @@ struct EditBudget: View {
           }
           
           HStack {
+            TextField(
+              "Total amount (required)",
+              value: $amount,
+              format: .number.precision(.fractionLength(2))
+            )
+            .keyboardType(.decimalPad)
+            .focused($focusedField, equals: .amount)
+            
+            if amount != nil {
+              Button(action: { amount = nil }) {
+                Image(systemName: "xmark.circle")
+              }
+            }
+          }
+          
+          HStack {
             TextEditor(text: $notes)
               .foregroundColor(
                 notes == notesPlaceholder ? .placeholder : .primary
@@ -78,18 +94,6 @@ struct EditBudget: View {
             }
           }
           .padding(.leading, -4)
-          
-          HStack {
-            TextField("Total amount (required)", value: $amount, format: .number)
-              .keyboardType(.numberPad)
-              .focused($focusedField, equals: .amount)
-            
-            if amount != nil {
-              Button(action: { amount = nil }) {
-                Image(systemName: "xmark.circle")
-              }
-            }
-          }
           
           if !isAmountInvalid {
             LabeledContent {
@@ -172,18 +176,18 @@ struct EditBudget: View {
             
             switch focusedField {
             case .name:
-              Button(action: { self.focusedField = .notes }) {
-                Image(systemName: "arrow.forward")
-              }
-            case .notes:
-              Button(action: { self.focusedField = .name }) {
-                Image(systemName: "arrow.backward")
-              }
               Button(action: { self.focusedField = .amount }) {
                 Image(systemName: "arrow.forward")
               }
             case .amount:
+              Button(action: { self.focusedField = .name }) {
+                Image(systemName: "arrow.backward")
+              }
               Button(action: { self.focusedField = .notes }) {
+                Image(systemName: "arrow.forward")
+              }
+            case .notes:
+              Button(action: { self.focusedField = .amount }) {
                 Image(systemName: "arrow.backward")
               }
             }
