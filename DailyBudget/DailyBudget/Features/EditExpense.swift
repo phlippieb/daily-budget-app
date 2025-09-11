@@ -74,6 +74,18 @@ struct EditExpense: View {
             }
             
             HStack {
+              TextField(
+                "Amount (required)",
+                value: $amount,
+                format: .number.precision(.fractionLength(2))
+              )
+              .foregroundColor(isExpense ? .none : .green)
+              .keyboardType(.decimalPad)
+              .submitLabel(.done)
+              .focused($focusedField, equals: .amount)
+            }
+            
+            HStack {
               TextEditor(text: $notes)
                 .foregroundColor(
                   notes == notesPlaceholder ? .placeholder : .primary
@@ -87,21 +99,6 @@ struct EditExpense: View {
               }
             }
             .padding(.leading, -4)
-            
-            HStack {
-              TextField("Amount (required)", value: $amount, format: .number)
-                .foregroundColor(isExpense ? .none : .green)
-                .keyboardType(.numberPad)
-                .submitLabel(.done)
-                .focused($focusedField, equals: .amount)
-              
-              Stepper {
-              } onIncrement: {
-                amount = (amount ?? 0) + 1
-              } onDecrement: {
-                amount = max(0, (amount ?? 1) - 1)
-              }
-            }
             
             DatePicker(
               "Date",
@@ -196,18 +193,18 @@ struct EditExpense: View {
               
               switch focusedField {
               case .name:
-                Button(action: { self.focusedField = .notes }) {
-                  Image(systemName: "arrow.forward")
-                }
-              case .notes:
-                Button(action:  { self.focusedField = .name }) {
-                  Image(systemName: "arrow.backward")
-                }
                 Button(action: { self.focusedField = .amount }) {
                   Image(systemName: "arrow.forward")
                 }
               case .amount:
+                Button(action:  { self.focusedField = .name }) {
+                  Image(systemName: "arrow.backward")
+                }
                 Button(action:  { self.focusedField = .notes }) {
+                  Image(systemName: "arrow.forward")
+                }
+              case .notes:
+                Button(action:  { self.focusedField = .amount }) {
                   Image(systemName: "arrow.backward")
                 }
               }
