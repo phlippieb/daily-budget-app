@@ -10,6 +10,8 @@ enum NotableUpdate: Int, CaseIterable {
   /// - improved editing
   /// - launch app on active budget
   case tipsEtc
+  /// 1.5. adds decimals to amount editing
+  case decimals
 }
 
 extension NotableUpdate {
@@ -21,6 +23,7 @@ extension NotableUpdate {
     switch self {
     case .widgets: return "1.3"
     case .tipsEtc: return "1.4"
+    case .decimals: return "1.5"
     }
   }
 }
