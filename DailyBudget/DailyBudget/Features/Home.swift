@@ -10,6 +10,7 @@ struct Home: View {
   
   @State private var editingBudget: BudgetModel??
   @State private var showingAppInfo = true
+  @State private var didAutoNavigate = false
   
   private var activeBudgets: [BudgetModel] {
     budgets.active(on: currentDate.value.calendarDate)
@@ -90,7 +91,9 @@ struct Home: View {
       .onAppear {
         if
           navigation.viewingBudget.isEmpty,
-          activeBudgets.count == 1 {
+          activeBudgets.count == 1,
+          !didAutoNavigate {
+          didAutoNavigate = true
           navigation.viewingBudget = [activeBudgets[0]]
         }
       }
