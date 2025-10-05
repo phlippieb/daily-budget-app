@@ -9,19 +9,24 @@ struct Home: View {
   @EnvironmentObject private var navigation: NavigationState
   
   @State private var editingBudget: BudgetModel??
-  @State private var showingAppInfo = true
   @State private var didAutoNavigate = false
   
   private var activeBudgets: [BudgetModel] {
-    budgets.active(on: currentDate.value.calendarDate)
+    budgets
+      .active(on: currentDate.value.calendarDate)
+      .sortedByNewest
   }
   
   private var upcomingBudgets: [BudgetModel] {
-    budgets.upcoming(on: currentDate.value.calendarDate)
+    budgets
+      .upcoming(on: currentDate.value.calendarDate)
+      .sortedByNewest
   }
   
   private var pastBudgets: [BudgetModel] {
-    budgets.past(on: currentDate.value.calendarDate)
+    budgets
+      .past(on: currentDate.value.calendarDate)
+      .sortedByNewest
   }
   
   var body: some View {
@@ -67,21 +72,6 @@ struct Home: View {
         EditBudget(budget: $editingBudget)
       }
       
-      // MARK: App info
-      .overlay(alignment: .bottom) {
-        if showingAppInfo {
-          AppInfo()
-        }
-      }
-      
-      // MARK: Show/hide app info
-      .animation(.bouncy, value: showingAppInfo)
-      .gesture(
-        DragGesture().onChanged { value in
-          showingAppInfo = (value.translation.height > 0)
-        }
-      )
-      
       // MARK: Navigation
       .navigationDestination(for: BudgetModel.self) {
         ViewBudget(budget: $0)
@@ -107,7 +97,7 @@ struct Home: View {
     
     return AnyView(
       Section(title) {
-        ForEach(budgets) { budget in
+        ForEach(budgets.sortedByNewest) { budget in
           BudgetListItem(item: budget)
             .overlay {
               NavigationLink(value: budget, label: {}).opacity(0)
@@ -134,7 +124,7 @@ private extension Home {
   }
 }
 
-// MARK: Filtering budgets -
+// MARK: Filtering and sorting budgets -
 
 private extension Array where Element == BudgetModel {
   func active(on today: CalendarDate) -> [BudgetModel] {
@@ -147,6 +137,10 @@ private extension Array where Element == BudgetModel {
   
   func past(on today: CalendarDate) -> [BudgetModel] {
     filter { $0.lastDay < today }
+  }
+  
+  var sortedByNewest: [BudgetModel] {
+    sorted { $0.startDate > $1.startDate }
   }
 }
 
