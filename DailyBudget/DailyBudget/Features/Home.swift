@@ -94,14 +94,37 @@ struct Home: View {
     _ title: String, _ budgets: [BudgetModel]
   ) -> some View {
     guard !budgets.isEmpty else { return AnyView(EmptyView()) }
+
+    let limited = Array(budgets.sortedByNewest.prefix(3))
+    let hasMore = budgets.count > 3
     
     return AnyView(
-      Section(title) {
-        ForEach(budgets.sortedByNewest) { budget in
+      Section {
+        ForEach(limited) { budget in
           BudgetListItem(item: budget)
             .overlay {
               NavigationLink(value: budget, label: {}).opacity(0)
             }
+        }
+      } header: {
+        Text(title)
+      } footer: {
+        Group {
+          if hasMore {
+            NavigationLink {
+              BudgetsList(title: title, budgets: budgets.sortedByNewest)
+            } label: {
+              HStack {
+                Spacer()
+                Text("View all")
+                  .font(.callout)
+                Image(systemName: "chevron.right")
+                  .font(.caption)
+                Spacer()
+              }
+            }
+            .buttonStyle(.plain)
+          }
         }
       }
     )
