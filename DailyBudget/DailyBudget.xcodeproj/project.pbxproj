@@ -83,6 +83,7 @@
 		0AFEFB6E2C26A424004847AE /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6D2C26A424004847AE /* CalendarDate.swift */; };
 		0AFEFB702C26A4EC004847AE /* CalendarDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */; };
 		0AFFEEE92C32A586000D810F /* AmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFEEE82C32A586000D810F /* AmountText.swift */; };
+		9F121ABA2EAA8C61000096CB /* BudgetsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F121AB92EAA8C5F000096CB /* BudgetsList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +183,7 @@
 		0AFEFB6D2C26A424004847AE /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		0AFEFB6F2C26A4EC004847AE /* CalendarDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateTests.swift; sourceTree = "<group>"; };
 		0AFFEEE82C32A586000D810F /* AmountText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountText.swift; sourceTree = "<group>"; };
+		9F121AB92EAA8C5F000096CB /* BudgetsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,17 +304,18 @@
 		0A7B10BF2C24376A00474F10 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				0AFFEEE82C32A586000D810F /* AmountText.swift */,
+				0A2F5EEE2C4EE202008BB369 /* AppInfo.swift */,
 				0A20A3D62C243A780028E5C2 /* BudgetListItem.swift */,
+				9F121AB92EAA8C5F000096CB /* BudgetsList.swift */,
+				0AFEFB602C258570004847AE /* EditBudget.swift */,
 				0AB5FF0A2C247C2400499D30 /* EditExpense.swift */,
 				0A20A3E52C2471290028E5C2 /* ExpenseListItem.swift */,
 				0A7B10C52C24390600474F10 /* Home.swift */,
-				0AFEFB602C258570004847AE /* EditBudget.swift */,
-				0A20B1222C29731D00A26FBD /* ViewExpenses.swift */,
-				0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */,
-				0AFFEEE82C32A586000D810F /* AmountText.swift */,
-				0A5946DE2C4555F000724E32 /* WhatsNew.swift */,
-				0A2F5EEE2C4EE202008BB369 /* AppInfo.swift */,
 				0AD291EB2C610D3B000836F9 /* NavigationState.swift */,
+				0A3CABB32C31BE7400ECD1F1 /* ViewBudget.swift */,
+				0A20B1222C29731D00A26FBD /* ViewExpenses.swift */,
+				0A5946DE2C4555F000724E32 /* WhatsNew.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				0A2F5EEF2C4EE202008BB369 /* AppInfo.swift in Sources */,
 				0A3CABB02C300DD300ECD1F1 /* ColorExtensions.swift in Sources */,
 				0A20A3D72C243A780028E5C2 /* BudgetListItem.swift in Sources */,
+				9F121ABA2EAA8C61000096CB /* BudgetsList.swift in Sources */,
 				0AD291EA2C60FA34000836F9 /* ViewModelProvider.swift in Sources */,
 				0A20A3DC2C243CAA0028E5C2 /* DateExtensions.swift in Sources */,
 				0A7EFA952C3DA10600641E34 /* DoubleExtensions.swift in Sources */,
