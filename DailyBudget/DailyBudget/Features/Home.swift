@@ -106,26 +106,15 @@ struct Home: View {
               NavigationLink(value: budget, label: {}).opacity(0)
             }
         }
-      } header: {
-        Text(title)
-      } footer: {
-        Group {
-          if hasMore {
-            NavigationLink {
-              BudgetsList(title: title, budgets: budgets.sortedByNewest)
-            } label: {
-              HStack {
-                Spacer()
-                Text("View all")
-                  .font(.callout)
-                Image(systemName: "chevron.right")
-                  .font(.caption)
-                Spacer()
-              }
-            }
-            .buttonStyle(.plain)
+        if hasMore {
+          NavigationLink {
+            BudgetsList(title: title, budgets: budgets.sortedByNewest)
+          } label: {
+            Text("View all")
           }
         }
+      } header: {
+        Text(title)
       }
     )
   }
